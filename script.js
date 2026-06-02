@@ -1,19 +1,15 @@
 
-if(!localStorage.getItem('psy_clients_seeded')){
- let cs=clients();
- if(!cs.find(c=>c.email==='client@psyspace.ua')){
-   cs.push({
-     email:'client@psyspace.ua',
-     name:'Тестовий клієнт',
-     password:'123456',
-     phone:'+380000000000',
-     social:'@client',
-     photo:''
-   });
-   set('psy_clients',cs);
- }
- localStorage.setItem('psy_clients_seeded','yes');
-}
+/* demo client safety seed */
+(function(){
+  try{
+    const raw = localStorage.getItem('psy_clients');
+    const arr = raw ? JSON.parse(raw) : [];
+    if(!arr.some(c => c.email === 'client@psyspace.ua')){
+      arr.push({email:'client@psyspace.ua',name:'Тестовий клієнт',password:'123456',phone:'+380000000000',social:'@client',photo:''});
+      localStorage.setItem('psy_clients', JSON.stringify(arr));
+    }
+  }catch(e){}
+})();
 
 
 const OWNER_EMAIL = 'psychologist@example.com';
