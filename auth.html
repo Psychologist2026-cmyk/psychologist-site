@@ -26,10 +26,24 @@
 <main>
 
 <section class="section page-hero"><p class="eyebrow">Акаунт</p><h1>Вхід або реєстрація</h1></section>
-<section class="section compact-top auth-grid">
-  <div class="login-card reveal"><h2>Клієнт</h2><form id="clientAuthForm"><input id="clientAuthName" placeholder="Ваше імʼя"><input id="clientAuthEmail" type="email" placeholder="Email" required><input id="clientAuthPassword" type="password" placeholder="Пароль" required><button class="btn primary full" type="submit">Увійти / Зареєструватись</button><button class="btn secondary full" type="button" id="googleClientBtn">Google</button></form></div>
-  <div class="login-card reveal"><h2>Психолог</h2><form id="ownerAuthForm"><input id="ownerEmail" type="email" placeholder="Email" required><input id="ownerPassword" type="password" placeholder="Пароль" required><button class="btn primary full" type="submit">Увійти</button></form></div>
+
+<section class="section compact-top auth-grid unified-auth">
+  <div class="login-card reveal">
+    <h2>Вхід в акаунт</h2>
+    <form id="unifiedAuthForm">
+      <input id="authName" placeholder="Ваше імʼя">
+      <input id="authEmail" type="email" placeholder="Email" required>
+      <input id="authPassword" type="password" placeholder="Пароль" required>
+      <button class="btn primary full" type="submit">Увійти / Зареєструватись</button>
+      <button class="btn secondary full" type="button" id="googleClientBtn">Увійти через Google</button>
+    </form>
+  </div>
+  <div class="login-card reveal auth-note-card">
+    <h2>Один вхід</h2>
+    <p>Кабінет відкривається автоматично: для клієнта — особистий профіль і записи, для психолога — розширене керування сайтом.</p>
+  </div>
 </section>
+
 
 </main>
 

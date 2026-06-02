@@ -9,20 +9,43 @@ const D_SITE={homeEyebrow:'Особисті консультації',homeTitle:
 const D_SERV=[{id:'s1',title:'Індивідуальна консультація',format:'Онлайн',duration:'50 хв',price:1500,text:'Особиста зустріч для роботи з вашим запитом.'},{id:'s2',title:'Офлайн консультація',format:'Офлайн',duration:'50 хв',price:1800,text:'Зустріч у кабінеті за доступним містом і часом.'}];
 const D_DIR=[{id:'d1',title:'Тривога',text:'Робота з напругою та внутрішнім неспокоєм.'},{id:'d2',title:'Вигорання',text:'Підтримка при виснаженні та втраті ресурсу.'},{id:'d3',title:'Стосунки',text:'Кордони, конфлікти, повторювані сценарії.'}];
 const D_CON=[{id:'c1',title:'Telegram',value:'@USERNAME',link:'https://t.me/USERNAME'},{id:'c2',title:'Email',value:'psychologist@example.com',link:'mailto:psychologist@example.com'}];
-const D_CERT=[{id:'cert1',title:'Сертифікат 1',image:''}];
+const D_CERT=[{id:'cert1',title:'Сертифікат 1',category:'Освіта',image:''}];
 const D_REV=[{id:'r1',name:'Клієнт',text:'Дякую за підтримку.',status:'published'}];
 const D_FAQ=[{id:'f1',q:'Як проходить зустріч?',a:'Після запису ви отримаєте деталі зустрічі.'},{id:'f2',q:'Чи можна перенести запис?',a:'Так, через запит у кабінеті клієнта.'}];
 const D_SLOTS=[{id:'sl1',date:'2026-06-05',time:'10:00',format:'online',city:''},{id:'sl2',date:'2026-06-05',time:'12:00',format:'online',city:''},{id:'sl3',date:'2026-06-06',time:'14:00',format:'offline',city:'Київ'}];
-function init(){[['psy_site',D_SITE],['psy_services',D_SERV],['psy_directions',D_DIR],['psy_contacts',D_CON],['psy_certs',D_CERT],['psy_reviews',D_REV],['psy_faq',D_FAQ],['psy_slots',D_SLOTS],['psy_bookings',[]],['psy_days_off',[]],['psy_clients',[]],['psy_about_extra',[]]].forEach(x=>{if(!localStorage.getItem(x[0]))set(x[0],x[1])})}
+function init(){[['psy_site',D_SITE],['psy_services',D_SERV],['psy_directions',D_DIR],['psy_contacts',D_CON],['psy_certs',D_CERT],['psy_reviews',D_REV],['psy_faq',D_FAQ],['psy_slots',D_SLOTS],['psy_bookings',[]],['psy_days_off',[]],['psy_clients',[{email:'client@example.com',name:'Тестовий Клієнт',password:'123456',phone:'+380991112233',social:'@client_demo',photo:''}]],['psy_about_extra',[]]].forEach(x=>{if(!localStorage.getItem(x[0]))set(x[0],x[1])})}
 init();
 function site(){return get('psy_site',D_SITE)} function services(){return get('psy_services',D_SERV)} function directions(){return get('psy_directions',D_DIR)} function contacts(){return get('psy_contacts',D_CON)} function certs(){return get('psy_certs',D_CERT)} function reviews(){return get('psy_reviews',D_REV)} function faqs(){return get('psy_faq',D_FAQ)} function slots(){return get('psy_slots',D_SLOTS)} function bookings(){return get('psy_bookings',[])} function daysOff(){return get('psy_days_off',[])}
+
+function getClientByEmail(email){
+  return get('psy_clients',[]).find(c => c.email === String(email || '').trim().toLowerCase());
+}
+
+function saveClientProfile(profile){
+  const email = String(profile.email || '').trim().toLowerCase();
+  let clients = get('psy_clients',[]);
+  const index = clients.findIndex(c => c.email === email);
+  if(index >= 0) clients[index] = {...clients[index], ...profile, email};
+  else clients.push({...profile, email});
+  set('psy_clients', clients);
+}
+
+function currentClient(){
+  return getClientByEmail(localStorage.psy_client_email);
+}
+
 const menuBtn=document.getElementById('menuBtn'), nav=document.getElementById('nav');
 if(menuBtn&&nav){menuBtn.addEventListener('click',()=>{nav.classList.toggle('active');menuBtn.classList.toggle('active')})}
 const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
 function openModal(html){const m=document.getElementById('appModal'),b=document.getElementById('modalBody'); if(m&&b){b.innerHTML=html;m.classList.add('active')}}
 const mc=document.getElementById('modalClose'); if(mc)mc.addEventListener('click',()=>document.getElementById('appModal').classList.remove('active'));
 function apply(){const s=site();document.querySelectorAll('[data-field]').forEach(el=>{if(s[el.dataset.field]!=null)el.textContent=s[el.dataset.field]});const tf=document.getElementById('telegramFloat');if(tf)tf.href=s.telegramUrl;const tags=document.getElementById('homeTags');if(tags)tags.innerHTML=(s.homeTagsText||'').split('\n').filter(Boolean).map(x=>'<span>'+esc(x)+'</span>').join('');const ab=document.getElementById('aboutBullets');if(ab)ab.innerHTML=(s.aboutBulletsText||'').split('\n').filter(Boolean).map(x=>'<li>'+esc(x)+'</li>').join('');const ph=document.getElementById('psychologistPhoto');if(ph&&s.photoUrl)ph.innerHTML='<img src="'+esc(s.photoUrl)+'">';const pr=document.getElementById('privacyBlock');if(pr)pr.innerHTML='<p>'+esc(s.privacyText).replace(/\n/g,'</p><p>')+'</p>'}
-function renderPublic(){apply();let g=document.getElementById('directionsGrid');if(g)g.innerHTML=directions().map((d,i)=>'<article class="info-card reveal visible"><div class="icon-bubble">'+(i+1)+'</div><h3>'+esc(d.title)+'</h3><p>'+esc(d.text)+'</p></article>').join('');let ag=document.getElementById('aboutExtraGrid');if(ag)ag.innerHTML=get('psy_about_extra',[]).map(d=>'<article class="info-card reveal visible"><h3>'+esc(d.title)+'</h3><p>'+esc(d.text)+'</p></article>').join('');let sg=document.getElementById('servicesGrid'),bs=document.getElementById('bookingService');if(sg)sg.innerHTML=services().map(s=>'<article class="service-card reveal visible"><div class="service-tag">'+esc(s.format)+'</div><h3>'+esc(s.title)+'</h3><p>'+esc(s.text)+'</p><p>'+esc(s.duration)+'</p><div class="price">'+s.price+' грн</div><button class="btn primary open-booking" data-service="'+esc(s.title)+'">Обрати час</button></article>').join('');if(bs)bs.innerHTML='<option value="">Оберіть консультацію</option>'+services().map(s=>'<option value="'+esc(s.title)+'">'+esc(s.title)+' — '+s.price+' грн</option>').join('');document.querySelectorAll('.open-booking').forEach(b=>b.onclick=()=>{if(bs)bs.value=b.dataset.service;document.getElementById('booking')?.scrollIntoView({behavior:'smooth'})});let cg=document.getElementById('certificatesGrid');if(cg)cg.innerHTML=certs().map(c=>'<article class="cert-card reveal visible">'+(c.image?'<img src="'+esc(c.image)+'">':'')+'<h3>'+esc(c.title)+'</h3></article>').join('');let rg=document.getElementById('reviewsGrid');if(rg)rg.innerHTML=reviews().filter(r=>r.status!=='hidden').map(r=>'<article class="review-card reveal visible"><p>“'+esc(r.text)+'”</p><strong>'+esc(r.name)+'</strong></article>').join('');let fq=document.getElementById('faqList');if(fq)fq.innerHTML=faqs().map((f,i)=>'<details '+(i===0?'open':'')+'><summary>'+esc(f.q)+'</summary><p>'+esc(f.a)+'</p></details>').join('');let con=document.getElementById('contactsGrid');if(con)con.innerHTML=contacts().map(c=>'<a class="contact-card reveal visible" href="'+esc(c.link||'#')+'" target="_blank"><h3>'+esc(c.title)+'</h3><p>'+esc(c.value)+'</p></a>').join('');renderNextSlots()}
+function renderPublic(){apply();let g=document.getElementById('directionsGrid');if(g)g.innerHTML=directions().map((d,i)=>'<article class="info-card reveal visible"><div class="icon-bubble">'+(i+1)+'</div><h3>'+esc(d.title)+'</h3><p>'+esc(d.text)+'</p></article>').join('');let ag=document.getElementById('aboutExtraGrid');if(ag)ag.innerHTML=get('psy_about_extra',[]).map(d=>'<article class="info-card reveal visible"><h3>'+esc(d.title)+'</h3><p>'+esc(d.text)+'</p></article>').join('');let sg=document.getElementById('servicesGrid'),bs=document.getElementById('bookingService');if(sg)sg.innerHTML=services().map(s=>'<article class="service-card reveal visible"><div class="service-tag">'+esc(s.format)+'</div><h3>'+esc(s.title)+'</h3><p>'+esc(s.text)+'</p><p>'+esc(s.duration)+'</p><div class="price">'+s.price+' грн</div><button class="btn primary open-booking" data-service="'+esc(s.title)+'">Обрати час</button></article>').join('');if(bs)bs.innerHTML='<option value="">Оберіть консультацію</option>'+services().map(s=>'<option value="'+esc(s.title)+'">'+esc(s.title)+' — '+s.price+' грн</option>').join('');document.querySelectorAll('.open-booking').forEach(b=>b.onclick=()=>{if(bs)bs.value=b.dataset.service;document.getElementById('booking')?.scrollIntoView({behavior:'smooth'})});let cg=document.getElementById('certificatesGrid');
+if(cg){
+  const activeFilter = window.currentCertFilter || 'all';
+  const visibleCerts = certs().filter(c => activeFilter === 'all' || (c.category || 'Інше') === activeFilter);
+  cg.innerHTML = visibleCerts.map(c => '<article class="cert-card reveal visible">'+(c.image?'<img src="'+esc(c.image)+'">':'')+'<span>'+esc(c.category || 'Інше')+'</span><h3>'+esc(c.title)+'</h3>'+(c.image?'<button class="small-btn" onclick="showCertificate(\''+c.id+'\')">Переглянути</button>':'')+'</article>').join('');
+}let rg=document.getElementById('reviewsGrid');if(rg)rg.innerHTML=reviews().filter(r=>r.status!=='hidden').map(r=>'<article class="review-card reveal visible"><p>“'+esc(r.text)+'”</p><strong>'+esc(r.name)+'</strong></article>').join('');let fq=document.getElementById('faqList');if(fq)fq.innerHTML=faqs().map((f,i)=>'<details '+(i===0?'open':'')+'><summary>'+esc(f.q)+'</summary><p>'+esc(f.a)+'</p></details>').join('');let con=document.getElementById('contactsGrid');if(con)con.innerHTML=contacts().map(c=>'<a class="contact-card reveal visible" href="'+esc(c.link||'#')+'" target="_blank"><h3>'+esc(c.title)+'</h3><p>'+esc(c.value)+'</p></a>').join('');renderNextSlots()}
 function takenKeys(){return bookings().filter(b=>b.status!=='cancelled').map(b=>b.date+'_'+b.time)}
 function avail(date){let k=takenKeys();return slots().filter(s=>s.date===date&&!k.includes(s.date+'_'+s.time)&&!daysOff().includes(s.date)&&s.date>=todayISO())}
 function updateTimes(){let d=document.getElementById('bookingDate'),t=document.getElementById('bookingTime');if(!d||!t)return;d.min=todayISO();let a=avail(d.value);t.innerHTML=!d.value?'<option value="">Спочатку оберіть дату</option>':a.length?'<option value="">Оберіть час</option>'+a.map(s=>'<option value="'+s.time+'">'+s.time+' — '+(s.format==='offline'?'офлайн':'онлайн')+(s.city?', '+s.city:'')+'</option>').join(''):'<option value="">Немає вільного часу</option>'}
@@ -32,8 +55,46 @@ const orf=document.getElementById('openReviewForm'); if(orf)orf.addEventListener
 function addReview(n,t){let a=reviews();a.push({id:uid(),name:n,text:t,status:'published'});set('psy_reviews',a);renderAll()}
 const prf=document.getElementById('publicReviewForm'); if(prf)prf.addEventListener('submit',e=>{e.preventDefault();addReview(publicReviewName.value,publicReviewText.value);e.target.reset()});
 const crf=document.getElementById('clientReviewForm'); if(crf)crf.addEventListener('submit',e=>{e.preventDefault();addReview(clientReviewName.value,clientReviewText.value);e.target.reset()});
+
+const unifiedAuthForm = document.getElementById('unifiedAuthForm');
+if(unifiedAuthForm){
+  unifiedAuthForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = authEmail.value.trim().toLowerCase();
+    const password = authPassword.value;
+    const name = authName.value || email.split('@')[0];
+
+    if(email === OWNER_EMAIL){
+      if(password === OWNER_PASSWORD){
+        localStorage.psy_admin_auth = 'yes';
+        localStorage.removeItem('psy_client_email');
+        location.href = 'admin.html';
+      } else {
+        openModal('<h2>Помилка</h2><p>Неправильний пароль.</p>');
+      }
+      return;
+    }
+
+    let clients = get('psy_clients',[]);
+    let client = clients.find(c => c.email === email);
+
+    if(!client){
+      client = {email, name, password, phone:'', social:'', photo:''};
+      clients.push(client);
+      set('psy_clients', clients);
+    } else if(client.password && client.password !== password){
+      openModal('<h2>Помилка</h2><p>Неправильний пароль клієнта.</p>');
+      return;
+    }
+
+    localStorage.psy_client_email = email;
+    localStorage.removeItem('psy_admin_auth');
+    location.href = 'client-dashboard.html';
+  });
+}
+
 const caf=document.getElementById('clientAuthForm'); if(caf)caf.addEventListener('submit',e=>{e.preventDefault();let cs=get('psy_clients',[]),email=clientAuthEmail.value.trim().toLowerCase(),pass=clientAuthPassword.value,name=clientAuthName.value||email.split('@')[0];let u=cs.find(c=>c.email===email);if(!u){cs.push({email,name,password:pass});set('psy_clients',cs)}localStorage.psy_client_email=email;location.href='client-dashboard.html'});
-const gcb=document.getElementById('googleClientBtn'); if(gcb)gcb.addEventListener('click',()=>openModal('<h2>Google</h2><p>Реальний Google-вхід підключається через Firebase або Supabase.</p>'));
+const gcb=document.getElementById('googleClientBtn'); if(gcb)gcb.addEventListener('click',()=>openModal('<h2>Google-вхід</h2><p>Структура вже підготовлена. Для справжнього входу треба додати Firebase або Supabase ключі в проєкт.</p>'));
 const oaf=document.getElementById('ownerAuthForm'); if(oaf)oaf.addEventListener('submit',e=>{e.preventDefault();if(ownerEmail.value.trim()===OWNER_EMAIL&&ownerPassword.value===OWNER_PASSWORD){localStorage.psy_admin_auth='yes';location.href='admin.html'}else openModal('<h2>Помилка</h2><p>Неправильний email або пароль.</p>')});
 if(location.pathname.endsWith('admin.html')&&localStorage.psy_admin_auth!=='yes')location.href='auth.html';if(location.pathname.endsWith('client-dashboard.html')&&!localStorage.psy_client_email)location.href='auth.html';
 const lo=document.getElementById('logoutBtn'); if(lo)lo.addEventListener('click',e=>{e.preventDefault();localStorage.removeItem('psy_admin_auth');localStorage.removeItem('psy_client_email');location.href='auth.html'});
@@ -129,14 +190,96 @@ function fillEditors(){let s=site();document.querySelectorAll('[data-edit]').for
 ['siteEditor','aboutEditor','settingsEditor'].forEach(fid=>{let f=document.getElementById(fid);if(f)f.addEventListener('submit',e=>{e.preventDefault();let s=site();e.target.querySelectorAll('[data-edit]').forEach(el=>s[el.dataset.edit]=el.value);set('psy_site',s);renderAll()})});
 function listItem(t,sub,edit,del){return'<div class="list-item"><strong>'+esc(t)+'</strong><p>'+esc(sub)+'</p><div class="item-actions"><button class="small-btn" onclick="'+edit+'">Редагувати</button><button class="small-btn danger" onclick="'+del+'">Видалити</button></div></div>'}
 window.del=(key,i)=>{let a=get(key,[]);a.splice(i,1);set(key,a);renderAll()};
-function renderLists(){let d=document.getElementById('adminDirections');if(d)d.innerHTML=directions().map((x,i)=>listItem(x.title,x.text,'editDirection('+i+')',"del('psy_directions',"+i+")")).join('');let s=document.getElementById('adminServices');if(s)s.innerHTML=services().map((x,i)=>listItem(x.title,x.price+' грн · '+x.format,'editService('+i+')',"del('psy_services',"+i+")")).join('');let c=document.getElementById('adminContacts');if(c)c.innerHTML=contacts().map((x,i)=>listItem(x.title,x.value,'editContact('+i+')',"del('psy_contacts',"+i+")")).join('');let ce=document.getElementById('adminCertificates');if(ce)ce.innerHTML=certs().map((x,i)=>listItem(x.title,x.image,'editCert('+i+')',"del('psy_certs',"+i+")")).join('');let r=document.getElementById('adminReviews');if(r)r.innerHTML=reviews().map((x,i)=>listItem(x.name,x.text,'editReview('+i+')',"del('psy_reviews',"+i+")")).join('');let f=document.getElementById('adminFaq');if(f)f.innerHTML=faqs().map((x,i)=>listItem(x.q,x.a,'editFaq('+i+')',"del('psy_faq',"+i+")")).join('');let ae=document.getElementById('adminAboutExtra');if(ae)ae.innerHTML=get('psy_about_extra',[]).map((x,i)=>listItem(x.title,x.text,'editAboutExtra('+i+')',"del('psy_about_extra',"+i+")")).join('')}
+function renderLists(){let d=document.getElementById('adminDirections');if(d)d.innerHTML=directions().map((x,i)=>listItem(x.title,x.text,'editDirection('+i+')',"del('psy_directions',"+i+")")).join('');let s=document.getElementById('adminServices');if(s)s.innerHTML=services().map((x,i)=>listItem(x.title,x.price+' грн · '+x.format,'editService('+i+')',"del('psy_services',"+i+")")).join('');let c=document.getElementById('adminContacts');if(c)c.innerHTML=contacts().map((x,i)=>listItem(x.title,x.value,'editContact('+i+')',"del('psy_contacts',"+i+")")).join('');let ce=document.getElementById('adminCertificates');if(ce)ce.innerHTML=certs().map((x,i)=>listItem(x.title,(x.category||'Інше')+' · '+(x.image||''),'editCert('+i+')',"del('psy_certs',"+i+")")).join('');let r=document.getElementById('adminReviews');if(r)r.innerHTML=reviews().map((x,i)=>listItem(x.name,x.text,'editReview('+i+')',"del('psy_reviews',"+i+")")).join('');let f=document.getElementById('adminFaq');if(f)f.innerHTML=faqs().map((x,i)=>listItem(x.q,x.a,'editFaq('+i+')',"del('psy_faq',"+i+")")).join('');let ae=document.getElementById('adminAboutExtra');if(ae)ae.innerHTML=get('psy_about_extra',[]).map((x,i)=>listItem(x.title,x.text,'editAboutExtra('+i+')',"del('psy_about_extra',"+i+")")).join('')}
 function bindForm(id,fn){let f=document.getElementById(id);if(f)f.addEventListener('submit',fn)}
 bindForm('directionForm',e=>{e.preventDefault();let a=directions();a.push({id:uid(),title:directionTitle.value,text:directionText.value});set('psy_directions',a);e.target.reset();renderAll()});window.editDirection=i=>{let x=directions()[i];directionTitle.value=x.title;directionText.value=x.text;del('psy_directions',i)};
 bindForm('serviceForm',e=>{e.preventDefault();let a=services(),eid=serviceEditId.value,obj={id:eid||uid(),title:serviceTitle.value,format:serviceFormat.value,duration:serviceDuration.value,price:Number(servicePrice.value),text:serviceText.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_services',a);e.target.reset();serviceEditId.value='';renderAll()});window.editService=i=>{let x=services()[i];serviceEditId.value=x.id;serviceTitle.value=x.title;serviceFormat.value=x.format;serviceDuration.value=x.duration;servicePrice.value=x.price;serviceText.value=x.text};
 bindForm('contactItemForm',e=>{e.preventDefault();let a=contacts(),eid=contactEditId.value,obj={id:eid||uid(),title:contactTitle.value,value:contactValue.value,link:contactLink.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_contacts',a);e.target.reset();contactEditId.value='';renderAll()});window.editContact=i=>{let x=contacts()[i];contactEditId.value=x.id;contactTitle.value=x.title;contactValue.value=x.value;contactLink.value=x.link};
-bindForm('certificateForm',e=>{e.preventDefault();let a=certs(),eid=certEditId.value,obj={id:eid||uid(),title:certTitle.value,image:certImage.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_certs',a);e.target.reset();certEditId.value='';renderAll()});window.editCert=i=>{let x=certs()[i];certEditId.value=x.id;certTitle.value=x.title;certImage.value=x.image};
+bindForm('certificateForm',e=>{e.preventDefault();let a=certs(),eid=certEditId.value,obj={id:eid||uid(),title:certTitle.value,category:(document.getElementById('certCategory')?certCategory.value:'Інше'),image:certImage.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_certs',a);e.target.reset();certEditId.value='';renderAll()});window.editCert=i=>{let x=certs()[i];certEditId.value=x.id;certTitle.value=x.title;if(document.getElementById('certCategory'))certCategory.value=x.category||'Інше';certImage.value=x.image};
 bindForm('reviewForm',e=>{e.preventDefault();let a=reviews(),eid=reviewEditId.value,obj={id:eid||uid(),name:reviewName.value,text:reviewText.value,status:'published'};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_reviews',a);e.target.reset();reviewEditId.value='';renderAll()});window.editReview=i=>{let x=reviews()[i];reviewEditId.value=x.id;reviewName.value=x.name;reviewText.value=x.text};
 bindForm('faqForm',e=>{e.preventDefault();let a=faqs(),eid=faqEditId.value,obj={id:eid||uid(),q:faqQuestion.value,a:faqAnswer.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_faq',a);e.target.reset();faqEditId.value='';renderAll()});window.editFaq=i=>{let x=faqs()[i];faqEditId.value=x.id;faqQuestion.value=x.q;faqAnswer.value=x.a};
 bindForm('aboutExtraForm',e=>{e.preventDefault();let a=get('psy_about_extra',[]);a.push({id:uid(),title:aboutExtraTitle.value,text:aboutExtraText.value});set('psy_about_extra',a);e.target.reset();renderAll()});window.editAboutExtra=i=>{let a=get('psy_about_extra',[]),x=a[i];aboutExtraTitle.value=x.title;aboutExtraText.value=x.text;del('psy_about_extra',i)};
-function renderAll(){renderPublic();updateTimes();renderClient();renderCalendar();renderAdminBookings();fillEditors();renderLists()}
+
+window.currentCertFilter = 'all';
+
+function bindCertificateFilters(){
+  document.querySelectorAll('[data-cert-filter]').forEach(btn => {
+    btn.onclick = () => {
+      window.currentCertFilter = btn.dataset.certFilter;
+      document.querySelectorAll('[data-cert-filter]').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      renderPublic();
+    };
+  });
+}
+
+window.showCertificate = function(certId){
+  const c = certs().find(x => x.id === certId);
+  if(!c || !c.image) return;
+  openModal('<h2>'+esc(c.title)+'</h2><p>'+esc(c.category || 'Інше')+'</p><img src="'+esc(c.image)+'" style="width:100%;border-radius:18px;margin-top:12px;">');
+};
+
+
+function fillBookingFromClientProfile(){
+  const client = currentClient();
+  if(!client) return;
+  const nameInput = document.getElementById('clientFullName');
+  const emailInput = document.getElementById('clientEmail');
+  const phoneInput = document.getElementById('clientPhone');
+  const socialInput = document.getElementById('clientSocial');
+
+  if(nameInput && !nameInput.value) nameInput.value = client.name || '';
+  if(emailInput && !emailInput.value) emailInput.value = client.email || '';
+  if(phoneInput && !phoneInput.value) phoneInput.value = client.phone || '';
+  if(socialInput && !socialInput.value) socialInput.value = client.social || '';
+}
+
+function renderClientProfile(){
+  const form = document.getElementById('clientProfileForm');
+  if(!form) return;
+  const client = currentClient();
+  if(!client) return;
+
+  profilePhoto.value = client.photo || '';
+  profileName.value = client.name || '';
+  profileEmail.value = client.email || '';
+  profilePhone.value = client.phone || '';
+  profileSocial.value = client.social || '';
+
+  const preview = document.getElementById('clientPhotoPreview');
+  if(preview){
+    preview.innerHTML = client.photo ? '<img src="'+esc(client.photo)+'" alt="Фото">' : 'Фото';
+  }
+}
+
+function bindClientProfileForm(){
+  const form = document.getElementById('clientProfileForm');
+  if(!form || form.dataset.bound === 'yes') return;
+  form.dataset.bound = 'yes';
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const oldEmail = localStorage.psy_client_email;
+    const newEmail = profileEmail.value.trim().toLowerCase();
+    let clients = get('psy_clients',[]);
+    const index = clients.findIndex(c => c.email === oldEmail);
+    const old = index >= 0 ? clients[index] : {};
+    const updated = {
+      ...old,
+      email: newEmail,
+      name: profileName.value,
+      phone: profilePhone.value,
+      social: profileSocial.value,
+      photo: profilePhoto.value,
+      password: old.password || '123456'
+    };
+    if(index >= 0) clients[index] = updated;
+    else clients.push(updated);
+    set('psy_clients', clients);
+    localStorage.psy_client_email = newEmail;
+    renderAll();
+    openModal('<h2>Збережено</h2><p>Профіль оновлено.</p>');
+  });
+}
+
+function renderAll(){renderPublic();bindCertificateFilters();updateTimes();fillBookingFromClientProfile();renderClient();renderClientProfile();bindClientProfileForm();renderCalendar();renderAdminBookings();fillEditors();renderLists()}
 renderAll();

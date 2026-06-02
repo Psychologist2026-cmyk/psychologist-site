@@ -26,7 +26,19 @@
 <main>
 
 <section class="section page-hero"><p class="eyebrow">Сертифікати</p><h1>Освіта та кваліфікація</h1></section>
-<section class="section compact-top"><div class="cert-grid" id="certificatesGrid"><article class="cert-card"><h3>Сертифікат 1</h3></article></div></section>
+<section class="section compact-top">
+  <div class="certificate-toolbar" id="certificateToolbar">
+    <button class="filter-btn active" data-cert-filter="all" type="button">Усі</button>
+    <button class="filter-btn" data-cert-filter="Освіта" type="button">Освіта</button>
+    <button class="filter-btn" data-cert-filter="Курси" type="button">Курси</button>
+    <button class="filter-btn" data-cert-filter="Семінари" type="button">Семінари</button>
+    <button class="filter-btn" data-cert-filter="Супервізії" type="button">Супервізії</button>
+    <button class="filter-btn" data-cert-filter="Інше" type="button">Інше</button>
+  </div>
+  <div class="cert-grid cert-grid-large" id="certificatesGrid">
+    <article class="cert-card"><h3>Сертифікат 1</h3><span>Освіта</span></article>
+  </div>
+</section>
 
 </main>
 
