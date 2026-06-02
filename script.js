@@ -1,4 +1,21 @@
 
+if(!localStorage.getItem('psy_clients_seeded')){
+ let cs=clients();
+ if(!cs.find(c=>c.email==='client@psyspace.ua')){
+   cs.push({
+     email:'client@psyspace.ua',
+     name:'Тестовий клієнт',
+     password:'123456',
+     phone:'+380000000000',
+     social:'@client',
+     photo:''
+   });
+   set('psy_clients',cs);
+ }
+ localStorage.setItem('psy_clients_seeded','yes');
+}
+
+
 const OWNER_EMAIL = 'psychologist@example.com';
 const OWNER_PASSWORD = '123456';
 
