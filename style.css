@@ -1001,3 +1001,478 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* =========================================================
+   FINAL FIX: clear texture, more brown, no ugly gradients
+   ========================================================= */
+:root {
+  --bg: #d7b892;
+  --bg2: #c59f73;
+  --brown: #5a3827;
+  --brown2: #2b1912;
+  --choco: #3a2118;
+  --choco2: #24130d;
+  --cream: #f0dfc8;
+  --cream2: #ddbd95;
+  --soft: #c99865;
+  --text: #2b1e17;
+  --muted: #6a5140;
+  --line: rgba(43,25,18,.25);
+  --shadow: 0 28px 82px rgba(36,19,13,.24);
+}
+
+/* Strong texture, soft overlay, NO harsh gradient */
+body {
+  color: var(--text);
+  background-color: #d1ad82 !important;
+  background-image:
+    linear-gradient(rgba(216,184,146,.58), rgba(216,184,146,.58)),
+    url("images/site-texture.jpeg") !important;
+  background-size: auto, 430px auto !important;
+  background-repeat: repeat, repeat !important;
+  background-attachment: fixed, fixed !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+  opacity: .42 !important;
+  background-image: url("images/site-texture.jpeg") !important;
+  background-size: 300px auto !important;
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: rgba(90,56,39,.04) !important;
+}
+
+/* Top menu: clear, separated, more chocolate */
+.header {
+  top: 14px;
+  width: min(1180px, calc(100% - 34px));
+  margin: 0 auto;
+  border-radius: 999px;
+  min-height: 68px;
+  padding: 12px 22px;
+  background-color: rgba(231,205,171,.90) !important;
+  background-image:
+    linear-gradient(rgba(255,246,232,.55), rgba(213,177,132,.55)),
+    url("images/site-texture.jpeg") !important;
+  background-size: auto, 360px auto !important;
+  background-blend-mode: normal, multiply;
+  box-shadow: 0 20px 62px rgba(36,19,13,.28);
+  border: 1px solid rgba(43,25,18,.32);
+}
+
+.logo,
+.footer-logo {
+  color: var(--brown2);
+}
+
+.logo span,
+.footer-logo span {
+  color: var(--brown);
+}
+
+.nav a:not(.nav-chip) {
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: var(--brown2);
+}
+
+.nav a:not(.nav-chip):hover {
+  background: rgba(58,33,24,.14);
+}
+
+.nav-chip {
+  background: #3a2118 !important;
+  color: #fff !important;
+  box-shadow: 0 12px 32px rgba(36,19,13,.26);
+}
+
+.nav-chip.muted {
+  color: var(--choco) !important;
+  background: rgba(244,226,201,.82) !important;
+  border: 1px solid rgba(43,25,18,.20);
+}
+
+/* Hide old auth info if browser cached old HTML */
+.auth-note-card,
+.unified-auth > .login-card:nth-child(2),
+.single-auth > .login-card:nth-child(2) {
+  display: none !important;
+}
+
+.auth-grid.single-auth,
+.unified-auth.single-auth {
+  grid-template-columns: minmax(320px, 560px) !important;
+  justify-content: center;
+}
+
+/* No global ugly section gradients */
+.section,
+.soft-section {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(43,25,18,.14);
+}
+
+.page-hero::after,
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 0;
+  height: 1px;
+  background: rgba(43,25,18,.24);
+}
+
+/* Cards: brown/cream material with visible texture */
+.hero-panel,
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.text-block,
+.booking-box,
+.booking-summary,
+.login-card,
+.contact-card,
+.review-form-card,
+.step,
+.client-sidebar,
+.client-content,
+.admin-sidebar,
+.admin-content,
+.admin-card,
+.client-profile-card {
+  background-color: rgba(236,210,176,.88) !important;
+  background-image:
+    linear-gradient(rgba(255,242,222,.45), rgba(210,171,124,.35)),
+    url("images/site-texture.jpeg") !important;
+  background-size: auto, 380px auto !important;
+  background-blend-mode: normal, multiply;
+  border: 1px solid rgba(43,25,18,.25) !important;
+  box-shadow:
+    0 26px 82px rgba(36,19,13,.20),
+    inset 0 1px 0 rgba(255,255,255,.38) !important;
+}
+
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.contact-card,
+.text-block,
+.booking-box,
+.booking-summary,
+.login-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card::before,
+.service-card::before,
+.review-card::before,
+.cert-card::before,
+.contact-card::before,
+.text-block::before,
+.booking-box::before,
+.booking-summary::before,
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .34 !important;
+  background-image: url("images/site-texture.jpeg") !important;
+  background-size: 260px auto !important;
+  mix-blend-mode: multiply;
+}
+
+.info-card > *,
+.service-card > *,
+.review-card > *,
+.cert-card > *,
+.contact-card > *,
+.text-block > *,
+.booking-box > *,
+.booking-summary > *,
+.login-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.btn.primary,
+.filter-btn.active,
+.filter-btn:hover {
+  background: #3a2118 !important;
+  color: white !important;
+}
+
+.btn.secondary,
+.small-btn,
+.filter-btn {
+  background: rgba(244,226,201,.82) !important;
+  border-color: rgba(43,25,18,.22) !important;
+  color: var(--brown2) !important;
+}
+
+input,
+select,
+textarea {
+  background: rgba(247,230,207,.88) !important;
+  border-color: rgba(43,25,18,.24) !important;
+}
+
+.photo-placeholder.instagram-photo-frame {
+  background-color: rgba(226,194,154,.88) !important;
+  background-image:
+    linear-gradient(rgba(255,242,222,.40), rgba(196,151,100,.24)),
+    url("images/site-texture.jpeg") !important;
+  background-size: auto, 360px auto !important;
+  background-blend-mode: normal, multiply;
+}
+
+.photo-placeholder.instagram-photo-frame::before {
+  background: rgba(255,242,222,.22) !important;
+}
+
+/* certificate layout */
+.certificate-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding: 12px;
+  border-radius: 24px;
+  background: rgba(236,210,176,.70);
+  border: 1px solid rgba(43,25,18,.18);
+  backdrop-filter: blur(14px);
+}
+
+.cert-grid-large,
+.cert-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.cert-card {
+  min-height: 250px;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cert-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.cert-card span {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(58,33,24,.14);
+  color: var(--brown2);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.logout-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* client profile */
+.client-hero {
+  padding-bottom: 34px;
+}
+
+.client-profile-card {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 26px;
+  align-items: center;
+  padding: 30px;
+  border-radius: 36px;
+}
+
+.client-avatar-large,
+.profile-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(224,190,148,.90);
+  background-image: url("images/site-texture.jpeg");
+  background-size: 300px auto;
+  border: 1px solid rgba(43,25,18,.22);
+  color: var(--brown2);
+  font-weight: 900;
+  overflow: hidden;
+}
+
+.profile-preview {
+  width: 132px;
+  height: 132px;
+}
+
+.client-avatar-large img,
+.profile-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.client-shell {
+  grid-template-columns: 280px minmax(0,1fr);
+}
+
+.profile-row {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.profile-file-box {
+  display: grid;
+  gap: 8px;
+  flex: 1;
+}
+
+.profile-file-box label {
+  font-weight: 900;
+  color: var(--brown2);
+}
+
+/* Smooth only, no shake */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity .85s cubic-bezier(.22, 1, .36, 1),
+    transform .85s cubic-bezier(.22, 1, .36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+
+.hero-content.reveal.visible,
+.hero-panel.reveal.visible,
+.info-card.reveal.visible,
+.service-card.reveal.visible,
+.review-card.reveal.visible,
+.cert-card.reveal.visible,
+.contact-card.reveal.visible {
+  animation: none !important;
+}
+
+.hero-panel {
+  animation: none !important;
+}
+
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.contact-card,
+.btn,
+.small-btn,
+.calendar-day,
+.booking-item,
+.tab-btn,
+.client-tab-btn,
+.filter-btn {
+  transition:
+    transform .32s cubic-bezier(.22, 1, .36, 1),
+    box-shadow .32s cubic-bezier(.22, 1, .36, 1),
+    background-color .32s cubic-bezier(.22, 1, .36, 1),
+    color .32s cubic-bezier(.22, 1, .36, 1);
+}
+
+.info-card:hover,
+.service-card:hover,
+.review-card:hover,
+.cert-card:hover,
+.contact-card:hover,
+.calendar-day:hover,
+.booking-item:hover {
+  transform: translate3d(0,-3px,0);
+}
+
+.btn:hover,
+.small-btn:hover,
+.filter-btn:hover {
+  transform: translate3d(0,-2px,0);
+}
+
+.client-tab.active,
+.admin-tab.active {
+  animation: smoothTab .36s cubic-bezier(.22, 1, .36, 1) both !important;
+}
+
+@keyframes smoothTab {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media(max-width:820px) {
+  .header {
+    top: 8px;
+    width: calc(100% - 18px);
+    border-radius: 24px;
+  }
+
+  .nav {
+    top: 86px;
+  }
+
+  .client-profile-card,
+  .client-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .client-avatar-large {
+    width: 116px;
+    height: 116px;
+    border-radius: 26px;
+  }
+
+  .profile-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cert-grid-large,
+  .cert-grid {
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  }
+
+  .info-card:hover,
+  .service-card:hover,
+  .review-card:hover,
+  .cert-card:hover,
+  .contact-card:hover,
+  .btn:hover,
+  .small-btn:hover {
+    transform: none;
+  }
+}

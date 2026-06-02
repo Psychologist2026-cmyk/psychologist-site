@@ -4,12 +4,7 @@ const OWNER_PASSWORD = '123456';
 
 const FIREBASE_GOOGLE_READY = {
   enabled: false,
-  config: {
-    apiKey: '',
-    authDomain: '',
-    projectId: '',
-    appId: ''
-  }
+  config: { apiKey:'', authDomain:'', projectId:'', appId:'' }
 };
 
 const D_SITE = {
@@ -61,9 +56,21 @@ function get(key, fallback){ try { return JSON.parse(localStorage.getItem(key)) 
 function set(key, value){ localStorage.setItem(key, JSON.stringify(value)); }
 
 function init(){
-  [['psy_site',D_SITE],['psy_services',D_SERVICES],['psy_directions',D_DIRECTIONS],['psy_contacts',D_CONTACTS],['psy_certs',D_CERTS],['psy_reviews',D_REVIEWS],['psy_faq',D_FAQ],['psy_slots',D_SLOTS],['psy_bookings',[]],['psy_days_off',[]],['psy_clients',D_CLIENTS],['psy_about_extra',[]]].forEach(([k,v]) => {
-    if(!localStorage.getItem(k)) set(k,v);
+  const defaults = [
+    ['psy_site',D_SITE],['psy_services',D_SERVICES],['psy_directions',D_DIRECTIONS],
+    ['psy_contacts',D_CONTACTS],['psy_certs',D_CERTS],['psy_reviews',D_REVIEWS],
+    ['psy_faq',D_FAQ],['psy_slots',D_SLOTS],['psy_bookings',[]],
+    ['psy_days_off',[]],['psy_clients',D_CLIENTS],['psy_about_extra',[]]
+  ];
+  defaults.forEach(([key,value]) => {
+    if(!localStorage.getItem(key)) set(key,value);
   });
+  // guarantee demo client exists even if old localStorage already exists
+  const cs = get('psy_clients',[]);
+  if(!cs.some(c => c.email === 'client@example.com')){
+    cs.push(D_CLIENTS[0]);
+    set('psy_clients', cs);
+  }
 }
 init();
 
@@ -109,7 +116,10 @@ function currentClient(){
 
 function applySite(){
   const s=site();
-  document.querySelectorAll('[data-site]').forEach(el=>{ if(s[el.dataset.site] !== undefined) el.textContent=s[el.dataset.site]; });
+  document.querySelectorAll('[data-site], [data-field]').forEach(el=>{
+    const key = el.dataset.site || el.dataset.field;
+    if(s[key] !== undefined) el.textContent=s[key];
+  });
   const tg=document.getElementById('telegramFloat'); if(tg) tg.href=s.telegramUrl || '#';
   const tags=document.getElementById('homeTags');
   if(tags) tags.innerHTML=(s.homeTagsText || '').split('\n').filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join('');
@@ -141,26 +151,25 @@ function renderCertificateToolbar(){
     return `<button class="filter-btn ${active}" data-cert-filter="${esc(value)}" type="button">${esc(cat)}</button>`;
   }).join('');
   bar.querySelectorAll('[data-cert-filter]').forEach(btn => {
-    btn.onclick = () => {
-      window.currentCertFilter = btn.dataset.certFilter;
-      renderAll();
-    };
+    btn.onclick = () => { window.currentCertFilter = btn.dataset.certFilter; renderAll(); };
   });
 }
 
 function renderCertCategoryOptions(){
-  const list = document.getElementById('certCategoryList');
+  const list=document.getElementById('certCategoryList');
   if(!list) return;
-  list.innerHTML = certificateCategories().filter(c => c !== 'Усі').map(c => `<option value="${esc(c)}"></option>`).join('');
+  const categories=['Освіта','Курси','Семінари','Супервізії','Інше'];
+  certs().forEach(c=>{ if(c.category && !categories.includes(c.category)) categories.push(c.category); });
+  list.innerHTML=categories.map(c=>`<option value="${esc(c)}"></option>`).join('');
 }
 
-window.showCertificate = function(certId){
-  const c = certs().find(x => x.id === certId);
+window.showCertificate=function(certId){
+  const c=certs().find(x=>x.id===certId);
   if(!c || !c.image) return;
   if(String(c.image).startsWith('data:application/pdf')){
-    openModal(`<h2>${esc(c.title)}</h2><p>${esc(c.category || 'Інше')}</p><a class="btn primary full" href="${c.image}" target="_blank">Відкрити PDF</a>`);
+    openModal(`<h2>${esc(c.title)}</h2><p>${esc(c.category||'Інше')}</p><a class="btn primary full" href="${c.image}" target="_blank">Відкрити PDF</a>`);
   } else {
-    openModal(`<h2>${esc(c.title)}</h2><p>${esc(c.category || 'Інше')}</p><img src="${c.image}" style="width:100%;border-radius:18px;margin-top:12px;">`);
+    openModal(`<h2>${esc(c.title)}</h2><p>${esc(c.category||'Інше')}</p><img src="${c.image}" style="width:100%;border-radius:18px;margin-top:12px;">`);
   }
 };
 
@@ -219,18 +228,15 @@ function fillBookingFromClientProfile(){
   const emailInput=document.getElementById('clientEmail');
   const phoneInput=document.getElementById('clientPhone');
   const socialInput=document.getElementById('clientSocial');
-
   if(nameInput && !nameInput.value) nameInput.value=client.name || '';
   if(emailInput && !emailInput.value) emailInput.value=client.email || '';
   if(phoneInput && !phoneInput.value) phoneInput.value=client.phone || '';
   if(socialInput && !socialInput.value) socialInput.value=client.social || '';
 }
 
-const bookingDate=document.getElementById('bookingDate');
-if(bookingDate) bookingDate.addEventListener('change',updateTimes);
+document.getElementById('bookingDate')?.addEventListener('change',updateTimes);
 
-const bookingForm=document.getElementById('bookingForm');
-if(bookingForm) bookingForm.addEventListener('submit',e=>{
+document.getElementById('bookingForm')?.addEventListener('submit',e=>{
   e.preventDefault();
   const serviceTitle=document.getElementById('bookingService').value;
   const service=services().find(s=>s.title===serviceTitle);
@@ -264,67 +270,57 @@ if(bookingForm) bookingForm.addEventListener('submit',e=>{
   renderAll();
 });
 
-const publicReviewBtn=document.getElementById('openReviewForm');
-if(publicReviewBtn) publicReviewBtn.addEventListener('click',()=>document.getElementById('reviewFormCard').classList.toggle('active'));
+document.getElementById('openReviewForm')?.addEventListener('click',()=>document.getElementById('reviewFormCard').classList.toggle('active'));
 
 function addReview(name,text){
   const arr=reviews(); arr.push({id:uid(),name,text,status:'published'}); set('psy_reviews',arr); renderAll();
 }
 
-const publicReviewForm=document.getElementById('publicReviewForm');
-if(publicReviewForm) publicReviewForm.addEventListener('submit',e=>{ e.preventDefault(); addReview(publicReviewName.value,publicReviewText.value); e.target.reset(); });
+document.getElementById('publicReviewForm')?.addEventListener('submit',e=>{ e.preventDefault(); addReview(publicReviewName.value,publicReviewText.value); e.target.reset(); });
+document.getElementById('clientReviewForm')?.addEventListener('submit',e=>{ e.preventDefault(); addReview(clientReviewName.value,clientReviewText.value); e.target.reset(); });
 
-const clientReviewForm=document.getElementById('clientReviewForm');
-if(clientReviewForm) clientReviewForm.addEventListener('submit',e=>{ e.preventDefault(); addReview(clientReviewName.value,clientReviewText.value); e.target.reset(); });
+document.getElementById('unifiedAuthForm')?.addEventListener('submit', e => {
+  e.preventDefault();
+  const email=document.getElementById('authEmail').value.trim().toLowerCase();
+  const password=document.getElementById('authPassword').value;
+  const name=document.getElementById('authName').value || email.split('@')[0];
 
-const unifiedAuthForm=document.getElementById('unifiedAuthForm');
-if(unifiedAuthForm){
-  unifiedAuthForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const email=authEmail.value.trim().toLowerCase();
-    const password=authPassword.value;
-    const name=authName.value || email.split('@')[0];
-
-    if(email === OWNER_EMAIL){
-      if(password === OWNER_PASSWORD){
-        localStorage.psy_admin_auth='yes';
-        localStorage.removeItem('psy_client_email');
-        location.href='admin.html';
-      } else {
-        openModal('<h2>Помилка</h2><p>Неправильний пароль.</p>');
-      }
-      return;
+  if(email === OWNER_EMAIL){
+    if(password === OWNER_PASSWORD){
+      localStorage.psy_admin_auth='yes';
+      localStorage.removeItem('psy_client_email');
+      location.href='admin.html';
+    } else {
+      openModal('<h2>Помилка</h2><p>Неправильний пароль психолога.</p>');
     }
+    return;
+  }
 
-    let cs=clients();
-    let client=cs.find(c=>c.email===email);
-    if(!client){
-      client={email,name,password,phone:'',social:'',photo:''};
-      cs.push(client);
-      set('psy_clients',cs);
-    } else if(client.password && client.password !== password){
-      openModal('<h2>Помилка</h2><p>Неправильний пароль клієнта.</p>');
-      return;
-    }
+  let cs=clients();
+  let client=cs.find(c=>c.email===email);
+  if(!client){
+    client={email,name,password,phone:'',social:'',photo:''};
+    cs.push(client);
+    set('psy_clients',cs);
+  } else if(client.password && client.password !== password){
+    openModal('<h2>Помилка</h2><p>Неправильний пароль клієнта.</p>');
+    return;
+  }
 
-    localStorage.psy_client_email=email;
-    localStorage.removeItem('psy_admin_auth');
-    location.href='client-dashboard.html';
-  });
-}
+  localStorage.psy_client_email=email;
+  localStorage.removeItem('psy_admin_auth');
+  location.href='client-dashboard.html';
+});
 
 async function signInWithGooglePrepared(){
   openModal('<h2>Google-вхід</h2><p>Схема готова: треба створити Firebase project, увімкнути Google provider, додати домен Netlify і вставити Firebase config у script.js.</p>');
 }
-
-const googleBtn=document.getElementById('googleClientBtn');
-if(googleBtn) googleBtn.addEventListener('click',signInWithGooglePrepared);
+document.getElementById('googleClientBtn')?.addEventListener('click',signInWithGooglePrepared);
 
 if(location.pathname.endsWith('admin.html') && localStorage.psy_admin_auth !== 'yes') location.href='auth.html';
 if(location.pathname.endsWith('client-dashboard.html') && !localStorage.psy_client_email) location.href='auth.html';
 
-const logoutBtn=document.getElementById('logoutBtn');
-if(logoutBtn) logoutBtn.addEventListener('click',e=>{
+document.getElementById('logoutBtn')?.addEventListener('click',e=>{
   e.preventDefault();
   localStorage.removeItem('psy_admin_auth');
   localStorage.removeItem('psy_client_email');
@@ -387,11 +383,11 @@ function renderClientProfile(){
   const client=currentClient();
   if(!client) return;
 
-  profilePhoto.value=client.photo || '';
-  profileName.value=client.name || '';
-  profileEmail.value=client.email || '';
-  profilePhone.value=client.phone || '';
-  profileSocial.value=client.social || '';
+  document.getElementById('profilePhoto').value=client.photo || '';
+  document.getElementById('profileName').value=client.name || '';
+  document.getElementById('profileEmail').value=client.email || '';
+  document.getElementById('profilePhone').value=client.phone || '';
+  document.getElementById('profileSocial').value=client.social || '';
 
   const preview=document.getElementById('clientPhotoPreview');
   if(preview) preview.innerHTML=client.photo ? `<img src="${client.photo}" alt="Фото">` : 'Фото';
@@ -408,7 +404,7 @@ function bindClientProfileForm(){
       const file=e.target.files && e.target.files[0];
       if(!file) return;
       const data=await fileToBase64(file);
-      profilePhoto.value=data;
+      document.getElementById('profilePhoto').value=data;
       const preview=document.getElementById('clientPhotoPreview');
       if(preview) preview.innerHTML=`<img src="${data}" alt="Фото">`;
     });
@@ -417,17 +413,17 @@ function bindClientProfileForm(){
   form.addEventListener('submit',e=>{
     e.preventDefault();
     const oldEmail=localStorage.psy_client_email;
-    const newEmail=profileEmail.value.trim().toLowerCase();
+    const newEmail=document.getElementById('profileEmail').value.trim().toLowerCase();
     let cs=clients();
     const index=cs.findIndex(c=>c.email===oldEmail);
     const old=index>=0 ? cs[index] : {};
     const updated={
       ...old,
       email:newEmail,
-      name:profileName.value,
-      phone:profilePhone.value,
-      social:profileSocial.value,
-      photo:profilePhoto.value,
+      name:document.getElementById('profileName').value,
+      phone:document.getElementById('profilePhone').value,
+      social:document.getElementById('profileSocial').value,
+      photo:document.getElementById('profilePhoto').value,
       password:old.password || '123456'
     };
     if(index>=0) cs[index]=updated;
@@ -497,10 +493,8 @@ window.selectDay=function(iso){
   renderCalendar();
 };
 
-const prevMonth=document.getElementById('prevMonth');
-const nextMonth=document.getElementById('nextMonth');
-if(prevMonth) prevMonth.addEventListener('click',()=>{ calDate.setMonth(calDate.getMonth()-1); renderCalendar(); });
-if(nextMonth) nextMonth.addEventListener('click',()=>{ calDate.setMonth(calDate.getMonth()+1); renderCalendar(); });
+document.getElementById('prevMonth')?.addEventListener('click',()=>{ calDate.setMonth(calDate.getMonth()-1); renderCalendar(); });
+document.getElementById('nextMonth')?.addEventListener('click',()=>{ calDate.setMonth(calDate.getMonth()+1); renderCalendar(); });
 
 function renderDayPanel(){
   const title=document.getElementById('selectedDayTitle');
@@ -520,19 +514,18 @@ function renderDayPanel(){
   box.innerHTML=html.join('') || '<div class="slot-item">Немає годин.</div>';
 }
 
-const slotForm=document.getElementById('slotForm');
-if(slotForm) slotForm.addEventListener('submit',e=>{
+document.getElementById('slotForm')?.addEventListener('submit',e=>{
   e.preventDefault();
-  if(slotDate.value<todayISO()) return;
+  const slotDateEl=document.getElementById('slotDate');
+  if(slotDateEl.value<todayISO()) return;
   const arr=slots();
-  arr.push({id:uid(),date:slotDate.value,time:slotTime.value,format:slotFormat.value,city:slotCity.value});
+  arr.push({id:uid(),date:slotDateEl.value,time:document.getElementById('slotTime').value,format:document.getElementById('slotFormat').value,city:document.getElementById('slotCity').value});
   set('psy_slots',arr);
   e.target.reset();
   renderAll();
 });
 
-const toggleDayOff=document.getElementById('toggleDayOff');
-if(toggleDayOff) toggleDayOff.addEventListener('click',()=>{
+document.getElementById('toggleDayOff')?.addEventListener('click',()=>{
   let arr=daysOff();
   arr=arr.includes(selectedDate) ? arr.filter(x=>x!==selectedDate) : [...arr,selectedDate];
   set('psy_days_off',arr);
@@ -598,8 +591,7 @@ function fillEditors(){
   });
 });
 
-const psychologistPhotoFile=document.getElementById('psychologistPhotoFile');
-if(psychologistPhotoFile) psychologistPhotoFile.addEventListener('change',async e=>{
+document.getElementById('psychologistPhotoFile')?.addEventListener('change',async e=>{
   const file=e.target.files && e.target.files[0];
   if(!file) return;
   const s=site();
@@ -609,11 +601,10 @@ if(psychologistPhotoFile) psychologistPhotoFile.addEventListener('change',async 
   openModal('<h2>Фото збережено</h2><p>Фото психолога оновлено.</p>');
 });
 
-const certFile=document.getElementById('certFile');
-if(certFile) certFile.addEventListener('change',async e=>{
+document.getElementById('certFile')?.addEventListener('change',async e=>{
   const file=e.target.files && e.target.files[0];
   if(!file) return;
-  certImage.value=await fileToBase64(file);
+  document.getElementById('certImage').value=await fileToBase64(file);
 });
 
 function listItem(title,sub,edit,del){
@@ -780,14 +771,6 @@ window.editAboutExtra=function(i){
   aboutExtraText.value=x.text;
   del('psy_about_extra',i);
 };
-
-function renderCertCategoryOptions(){
-  const list=document.getElementById('certCategoryList');
-  if(!list) return;
-  const categories=['Освіта','Курси','Семінари','Супервізії','Інше'];
-  certs().forEach(c=>{ if(c.category && !categories.includes(c.category)) categories.push(c.category); });
-  list.innerHTML=categories.map(c=>`<option value="${esc(c)}"></option>`).join('');
-}
 
 function renderAll(){
   renderPublic();
