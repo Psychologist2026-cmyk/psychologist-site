@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Кабінет клієнта</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кабінет клієнта</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="client">
 
 <header class="header">
   <a class="logo" href="client-dashboard.html">PSY<span>Space</span></a>
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button"><span></span><span></span><span></span></button>
   <nav class="nav" id="nav">
     <a href="index.html">Головна</a>
     <a href="services.html">Запис</a>
     <a class="nav-chip" href="client-dashboard.html">Мій кабінет</a>
-    <a href="#" id="logoutBtn" class="nav-chip muted">Вийти</a>
+    <a class="nav-chip muted" href="#" id="logoutBtn">Вийти</a>
   </nav>
 </header>
 
@@ -23,16 +23,8 @@
 
 <section class="section page-hero"><p class="eyebrow">Кабінет</p><h1 id="clientDashboardTitle">Мій кабінет</h1></section>
 <section class="section compact-top client-shell">
-  <aside class="client-sidebar">
-    <button class="client-tab-btn active" data-client-tab="main" type="button">Головна</button>
-    <button class="client-tab-btn" data-client-tab="bookings" type="button">Мої записи</button>
-    <button class="client-tab-btn" data-client-tab="review" type="button">Відгук</button>
-  </aside>
-  <section class="client-content">
-    <div class="client-tab active" id="client-tab-main"><div class="cards" id="clientMainCards"></div></div>
-    <div class="client-tab" id="client-tab-bookings"><h2>Мої записи</h2><div class="booking-list" id="clientBookings"></div></div>
-    <div class="client-tab" id="client-tab-review"><h2>Залишити відгук</h2><form id="clientReviewForm" class="login-card"><input id="clientReviewName" placeholder="Ваше імʼя" required><textarea id="clientReviewText" placeholder="Ваш відгук" required></textarea><button class="btn primary full" type="submit">Надіслати</button></form></div>
-  </section>
+  <aside class="client-sidebar"><button class="client-tab-btn active" data-client-tab="main" type="button">Головна</button><button class="client-tab-btn" data-client-tab="bookings" type="button">Мої записи</button><button class="client-tab-btn" data-client-tab="review" type="button">Відгук</button></aside>
+  <section class="client-content"><div class="client-tab active" id="client-tab-main"><div class="cards" id="clientMainCards"></div></div><div class="client-tab" id="client-tab-bookings"><h2>Мої записи</h2><div class="booking-list" id="clientBookings"></div></div><div class="client-tab" id="client-tab-review"><h2>Залишити відгук</h2><form id="clientReviewForm" class="login-card"><input id="clientReviewName" placeholder="Ваше імʼя" required><textarea id="clientReviewText" placeholder="Ваш відгук" required></textarea><button class="btn primary full" type="submit">Надіслати</button></form></div></section>
 </section>
 
 </main>

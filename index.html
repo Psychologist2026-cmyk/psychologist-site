@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>PSYSpace</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSYSpace</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="public">
 
 <header class="header">
   <a class="logo" href="index.html">PSY<span>Space</span></a>
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button"><span></span><span></span><span></span></button>
   <nav class="nav" id="nav">
     <a href="index.html">Головна</a>
     <a href="about.html">Про психолога</a>
@@ -27,25 +27,32 @@
 
 <section class="hero section">
   <div class="hero-content reveal">
-    <p class="eyebrow" data-field="homeEyebrow">Особисті консультації</p>
-    <h1 data-field="homeTitle">Спокійний простір для важливих розмов</h1>
-    <p class="hero-text" data-field="homeText">Індивідуальна робота з тривогою, напругою, стосунками, самооцінкою та складними періодами.</p>
+    <p class="eyebrow" data-site="homeEyebrow">Особисті консультації</p>
+    <h1 data-site="homeTitle">Спокійний простір для важливих розмов</h1>
+    <p class="hero-text" data-site="homeText">Індивідуальна робота з тривогою, напругою, стосунками, самооцінкою та складними періодами.</p>
     <div class="hero-actions">
       <a class="btn primary" href="services.html#booking">Записатись</a>
       <a class="btn secondary" href="about.html">Про психолога</a>
     </div>
-    <div class="trust-row" id="homeTags"></div>
+    <div class="trust-row" id="homeTags">
+      <span>Конфіденційно</span><span>Онлайн</span><span>Офлайн</span><span>Zoom</span>
+    </div>
   </div>
   <aside class="hero-panel reveal">
-    <div class="soft-orb"></div>
     <p class="eyebrow">Найближчий час</p>
     <h3>Вільні години</h3>
-    <div class="next-slots" id="nextSlots"></div>
+    <div id="nextSlots" class="next-slots">
+      <div class="slot-item">Скоро зʼявляться нові години.</div>
+    </div>
   </aside>
 </section>
 <section class="section">
   <div class="section-head reveal"><p class="eyebrow">Напрямки</p><h2>З чим можна звернутися</h2></div>
-  <div class="cards" id="directionsGrid"></div>
+  <div class="cards" id="directionsGrid">
+    <article class="info-card"><h3>Тривога</h3><p>Робота з напругою та внутрішнім неспокоєм.</p></article>
+    <article class="info-card"><h3>Вигорання</h3><p>Підтримка при виснаженні та втраті ресурсу.</p></article>
+    <article class="info-card"><h3>Стосунки</h3><p>Кордони, конфлікти, повторювані сценарії.</p></article>
+  </div>
 </section>
 
 </main>

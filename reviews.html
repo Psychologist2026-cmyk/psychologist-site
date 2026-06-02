@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Відгуки</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Відгуки</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="public">
 
 <header class="header">
   <a class="logo" href="index.html">PSY<span>Space</span></a>
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button"><span></span><span></span><span></span></button>
   <nav class="nav" id="nav">
     <a href="index.html">Головна</a>
     <a href="about.html">Про психолога</a>
@@ -27,10 +27,10 @@
 
 <section class="section page-hero"><p class="eyebrow">Відгуки</p><h1>Враження клієнтів</h1><button class="btn primary" id="openReviewForm" type="button">Залишити відгук</button></section>
 <section class="section compact-top">
-  <div class="review-form-card reveal" id="reviewFormCard">
+  <div class="review-form-card" id="reviewFormCard">
     <form id="publicReviewForm"><input id="publicReviewName" placeholder="Ваше імʼя" required><textarea id="publicReviewText" placeholder="Ваш відгук" required></textarea><button class="btn primary full" type="submit">Надіслати</button></form>
   </div>
-  <div class="cards" id="reviewsGrid"></div>
+  <div class="cards" id="reviewsGrid"><article class="review-card"><p>“Дякую за підтримку.”</p><strong>Клієнт</strong></article></div>
 </section>
 
 </main>

@@ -40,26 +40,91 @@ const lo=document.getElementById('logoutBtn'); if(lo)lo.addEventListener('click'
 document.querySelectorAll('.client-tab-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.client-tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.client-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('client-tab-'+b.dataset.clientTab).classList.add('active')});
 document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active')});
 function statusLabel(s){return{new:'новий',confirmed:'підтверджено',completed:'завершено',cancelled:'скасовано',cancel_requested:'клієнт просить скасувати',change_requested:'клієнт просить перенести'}[s]||s}
-function renderClient(){let email=localStorage.psy_client_email,u=get('psy_clients',[]).find(c=>c.email===email);if(document.getElementById('clientDashboardTitle'))clientDashboardTitle.textContent=u?'Вітаємо, '+u.name:'Мій кабінет';let cards=document.getElementById('clientMainCards');if(cards)cards.innerHTML='<article class="info-card"><h3>Новий запис</h3><a class="btn primary" href="services.html#booking">Записатись</a></article><article class="info-card"><h3>Відгук</h3><p>Після консультації можна залишити відгук.</p></article>';let box=document.getElementById('clientBookings');if(box){let list=bookings().filter(b=>b.clientEmail===email);box.innerHTML=list.length?list.map(b=>'<div class="booking-item"><strong>'+esc(b.service)+'</strong><br>'+b.date+' о '+b.time+'<br>Статус: '+statusLabel(b.status)+(b.zoom?'<br><a class="small-btn" href="'+esc(b.zoom)+'" target="_blank">Zoom</a>':'')+'<div class="item-actions">'+(b.status!=='cancelled'?'<button class="small-btn danger" onclick="clientCancel(\\''+b.id+'\\')">Запит на скасування</button><button class="small-btn" onclick="clientMove(\\''+b.id+'\\')">Запит на перенесення</button>':'')+'</div></div>').join(''):'<div class="booking-item">Записів поки немає.</div>'}}
+function renderClient(){
+  var email=localStorage.psy_client_email;
+  var clients=get('psy_clients',[]);
+  var u=clients.find(function(c){return c.email===email});
+  var title=document.getElementById('clientDashboardTitle');
+  if(title) title.textContent=u?'Вітаємо, '+u.name:'Мій кабінет';
+  var cards=document.getElementById('clientMainCards');
+  if(cards) cards.innerHTML='<article class="info-card"><h3>Новий запис</h3><a class="btn primary" href="services.html#booking">Записатись</a></article><article class="info-card"><h3>Відгук</h3><p>Після консультації можна залишити відгук.</p></article>';
+  var box=document.getElementById('clientBookings');
+  if(box){
+    var list=bookings().filter(function(b){return b.clientEmail===email});
+    if(list.length){
+      box.innerHTML=list.map(function(b){
+        var zoom=b.zoom?'<br><a class="small-btn" href="'+esc(b.zoom)+'" target="_blank">Zoom</a>':'';
+        var actions=b.status!=='cancelled'?'<button class="small-btn danger" onclick="clientCancel(\''+b.id+'\')">Запит на скасування</button><button class="small-btn" onclick="clientMove(\''+b.id+'\')">Запит на перенесення</button>':'';
+        return '<div class="booking-item"><strong>'+esc(b.service)+'</strong><br>'+b.date+' о '+b.time+'<br>Статус: '+statusLabel(b.status)+zoom+'<div class="item-actions">'+actions+'</div></div>';
+      }).join('');
+    } else {
+      box.innerHTML='<div class="booking-item">Записів поки немає.</div>';
+    }
+  }
+}
 window.clientCancel=idv=>{set('psy_bookings',bookings().map(b=>b.id===idv?{...b,status:'cancel_requested'}:b));renderAll()};
-window.clientMove=idv=>openModal('<h2>Запит на перенесення</h2><form onsubmit="submitMoveRequest(event,\\''+idv+'\\')"><input type="date" id="moveDate" min="'+todayISO()+'" required><input type="time" id="moveTime" required><textarea id="moveComment" placeholder="Коментар"></textarea><button class="btn primary full">Надіслати</button></form>');
+window.clientMove=function(idv){openModal(`<h2>Запит на перенесення</h2><form onsubmit="submitMoveRequest(event,'${idv}')"><input type="date" id="moveDate" min="${todayISO()}" required><input type="time" id="moveTime" required><textarea id="moveComment" placeholder="Коментар"></textarea><button class="btn primary full">Надіслати</button></form>`)};
 window.submitMoveRequest=(e,idv)=>{e.preventDefault();set('psy_bookings',bookings().map(b=>b.id===idv?{...b,status:'change_requested',requestedDate:moveDate.value,requestedTime:moveTime.value,requestComment:moveComment.value}:b));document.getElementById('appModal').classList.remove('active');renderAll()};
-let calDate=new Date(),selectedDate=todayISO();
-function renderNextSlots(){let box=document.getElementById('nextSlots');if(!box)return;let a=slots().filter(s=>s.date>=todayISO()&&!daysOff().includes(s.date)&&!takenKeys().includes(s.date+'_'+s.time)).slice(0,4);box.innerHTML=a.length?a.map(s=>'<div class="slot-item"><strong>'+s.date+'</strong><br>'+s.time+' · '+(s.format==='offline'?'офлайн':'онлайн')+'</div>').join(''):'<div class="slot-item">Скоро зʼявляться нові години.</div>'}
-function renderCalendar(){let grid=document.getElementById('adminCalendar'),title=document.getElementById('calendarTitle');if(!grid||!title)return;let y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1),start=new Date(first),off=(first.getDay()+6)%7;start.setDate(first.getDate()-off);title.textContent=calDate.toLocaleDateString('uk-UA',{month:'long',year:'numeric'});grid.innerHTML=['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].map(n=>'<div class="calendar-day-name">'+n+'</div>').join('');for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let iso=d.toISOString().slice(0,10),ds=slots().filter(s=>s.date===iso),bs=bookings().filter(b=>b.date===iso&&b.status!=='cancelled'),offd=daysOff().includes(iso);grid.innerHTML+='<div class="calendar-day '+(d.getMonth()!==m?'other':'')+' '+(offd?'off':'')+' '+(iso===selectedDate?'selected':'')+'" onclick="selectDay(\\''+iso+'\\')"><div class="day-number">'+d.getDate()+'</div>'+(offd?'<span class="slot-chip request">вихідний</span>':'')+ds.map(s=>'<span class="slot-chip free">'+s.time+'</span>').join('')+bs.map(b=>'<span class="slot-chip '+(b.status.includes('requested')?'request':'booked')+'">'+b.time+'</span>').join('')+'</div>'}renderDayPanel()}
-window.selectDay=iso=>{selectedDate=iso;renderCalendar()};
-const pm=document.getElementById('prevMonth'), nm=document.getElementById('nextMonth'); if(pm)pm.addEventListener('click',()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()}); if(nm)nm.addEventListener('click',()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()});
-function renderDayPanel(){let t=document.getElementById('selectedDayTitle'),sd=document.getElementById('slotDate'),box=document.getElementById('selectedDaySlots');if(!t||!box)return;t.textContent=selectedDate;sd.value=selectedDate;sd.min=todayISO();let free=slots().filter(s=>s.date===selectedDate),book=bookings().filter(b=>b.date===selectedDate);box.innerHTML=[...free.map(s=>'<div class="slot-item"><strong>'+s.time+'</strong> · '+(s.format==='offline'?'офлайн':'онлайн')+'<div class="item-actions"><button class="small-btn danger" onclick="deleteSlot(\\''+s.id+'\\')">Видалити</button></div></div>'),...book.map(b=>'<div class="booking-item"><strong>'+b.time+' · '+esc(b.clientFullName)+'</strong><br>'+esc(b.service)+'<br>'+statusLabel(b.status)+'<div class="item-actions"><button class="small-btn" onclick="showBooking(\\''+b.id+'\\')">Деталі</button><button class="small-btn" onclick="adminMove(\\''+b.id+'\\')">Перенести</button><button class="small-btn danger" onclick="adminCancel(\\''+b.id+'\\')">Скасувати</button></div></div>')].join('')||'<div class="slot-item">Немає годин.</div>'}
-const sf=document.getElementById('slotForm'); if(sf)sf.addEventListener('submit',e=>{e.preventDefault();if(slotDate.value<todayISO())return;let a=slots();a.push({id:uid(),date:slotDate.value,time:slotTime.value,format:slotFormat.value,city:slotCity.value});set('psy_slots',a);e.target.reset();renderAll()});
-const tdo=document.getElementById('toggleDayOff'); if(tdo)tdo.addEventListener('click',()=>{let a=daysOff();a=a.includes(selectedDate)?a.filter(x=>x!==selectedDate):[...a,selectedDate];set('psy_days_off',a);renderAll()});
-window.deleteSlot=idv=>{set('psy_slots',slots().filter(s=>s.id!==idv));renderAll()};
-function renderAdminBookings(){let box=document.getElementById('adminBookings');if(!box)return;let fd=document.getElementById('bookingFilterDate')?.value,fs=document.getElementById('bookingFilterStatus')?.value;let list=bookings().filter(b=>(!fd||b.date===fd)&&(!fs||b.status===fs));box.innerHTML=list.length?list.map(b=>'<div class="booking-item"><strong>'+b.date+' '+b.time+' · '+esc(b.clientFullName)+'</strong><br>'+esc(b.service)+'<br>'+statusLabel(b.status)+'<br>'+esc(b.clientPhone)+' · '+esc(b.clientEmail)+'<div class="item-actions"><button class="small-btn" onclick="showBooking(\\''+b.id+'\\')">Деталі</button><button class="small-btn green" onclick="setStatus(\\''+b.id+'\\',\\'confirmed\\')">Підтвердити</button><button class="small-btn" onclick="setStatus(\\''+b.id+'\\',\\'completed\\')">Завершено</button><button class="small-btn" onclick="adminMove(\\''+b.id+'\\')">Перенести</button><button class="small-btn danger" onclick="adminCancel(\\''+b.id+'\\')">Скасувати</button></div></div>').join(''):'<div class="booking-item">Записів немає.</div>'}
-document.getElementById('bookingFilterDate')?.addEventListener('change',renderAdminBookings);document.getElementById('bookingFilterStatus')?.addEventListener('change',renderAdminBookings);
-window.showBooking=idv=>{let b=bookings().find(x=>x.id===idv);if(!b)return;openModal('<h2>'+esc(b.clientFullName)+'</h2><p><b>'+esc(b.service)+'</b></p><p>'+b.date+' о '+b.time+'</p><p>'+esc(b.clientPhone)+'<br>'+esc(b.clientEmail)+'<br>'+esc(b.clientSocial||'')+'</p><p>'+esc(b.comment||'')+'</p><p>Статус: '+statusLabel(b.status)+'</p>'+(b.requestedDate?'<p>Запит: '+b.requestedDate+' о '+b.requestedTime+'<br>'+esc(b.requestComment||'')+'</p>':''))}
-window.setStatus=(idv,st)=>{set('psy_bookings',bookings().map(b=>b.id===idv?{...b,status:st}:b));renderAll()};
-window.adminCancel=idv=>setStatus(idv,'cancelled');
-window.adminMove=idv=>{let b=bookings().find(x=>x.id===idv);openModal('<h2>Перенести запис</h2><form onsubmit="submitAdminMove(event,\\''+idv+'\\')"><input type="date" id="admMoveDate" min="'+todayISO()+'" value="'+(b?.requestedDate||b?.date||todayISO())+'" required><input type="time" id="admMoveTime" value="'+(b?.requestedTime||b?.time||'10:00')+'" required><button class="btn primary full">Зберегти</button></form>')};
-window.submitAdminMove=(e,idv)=>{e.preventDefault();set('psy_bookings',bookings().map(b=>b.id===idv?{...b,date:admMoveDate.value,time:admMoveTime.value,status:'confirmed',requestedDate:'',requestedTime:''}:b));document.getElementById('appModal').classList.remove('active');renderAll()};
+let calDate=new Date(), selectedDate=todayISO();
+function renderNextSlots(){
+  var box=document.getElementById('nextSlots'); if(!box)return;
+  var a=slots().filter(function(s){return s.date>=todayISO()&&!daysOff().includes(s.date)&&!takenKeys().includes(s.date+'_'+s.time)}).slice(0,4);
+  box.innerHTML=a.length?a.map(function(s){return '<div class="slot-item"><strong>'+s.date+'</strong><br>'+s.time+' · '+(s.format==='offline'?'офлайн':'онлайн')+'</div>'}).join(''):'<div class="slot-item">Скоро зʼявляться нові години.</div>';
+}
+function renderCalendar(){
+  var grid=document.getElementById('adminCalendar'), title=document.getElementById('calendarTitle'); if(!grid||!title)return;
+  var y=calDate.getFullYear(), m=calDate.getMonth();
+  var first=new Date(y,m,1), start=new Date(first), off=(first.getDay()+6)%7; start.setDate(first.getDate()-off);
+  title.textContent=calDate.toLocaleDateString('uk-UA',{month:'long',year:'numeric'});
+  var html=['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].map(function(n){return '<div class="calendar-day-name">'+n+'</div>'}).join('');
+  for(var i=0;i<42;i++){
+    var d=new Date(start); d.setDate(start.getDate()+i);
+    var iso=d.toISOString().slice(0,10);
+    var ds=slots().filter(function(s){return s.date===iso});
+    var bs=bookings().filter(function(b){return b.date===iso&&b.status!=='cancelled'});
+    var offd=daysOff().includes(iso);
+    html += '<div class="calendar-day '+(d.getMonth()!==m?'other ':'')+(offd?'off ':'')+(iso===selectedDate?'selected':'')+'" onclick="selectDay(\''+iso+'\')">';
+    html += '<div class="day-number">'+d.getDate()+'</div>';
+    if(offd) html += '<span class="slot-chip request">вихідний</span>';
+    html += ds.map(function(s){return '<span class="slot-chip free">'+s.time+'</span>'}).join('');
+    html += bs.map(function(b){return '<span class="slot-chip '+(b.status.indexOf('requested')>-1?'request':'booked')+'">'+b.time+'</span>'}).join('');
+    html += '</div>';
+  }
+  grid.innerHTML=html;
+  renderDayPanel();
+}
+window.selectDay=function(iso){selectedDate=iso;renderCalendar()};
+var pm=document.getElementById('prevMonth'), nm=document.getElementById('nextMonth');
+if(pm)pm.addEventListener('click',function(){calDate.setMonth(calDate.getMonth()-1);renderCalendar()});
+if(nm)nm.addEventListener('click',function(){calDate.setMonth(calDate.getMonth()+1);renderCalendar()});
+function renderDayPanel(){
+  var t=document.getElementById('selectedDayTitle'), sd=document.getElementById('slotDate'), box=document.getElementById('selectedDaySlots'); if(!t||!box)return;
+  t.textContent=selectedDate; sd.value=selectedDate; sd.min=todayISO();
+  var free=slots().filter(function(s){return s.date===selectedDate});
+  var book=bookings().filter(function(b){return b.date===selectedDate});
+  var parts=[];
+  free.forEach(function(s){parts.push('<div class="slot-item"><strong>'+s.time+'</strong> · '+(s.format==='offline'?'офлайн':'онлайн')+'<div class="item-actions"><button class="small-btn danger" onclick="deleteSlot(\''+s.id+'\')">Видалити</button></div></div>')});
+  book.forEach(function(b){parts.push('<div class="booking-item"><strong>'+b.time+' · '+esc(b.clientFullName)+'</strong><br>'+esc(b.service)+'<br>'+statusLabel(b.status)+'<div class="item-actions"><button class="small-btn" onclick="showBooking(\''+b.id+'\')">Деталі</button><button class="small-btn" onclick="adminMove(\''+b.id+'\')">Перенести</button><button class="small-btn danger" onclick="adminCancel(\''+b.id+'\')">Скасувати</button></div></div>')});
+  box.innerHTML=parts.join('')||'<div class="slot-item">Немає годин.</div>';
+}
+var sf=document.getElementById('slotForm');
+if(sf)sf.addEventListener('submit',function(e){e.preventDefault();if(slotDate.value<todayISO())return;var a=slots();a.push({id:uid(),date:slotDate.value,time:slotTime.value,format:slotFormat.value,city:slotCity.value});set('psy_slots',a);e.target.reset();renderAll()});
+var tdo=document.getElementById('toggleDayOff');
+if(tdo)tdo.addEventListener('click',function(){var a=daysOff();a=a.includes(selectedDate)?a.filter(function(x){return x!==selectedDate}):a.concat([selectedDate]);set('psy_days_off',a);renderAll()});
+window.deleteSlot=function(idv){set('psy_slots',slots().filter(function(s){return s.id!==idv}));renderAll()};
+function renderAdminBookings(){
+  var box=document.getElementById('adminBookings'); if(!box)return;
+  var fd=document.getElementById('bookingFilterDate')?document.getElementById('bookingFilterDate').value:'', fs=document.getElementById('bookingFilterStatus')?document.getElementById('bookingFilterStatus').value:'';
+  var list=bookings().filter(function(b){return (!fd||b.date===fd)&&(!fs||b.status===fs)});
+  box.innerHTML=list.length?list.map(function(b){return '<div class="booking-item"><strong>'+b.date+' '+b.time+' · '+esc(b.clientFullName)+'</strong><br>'+esc(b.service)+'<br>'+statusLabel(b.status)+'<br>'+esc(b.clientPhone)+' · '+esc(b.clientEmail)+'<div class="item-actions"><button class="small-btn" onclick="showBooking(\''+b.id+'\')">Деталі</button><button class="small-btn green" onclick="setStatus(\''+b.id+'\',\'confirmed\')">Підтвердити</button><button class="small-btn" onclick="setStatus(\''+b.id+'\',\'completed\')">Завершено</button><button class="small-btn" onclick="adminMove(\''+b.id+'\')">Перенести</button><button class="small-btn danger" onclick="adminCancel(\''+b.id+'\')">Скасувати</button></div></div>'}).join(''):'<div class="booking-item">Записів немає.</div>';
+}
+var bfd=document.getElementById('bookingFilterDate'), bfs=document.getElementById('bookingFilterStatus');
+if(bfd)bfd.addEventListener('change',renderAdminBookings); if(bfs)bfs.addEventListener('change',renderAdminBookings);
+window.showBooking=function(idv){var b=bookings().find(function(x){return x.id===idv});if(!b)return;openModal('<h2>'+esc(b.clientFullName)+'</h2><p><b>'+esc(b.service)+'</b></p><p>'+b.date+' о '+b.time+'</p><p>'+esc(b.clientPhone)+'<br>'+esc(b.clientEmail)+'<br>'+esc(b.clientSocial||'')+'</p><p>'+esc(b.comment||'')+'</p><p>Статус: '+statusLabel(b.status)+'</p>'+(b.requestedDate?'<p>Запит: '+b.requestedDate+' о '+b.requestedTime+'<br>'+esc(b.requestComment||'')+'</p>':''))};
+window.setStatus=function(idv,st){set('psy_bookings',bookings().map(function(b){return b.id===idv?Object.assign({},b,{status:st}):b}));renderAll()};
+window.adminCancel=function(idv){setStatus(idv,'cancelled')};
+window.adminMove=function(idv){var b=bookings().find(function(x){return x.id===idv});openModal('<h2>Перенести запис</h2><form onsubmit="submitAdminMove(event,\''+idv+'\')"><input type="date" id="admMoveDate" min="'+todayISO()+'" value="'+((b&&b.requestedDate)||(b&&b.date)||todayISO())+'" required><input type="time" id="admMoveTime" value="'+((b&&b.requestedTime)||(b&&b.time)||'10:00')+'" required><button class="btn primary full">Зберегти</button></form>')};
+window.submitAdminMove=function(e,idv){e.preventDefault();set('psy_bookings',bookings().map(function(b){return b.id===idv?Object.assign({},b,{date:admMoveDate.value,time:admMoveTime.value,status:'confirmed',requestedDate:'',requestedTime:''}):b}));document.getElementById('appModal').classList.remove('active');renderAll()};
 function fillEditors(){let s=site();document.querySelectorAll('[data-edit]').forEach(el=>el.value=s[el.dataset.edit]||'')}
 ['siteEditor','aboutEditor','settingsEditor'].forEach(fid=>{let f=document.getElementById(fid);if(f)f.addEventListener('submit',e=>{e.preventDefault();let s=site();e.target.querySelectorAll('[data-edit]').forEach(el=>s[el.dataset.edit]=el.value);set('psy_site',s);renderAll()})});
 function listItem(t,sub,edit,del){return'<div class="list-item"><strong>'+esc(t)+'</strong><p>'+esc(sub)+'</p><div class="item-actions"><button class="small-btn" onclick="'+edit+'">Редагувати</button><button class="small-btn danger" onclick="'+del+'">Видалити</button></div></div>'}

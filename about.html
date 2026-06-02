@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Про психолога</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Про психолога</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="public">
 
 <header class="header">
   <a class="logo" href="index.html">PSY<span>Space</span></a>
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button"><span></span><span></span><span></span></button>
   <nav class="nav" id="nav">
     <a href="index.html">Головна</a>
     <a href="about.html">Про психолога</a>
@@ -25,10 +25,18 @@
 
 <main>
 
-<section class="section page-hero"><p class="eyebrow">Про психолога</p><h1 data-field="psychologistName">Імʼя Психолога</h1><p class="hero-text" data-field="aboutIntro">Коротко про спеціаліста, досвід і підхід.</p></section>
+<section class="section page-hero">
+  <p class="eyebrow">Про психолога</p>
+  <h1 data-site="psychologistName">Імʼя Психолога</h1>
+  <p class="hero-text" data-site="aboutIntro">Коротко про спеціаліста, досвід і підхід.</p>
+</section>
 <section class="section split">
-  <div class="photo-placeholder reveal" id="psychologistPhoto"><span>Фото психолога</span></div>
-  <div class="text-block reveal"><h2 data-field="aboutTitle">Підхід до роботи</h2><p data-field="aboutText">Тут буде основний опис.</p><ul class="check-list" id="aboutBullets"></ul></div>
+  <div class="photo-placeholder reveal" id="psychologistPhoto">Фото психолога</div>
+  <div class="text-block reveal">
+    <h2 data-site="aboutTitle">Підхід до роботи</h2>
+    <p data-site="aboutText">Тут буде основний опис.</p>
+    <ul class="check-list" id="aboutBullets"><li>Індивідуальні консультації</li><li>Підтримка у складні періоди</li></ul>
+  </div>
 </section>
 <section class="section"><div class="cards" id="aboutExtraGrid"></div></section>
 

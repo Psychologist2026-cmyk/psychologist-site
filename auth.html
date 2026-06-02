@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Вхід / Реєстрація</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вхід / Реєстрація</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body class="public">
 
 <header class="header">
   <a class="logo" href="index.html">PSY<span>Space</span></a>
-  <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  <button class="menu-btn" id="menuBtn" type="button"><span></span><span></span><span></span></button>
   <nav class="nav" id="nav">
     <a href="index.html">Головна</a>
     <a href="about.html">Про психолога</a>
@@ -27,24 +27,8 @@
 
 <section class="section page-hero"><p class="eyebrow">Акаунт</p><h1>Вхід або реєстрація</h1></section>
 <section class="section compact-top auth-grid">
-  <div class="login-card reveal">
-    <h2>Клієнт</h2>
-    <form id="clientAuthForm">
-      <input id="clientAuthName" placeholder="Ваше імʼя">
-      <input id="clientAuthEmail" type="email" placeholder="Email" required>
-      <input id="clientAuthPassword" type="password" placeholder="Пароль" required>
-      <button class="btn primary full" type="submit">Увійти / Зареєструватись</button>
-      <button class="btn secondary full" type="button" id="googleClientBtn">Google</button>
-    </form>
-  </div>
-  <div class="login-card reveal">
-    <h2>Психолог</h2>
-    <form id="ownerAuthForm">
-      <input id="ownerEmail" type="email" placeholder="Email" required>
-      <input id="ownerPassword" type="password" placeholder="Пароль" required>
-      <button class="btn primary full" type="submit">Увійти</button>
-    </form>
-  </div>
+  <div class="login-card reveal"><h2>Клієнт</h2><form id="clientAuthForm"><input id="clientAuthName" placeholder="Ваше імʼя"><input id="clientAuthEmail" type="email" placeholder="Email" required><input id="clientAuthPassword" type="password" placeholder="Пароль" required><button class="btn primary full" type="submit">Увійти / Зареєструватись</button><button class="btn secondary full" type="button" id="googleClientBtn">Google</button></form></div>
+  <div class="login-card reveal"><h2>Психолог</h2><form id="ownerAuthForm"><input id="ownerEmail" type="email" placeholder="Email" required><input id="ownerPassword" type="password" placeholder="Пароль" required><button class="btn primary full" type="submit">Увійти</button></form></div>
 </section>
 
 </main>
