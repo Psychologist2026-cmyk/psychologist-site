@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Сертифікати | PSYSpace</title>
-  <meta name="description" content="Сертифікати, дипломи та освіта психолога." />
+  <title>Вхід психолога | PSYSpace</title>
+  <meta name="description" content="Вхід у кабінет психолога." />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -24,8 +24,19 @@
 </header>
 <main>
 
-<section class="section page-hero"><p class="eyebrow">Сертифікати</p><h1>Освіта та кваліфікація</h1><p class="hero-text">Сертифікати, дипломи та навчання спеціаліста.</p></section>
-<section class="section compact-top"><div class="cert-grid" id="certificatesGrid"></div></section>
+<section class="section page-hero">
+  <p class="eyebrow">Вхід психолога</p>
+  <h1>Кабінет психолога</h1>
+</section>
+<section class="section compact-top">
+  <form class="login-card admin-login reveal" id="adminLoginForm">
+    <h2>Увійти</h2>
+    <input type="email" id="adminEmail" placeholder="Email" required />
+    <input type="password" id="adminPassword" placeholder="Пароль" required />
+    <button class="btn primary full" type="submit">Увійти</button>
+    <div class="booking-result" id="adminLoginResult"></div>
+  </form>
+</section>
 
 </main>
 <footer class="footer">

@@ -1,1 +1,74 @@
-<!DOCTYPE html><html lang="uk"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Послуги та ціни | Запис до психолога | PSYSpace</title><meta name="description" content="Послуги психолога, ціни, опис консультацій та попередній запис онлайн."/><meta property="og:title" content="Послуги та ціни | Запис до психолога | PSYSpace"/><meta property="og:description" content="Послуги психолога, ціни, опис консультацій та попередній запис онлайн."/><meta property="og:type" content="website"/><link rel="stylesheet" href="style.css"/></head><body><header class="header"><a href="index.html" class="logo">PSY<span>Space</span></a><button class="menu-btn" id="menuBtn" aria-label="Відкрити меню"><span></span><span></span><span></span></button><nav class="nav" id="nav"><a href="index.html">Головна</a><a href="about.html">Про психолога</a><a href="services.html">Послуги</a><a href="certificates.html">Сертифікати</a><a href="reviews.html">Відгуки</a><a href="faq.html">FAQ</a><a href="contacts.html">Контакти</a><a href="client.html" class="nav-chip">Клієнт</a><a href="admin.html" class="nav-chip muted">Психолог</a></nav></header><main><section class="section page-hero"><p class="eyebrow">Послуги та ціни</p><h1>Оберіть формат консультації</h1><p class="hero-text">Зараз це робоча демо-форма запису. Пізніше бронювання стане активним тільки після онлайн-оплати.</p></section><section class="section compact-top"><div class="cards"><article class="service-card reveal"><div class="service-tag">Онлайн</div><h3>Індивідуальна консультація онлайн</h3><p>Онлайн-зустріч у Zoom. Підходить для роботи з тривогою, стресом, самооцінкою та емоційним станом.</p><ul class="mini-list"><li>Формат: Zoom</li><li>Тривалість: 50 хв</li><li>Місто не потрібно</li></ul><div class="price">1500 грн</div><button class="btn primary open-booking" data-service="Індивідуальна консультація онлайн" data-price="1500" data-format="online">Обрати час</button></article><article class="service-card reveal"><div class="service-tag">Офлайн</div><h3>Офлайн консультація</h3><p>Особиста зустріч у кабінеті. Місто та адреса можуть бути вказані психологом.</p><ul class="mini-list"><li>Формат: кабінет</li><li>Тривалість: 50 хв</li><li>Місто: налаштовує психолог</li></ul><div class="price">1800 грн</div><button class="btn primary open-booking" data-service="Офлайн консультація" data-price="1800" data-format="offline">Обрати час</button></article><article class="service-card reveal"><div class="service-tag">Повторна</div><h3>Повторна консультація</h3><p>Для клієнтів, які вже були на першій консультації та хочуть продовжити роботу.</p><ul class="mini-list"><li>Формат: Zoom або офлайн</li><li>Тривалість: 50 хв</li><li>Для постійних клієнтів</li></ul><div class="price">1400 грн</div><button class="btn primary open-booking" data-service="Повторна консультація" data-price="1400" data-format="online">Обрати час</button></article></div></section><section class="section booking-section" id="booking"><div class="section-head reveal"><p class="eyebrow">Запис</p><h2>Попереднє бронювання</h2><p>Клієнт обирає послугу, дату та час. Обраний час тимчасово зникає зі списку в цьому браузері.</p></div><div class="booking-layout"><form id="bookingForm" class="booking-box reveal"><input type="text" id="clientName" placeholder="Ваше імʼя" required/><input type="email" id="clientEmail" placeholder="Email" required/><input type="tel" id="clientPhone" placeholder="Телефон" required/><select id="bookingService" required><option value="">Оберіть послугу</option><option value="Індивідуальна консультація онлайн">Індивідуальна консультація онлайн — 1500 грн</option><option value="Офлайн консультація">Офлайн консультація — 1800 грн</option><option value="Повторна консультація">Повторна консультація — 1400 грн</option></select><input type="date" id="bookingDate" required/><select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select><textarea id="clientComment" placeholder="Коротко опишіть запит або залиште коментар"></textarea><button type="submit" class="btn primary full">Перейти до бронювання</button><p class="form-note">Після підключення LiqPay ця кнопка буде вести до оплати. Запис матиме статус “підтверджено” тільки після успішної оплати.</p></form><aside class="booking-summary reveal"><h3>Статус майбутньої оплати</h3><p>У коді вже закладені технічні поля:</p><code>bookingStatus: pending_payment</code><code>paymentStatus: not_paid</code><code>paymentProvider: liqpay_future</code><div class="booking-result" id="bookingResult"></div></aside></div></section></main><footer class="footer"><div><a href="index.html" class="footer-logo">PSY<span>Space</span></a><p>© 2026. Онлайн консультації психолога українською.</p></div><div class="footer-links"><a href="privacy.html">Політика конфіденційності</a><a href="contacts.html">Контакти</a><a href="services.html">Запис</a></div></footer><a class="telegram-float" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Послуги та ціни | PSYSpace</title>
+  <meta name="description" content="Послуги психолога, ціни та запис онлайн." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="header">
+  <a href="index.html" class="logo">PSY<span>Space</span></a>
+  <button class="menu-btn" id="menuBtn" aria-label="Меню"><span></span><span></span><span></span></button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Головна</a>
+    <a href="about.html">Про психолога</a>
+    <a href="services.html">Послуги</a>
+    <a href="certificates.html">Сертифікати</a>
+    <a href="reviews.html">Відгуки</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contacts.html">Контакти</a>
+    <a href="client.html" class="nav-chip">Мої записи</a>
+  </nav>
+</header>
+<main>
+
+<section class="section page-hero">
+  <p class="eyebrow">Послуги та ціни</p>
+  <h1>Оберіть формат консультації</h1>
+  <p class="hero-text">Оберіть послугу, дату та вільний час для консультації.</p>
+</section>
+<section class="section compact-top">
+  <div class="cards" id="servicesGrid"></div>
+</section>
+<section class="section booking-section" id="booking">
+  <div class="section-head reveal">
+    <p class="eyebrow">Запис</p>
+    <h2>Оберіть дату та час</h2>
+  </div>
+  <div class="booking-layout">
+    <form id="bookingForm" class="booking-box reveal">
+      <input type="text" id="clientName" placeholder="Ваше імʼя" required />
+      <input type="email" id="clientEmail" placeholder="Email" required />
+      <input type="tel" id="clientPhone" placeholder="Телефон" required />
+      <select id="bookingService" required><option value="">Оберіть послугу</option></select>
+      <input type="date" id="bookingDate" required />
+      <select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select>
+      <textarea id="clientComment" placeholder="Коротко опишіть запит або залиште коментар"></textarea>
+      <button type="submit" class="btn primary full">Забронювати консультацію</button>
+    </form>
+    <aside class="booking-summary reveal">
+      <h3>Після запису</h3>
+      <p>Психолог побачить консультацію у власному кабінеті. Обраний час зникне зі списку доступних.</p>
+      <div class="booking-result" id="bookingResult"></div>
+    </aside>
+  </div>
+</section>
+
+</main>
+<footer class="footer">
+  <div>
+    <a href="index.html" class="footer-logo">PSY<span>Space</span></a>
+    <p>© 2026. Консультації психолога українською.</p>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Політика конфіденційності</a>
+    <a href="contacts.html">Контакти</a>
+  </div>
+</footer>
+<a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a>
+<script src="script.js"></script>
+
+</body>
+</html>

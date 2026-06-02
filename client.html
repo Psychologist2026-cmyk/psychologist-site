@@ -1,1 +1,61 @@
-<!DOCTYPE html><html lang="uk"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Кабінет клієнта | PSYSpace</title><meta name="description" content="Демо-кабінет клієнта з історією записів та майбутньою реєстрацією через email або Google."/><meta property="og:title" content="Кабінет клієнта | PSYSpace"/><meta property="og:description" content="Демо-кабінет клієнта з історією записів та майбутньою реєстрацією через email або Google."/><meta property="og:type" content="website"/><link rel="stylesheet" href="style.css"/></head><body><header class="header"><a href="index.html" class="logo">PSY<span>Space</span></a><button class="menu-btn" id="menuBtn" aria-label="Відкрити меню"><span></span><span></span><span></span></button><nav class="nav" id="nav"><a href="index.html">Головна</a><a href="about.html">Про психолога</a><a href="services.html">Послуги</a><a href="certificates.html">Сертифікати</a><a href="reviews.html">Відгуки</a><a href="faq.html">FAQ</a><a href="contacts.html">Контакти</a><a href="client.html" class="nav-chip">Клієнт</a><a href="admin.html" class="nav-chip muted">Психолог</a></nav></header><main><section class="section page-hero"><p class="eyebrow">Кабінет клієнта</p><h1>Особистий кабінет клієнта</h1><p class="hero-text">У майбутньому тут буде реєстрація через пошту або Google-акаунт, історія записів, статуси оплат та консультацій.</p></section><section class="section compact-top client-grid"><div class="login-card reveal"><h2>Демо-вхід</h2><p>Зараз це візуальна заготовка. Реальний вхід через Google буде доданий пізніше через Firebase/Supabase/Auth0.</p><form id="demoLoginForm"><input type="email" id="demoEmail" placeholder="Email" required/><button class="btn primary full" type="submit">Увійти в демо-кабінет</button><button class="btn secondary full" type="button">Увійти через Google — пізніше</button></form></div><div class="dashboard-card reveal"><h2>Мої записи</h2><div id="clientBookings" class="booking-list"></div></div></section></main><footer class="footer"><div><a href="index.html" class="footer-logo">PSY<span>Space</span></a><p>© 2026. Онлайн консультації психолога українською.</p></div><div class="footer-links"><a href="privacy.html">Політика конфіденційності</a><a href="contacts.html">Контакти</a><a href="services.html">Запис</a></div></footer><a class="telegram-float" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мої записи | PSYSpace</title>
+  <meta name="description" content="Кабінет клієнта для перегляду записів." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="header">
+  <a href="index.html" class="logo">PSY<span>Space</span></a>
+  <button class="menu-btn" id="menuBtn" aria-label="Меню"><span></span><span></span><span></span></button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Головна</a>
+    <a href="about.html">Про психолога</a>
+    <a href="services.html">Послуги</a>
+    <a href="certificates.html">Сертифікати</a>
+    <a href="reviews.html">Відгуки</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contacts.html">Контакти</a>
+    <a href="client.html" class="nav-chip">Мої записи</a>
+  </nav>
+</header>
+<main>
+
+<section class="section page-hero">
+  <p class="eyebrow">Мої записи</p>
+  <h1>Перегляд записів</h1>
+  <p class="hero-text">Введіть email, який використовували під час запису.</p>
+</section>
+<section class="section compact-top client-grid">
+  <div class="login-card reveal">
+    <h2>Пошук записів</h2>
+    <form id="clientSearchForm">
+      <input type="email" id="clientSearchEmail" placeholder="Ваш email" required />
+      <button class="btn primary full" type="submit">Показати записи</button>
+    </form>
+  </div>
+  <div class="dashboard-card reveal">
+    <h2>Ваші консультації</h2>
+    <div id="clientBookings" class="booking-list"></div>
+  </div>
+</section>
+
+</main>
+<footer class="footer">
+  <div>
+    <a href="index.html" class="footer-logo">PSY<span>Space</span></a>
+    <p>© 2026. Консультації психолога українською.</p>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Політика конфіденційності</a>
+    <a href="contacts.html">Контакти</a>
+  </div>
+</footer>
+<a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a>
+<script src="script.js"></script>
+
+</body>
+</html>

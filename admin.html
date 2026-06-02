@@ -1,1 +1,184 @@
-<!DOCTYPE html><html lang="uk"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Кабінет психолога | PSYSpace</title><meta name="description" content="Демо-кабінет психолога для керування доступними годинами, записами, послугами, сертифікатами і Zoom-посиланням."/><meta property="og:title" content="Кабінет психолога | PSYSpace"/><meta property="og:description" content="Демо-кабінет психолога для керування доступними годинами, записами, послугами, сертифікатами і Zoom-посиланням."/><meta property="og:type" content="website"/><link rel="stylesheet" href="style.css"/></head><body><header class="header"><a href="index.html" class="logo">PSY<span>Space</span></a><button class="menu-btn" id="menuBtn" aria-label="Відкрити меню"><span></span><span></span><span></span></button><nav class="nav" id="nav"><a href="index.html">Головна</a><a href="about.html">Про психолога</a><a href="services.html">Послуги</a><a href="certificates.html">Сертифікати</a><a href="reviews.html">Відгуки</a><a href="faq.html">FAQ</a><a href="contacts.html">Контакти</a><a href="client.html" class="nav-chip">Клієнт</a><a href="admin.html" class="nav-chip muted">Психолог</a></nav></header><main><section class="section page-hero"><p class="eyebrow">Кабінет психолога</p><h1>Керування сайтом і записами</h1><p class="hero-text">Це демо-кабінет. Зараз дані зберігаються у браузері, але структура зроблена так, щоб пізніше підключити базу даних, авторизацію та оплату.</p></section><section class="section compact-top admin-grid"><div class="admin-card reveal"><h2>Додати доступний час</h2><form id="availabilityForm"><input type="date" id="availableDate" required/><input type="time" id="availableTime" required/><select id="availableFormat" required><option value="online">Онлайн</option><option value="offline">Офлайн</option></select><input type="text" id="availableCity" placeholder="Місто для офлайн консультації"/><button class="btn primary full" type="submit">Додати час</button></form><div class="small-list" id="availabilityList"></div></div><div class="admin-card reveal"><h2>Консультації сьогодні / всі записи</h2><div class="booking-list" id="adminBookings"></div></div><div class="admin-card reveal"><h2>Налаштування Zoom</h2><form id="zoomForm"><input type="url" id="zoomLink" placeholder="https://zoom.us/..."/><button class="btn primary full" type="submit">Зберегти Zoom-посилання</button></form><p class="form-note" id="zoomSavedText">Посилання ще не збережено.</p></div><div class="admin-card reveal"><h2>Що буде далі</h2><ul class="check-list"><li>Редагування текстів сайту через адмінку</li><li>Додавання сертифікатів і фото</li><li>Додавання/зміна послуг та цін</li><li>Скасування і перенесення консультацій</li><li>Повернення коштів після підключення LiqPay</li></ul></div></section></main><footer class="footer"><div><a href="index.html" class="footer-logo">PSY<span>Space</span></a><p>© 2026. Онлайн консультації психолога українською.</p></div><div class="footer-links"><a href="privacy.html">Політика конфіденційності</a><a href="contacts.html">Контакти</a><a href="services.html">Запис</a></div></footer><a class="telegram-float" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a><script src="script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кабінет психолога | PSYSpace</title>
+  <meta name="description" content="Приватний кабінет психолога для редагування сайту, послуг, календаря та записів." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="header">
+  <a href="index.html" class="logo">PSY<span>Space</span></a>
+  <button class="menu-btn" id="menuBtn" aria-label="Меню"><span></span><span></span><span></span></button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Перейти на сайт</a>
+    <a href="#" id="logoutBtn" class="nav-chip muted">Вийти</a>
+  </nav>
+</header>
+<main>
+
+<section class="admin-shell" id="adminShell">
+  <aside class="admin-sidebar">
+    <h2>Кабінет</h2>
+    <button class="tab-btn active" data-tab="dashboard">Головна</button>
+    <button class="tab-btn" data-tab="content">Головна сторінка</button>
+    <button class="tab-btn" data-tab="about">Про психолога</button>
+    <button class="tab-btn" data-tab="services">Послуги</button>
+    <button class="tab-btn" data-tab="calendar">Календар</button>
+    <button class="tab-btn" data-tab="bookings">Записи</button>
+    <button class="tab-btn" data-tab="certificates">Сертифікати</button>
+    <button class="tab-btn" data-tab="reviews">Відгуки</button>
+    <button class="tab-btn" data-tab="faq">FAQ</button>
+    <button class="tab-btn" data-tab="contacts">Контакти</button>
+    <button class="tab-btn" data-tab="privacy">Політика</button>
+  </aside>
+
+  <section class="admin-content">
+    <div class="admin-tab active" id="tab-dashboard">
+      <h1>Панель керування</h1>
+      <div class="admin-stats">
+        <div class="stat-card"><span id="statBookings">0</span><p>Записів</p></div>
+        <div class="stat-card"><span id="statServices">0</span><p>Послуг</p></div>
+        <div class="stat-card"><span id="statSlots">0</span><p>Вільних годин</p></div>
+      </div>
+    </div>
+
+    <div class="admin-tab" id="tab-content">
+      <h1>Головна сторінка</h1>
+      <form id="homeEditor" class="editor-grid">
+        <input data-edit="homeEyebrow" placeholder="Підпис над заголовком">
+        <input data-edit="homeTitle" placeholder="Головний заголовок">
+        <textarea data-edit="homeText" placeholder="Опис на головній"></textarea>
+        <input data-edit="homeCardTitle" placeholder="Заголовок картки">
+        <textarea data-edit="homeCardText" placeholder="Опис картки"></textarea>
+        <button class="btn primary full" type="submit">Зберегти</button>
+      </form>
+      <h2>Напрямки роботи</h2>
+      <form id="directionForm" class="inline-editor">
+        <input id="directionTitle" placeholder="Назва напрямку">
+        <textarea id="directionText" placeholder="Опис"></textarea>
+        <button class="btn primary" type="submit">Додати</button>
+      </form>
+      <div id="adminDirections" class="admin-list"></div>
+    </div>
+
+    <div class="admin-tab" id="tab-about">
+      <h1>Про психолога</h1>
+      <form id="aboutEditor" class="editor-grid">
+        <input data-edit="psychologistName" placeholder="Імʼя психолога">
+        <input data-edit="aboutIntro" placeholder="Короткий вступ">
+        <input data-edit="aboutTitle" placeholder="Заголовок блоку">
+        <textarea data-edit="aboutText" placeholder="Основний текст"></textarea>
+        <input data-edit="photoUrl" placeholder="Посилання на фото">
+        <textarea data-edit="aboutBulletsText" placeholder="Пункти списку, кожен з нового рядка"></textarea>
+        <button class="btn primary full" type="submit">Зберегти</button>
+      </form>
+    </div>
+
+    <div class="admin-tab" id="tab-services">
+      <h1>Послуги</h1>
+      <form id="serviceForm" class="editor-grid">
+        <input id="serviceTitle" placeholder="Назва послуги" required>
+        <input id="serviceFormat" placeholder="Формат: онлайн / офлайн" required>
+        <input id="serviceDuration" placeholder="Тривалість" required>
+        <input id="servicePrice" type="number" placeholder="Ціна, грн" required>
+        <textarea id="serviceText" placeholder="Опис послуги" required></textarea>
+        <button class="btn primary full" type="submit">Додати послугу</button>
+      </form>
+      <div id="adminServices" class="admin-list"></div>
+    </div>
+
+    <div class="admin-tab" id="tab-calendar">
+      <div class="calendar-top">
+        <h1>Календар доступності</h1>
+        <div class="calendar-nav">
+          <button class="small-btn" id="prevMonth">Назад</button>
+          <strong id="calendarTitle"></strong>
+          <button class="small-btn" id="nextMonth">Вперед</button>
+        </div>
+      </div>
+      <div class="calendar-grid" id="adminCalendar"></div>
+      <form id="slotForm" class="slot-panel">
+        <h2>Додати час</h2>
+        <input type="date" id="slotDate" required>
+        <input type="time" id="slotTime" required>
+        <select id="slotFormat"><option value="online">Онлайн</option><option value="offline">Офлайн</option></select>
+        <input id="slotCity" placeholder="Місто для офлайн">
+        <button class="btn primary full" type="submit">Додати</button>
+      </form>
+    </div>
+
+    <div class="admin-tab" id="tab-bookings">
+      <h1>Записи клієнтів</h1>
+      <div id="adminBookings" class="booking-list"></div>
+    </div>
+
+    <div class="admin-tab" id="tab-certificates">
+      <h1>Сертифікати</h1>
+      <form id="certificateForm" class="editor-grid">
+        <input id="certTitle" placeholder="Назва сертифіката">
+        <input id="certImage" placeholder="Посилання на зображення">
+        <button class="btn primary full" type="submit">Додати</button>
+      </form>
+      <div id="adminCertificates" class="admin-list"></div>
+    </div>
+
+    <div class="admin-tab" id="tab-reviews">
+      <h1>Відгуки</h1>
+      <form id="reviewForm" class="editor-grid">
+        <input id="reviewName" placeholder="Імʼя / підпис">
+        <textarea id="reviewText" placeholder="Текст відгуку"></textarea>
+        <button class="btn primary full" type="submit">Додати</button>
+      </form>
+      <div id="adminReviews" class="admin-list"></div>
+    </div>
+
+    <div class="admin-tab" id="tab-faq">
+      <h1>FAQ</h1>
+      <form id="faqForm" class="editor-grid">
+        <input id="faqQuestion" placeholder="Питання">
+        <textarea id="faqAnswer" placeholder="Відповідь"></textarea>
+        <button class="btn primary full" type="submit">Додати</button>
+      </form>
+      <div id="adminFaq" class="admin-list"></div>
+    </div>
+
+    <div class="admin-tab" id="tab-contacts">
+      <h1>Контакти</h1>
+      <form id="contactsEditor" class="editor-grid">
+        <input data-edit="contactEmail" placeholder="Email">
+        <input data-edit="contactPhone" placeholder="Телефон">
+        <input data-edit="contactTelegram" placeholder="@telegram">
+        <input data-edit="telegramUrl" placeholder="https://t.me/username">
+        <input data-edit="zoomLink" placeholder="Посилання Zoom">
+        <button class="btn primary full" type="submit">Зберегти</button>
+      </form>
+    </div>
+
+    <div class="admin-tab" id="tab-privacy">
+      <h1>Політика конфіденційності</h1>
+      <form id="privacyEditor" class="editor-grid">
+        <textarea data-edit="privacyTextRaw" placeholder="Текст політики"></textarea>
+        <button class="btn primary full" type="submit">Зберегти</button>
+      </form>
+    </div>
+  </section>
+</section>
+
+</main>
+<footer class="footer">
+  <div>
+    <a href="index.html" class="footer-logo">PSY<span>Space</span></a>
+    <p>© 2026. Консультації психолога українською.</p>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Політика конфіденційності</a>
+    <a href="contacts.html">Контакти</a>
+  </div>
+</footer>
+<a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a>
+<script src="script.js"></script>
+
+</body>
+</html>
