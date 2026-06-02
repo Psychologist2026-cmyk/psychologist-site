@@ -1,14 +1,61 @@
-<!DOCTYPE html><html lang="uk"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Послуги та запис</title><link rel="stylesheet" href="style.css"></head><body><header class="header">
-<a class="logo" href="index.html">PSY<span>Space</span></a>
-<button class="menu-btn" id="menuBtn"><span></span><span></span><span></span></button>
-<nav class="nav" id="nav">
-<a href="index.html">Головна</a><a href="about.html">Про психолога</a><a href="services.html">Послуги</a><a href="certificates.html">Сертифікати</a><a href="reviews.html">Відгуки</a><a href="faq.html">FAQ</a><a href="contacts.html">Контакти</a><a class="nav-chip" href="auth.html">Увійти</a>
-</nav></header><main>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Послуги та запис</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="public">
+
+<header class="header">
+  <a class="logo" href="index.html">PSY<span>Space</span></a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Меню"><span></span><span></span><span></span></button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Головна</a>
+    <a href="about.html">Про психолога</a>
+    <a href="services.html">Послуги</a>
+    <a href="certificates.html">Сертифікати</a>
+    <a href="reviews.html">Відгуки</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contacts.html">Контакти</a>
+    <a class="nav-chip" href="auth.html">Увійти</a>
+  </nav>
+</header>
+
+<main>
+
 <section class="section page-hero"><p class="eyebrow">Послуги</p><h1>Оберіть консультацію</h1></section>
 <section class="section compact-top"><div class="cards" id="servicesGrid"></div></section>
-<section class="section booking-section" id="booking"><div class="section-head reveal"><p class="eyebrow">Запис</p><h2>Бронювання консультації</h2></div><div class="booking-layout"><form id="bookingForm" class="booking-box reveal"><div class="booking-steps"><span class="active">Дані</span><span>Підтвердження</span><span>Оплата</span><span>Zoom</span></div><input id="clientFullName" placeholder="ПІБ" required><input id="clientEmail" type="email" placeholder="Email" required><input id="clientPhone" placeholder="Номер телефону" required><input id="clientSocial" placeholder="Соцмережа для звʼязку"><select id="bookingService" required><option value="">Оберіть консультацію</option></select><input id="bookingDate" type="date" required><select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select><textarea id="clientComment" placeholder="Коментар або короткий запит"></textarea><button class="btn primary full" type="submit">Підтвердити запис</button></form><aside class="booking-summary reveal"><h3>Деталі</h3><div class="booking-result" id="bookingResult"></div></aside></div></section>
-</main><footer class="footer"><div><a class="footer-logo" href="index.html">PSY<span>Space</span></a><p>© 2026</p></div><div class="footer-links"><a href="privacy.html">Політика</a><a href="contacts.html">Контакти</a><a href="auth.html">Увійти</a></div></footer>
+<section class="section booking-section" id="booking">
+  <div class="section-head reveal"><p class="eyebrow">Запис</p><h2>Бронювання консультації</h2></div>
+  <div class="booking-layout">
+    <form id="bookingForm" class="booking-box reveal">
+      <div class="booking-steps"><span class="active">Дані</span><span>Підтвердження</span><span>Оплата</span><span>Zoom</span></div>
+      <input id="clientFullName" placeholder="ПІБ" required>
+      <input id="clientEmail" type="email" placeholder="Email" required>
+      <input id="clientPhone" placeholder="Номер телефону" required>
+      <input id="clientSocial" placeholder="Соцмережа для звʼязку">
+      <select id="bookingService" required><option value="">Оберіть консультацію</option></select>
+      <input id="bookingDate" type="date" required>
+      <select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select>
+      <textarea id="clientComment" placeholder="Коментар або короткий запит"></textarea>
+      <button class="btn primary full" type="submit">Підтвердити запис</button>
+    </form>
+    <aside class="booking-summary reveal"><h3>Деталі</h3><div class="booking-result" id="bookingResult"></div></aside>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div><a class="footer-logo" href="index.html">PSY<span>Space</span></a><p>© 2026</p></div>
+  <div class="footer-links"><a href="privacy.html">Політика</a><a href="contacts.html">Контакти</a><a href="auth.html">Увійти</a></div>
+</footer>
 <a class="floating-book" href="services.html#booking">Записатись</a>
 <a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank">Telegram</a>
-<div class="modal" id="globalModal"><div class="modal-card"><button class="modal-close" id="modalClose">×</button><div id="modalContent"></div></div></div>
-<script src="script.js"></script></body></html>
+<div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
+<script src="script.js"></script>
+
+</body>
+</html>
