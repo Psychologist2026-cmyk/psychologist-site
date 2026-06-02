@@ -1476,3 +1476,217 @@ textarea {
     transform: none;
   }
 }
+
+
+/* ===== USER COLOR PALETTE FINAL ===== */
+
+:root{
+ --main-bg:#ece2d3;
+ --choco:#4a2b1f;
+ --choco-dark:#2d1710;
+ --paper:#efe7dc;
+ --card:#f6efe7;
+ --text:#2c211c;
+}
+
+/* Main background = photo1 + photo3 texture */
+body{
+  background-color:#ece2d3 !important;
+  background-image:
+    linear-gradient(rgba(236,226,211,.86),rgba(236,226,211,.86)),
+    url("images/paper-texture.jpeg"),
+    url("images/main-beige.jpeg") !important;
+  background-size:
+    auto,
+    360px auto,
+    cover !important;
+  background-repeat:
+    repeat,
+    repeat,
+    no-repeat !important;
+  background-attachment:
+    fixed,
+    fixed,
+    fixed !important;
+  color:var(--text);
+}
+
+body::before{
+  opacity:.58 !important;
+  background-image:url("images/paper-texture.jpeg") !important;
+  background-size:260px auto !important;
+  mix-blend-mode:multiply;
+}
+
+body::after{
+  background:
+    radial-gradient(circle at top right, rgba(74,43,31,.06), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(74,43,31,.05), transparent 25%) !important;
+}
+
+/* Header premium + second color */
+.header{
+  background-image:
+    linear-gradient(rgba(248,241,233,.86),rgba(232,218,199,.90)),
+    url("images/paper-texture.jpeg") !important;
+  background-size:auto,320px auto !important;
+  border:1px solid rgba(74,43,31,.18) !important;
+  box-shadow:
+    0 18px 60px rgba(45,23,16,.18),
+    inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+/* Chocolate blocks */
+.nav-chip,
+.btn.primary,
+.filter-btn.active{
+  background:
+    linear-gradient(135deg,#4a2b1f,#2d1710) !important;
+  border:none !important;
+  box-shadow:
+    0 12px 32px rgba(45,23,16,.24),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Secondary color from photo2 */
+.hero-panel,
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.contact-card,
+.login-card,
+.booking-box,
+.booking-summary,
+.client-profile-card,
+.admin-card,
+.client-sidebar,
+.client-content,
+.admin-sidebar,
+.admin-content{
+  background-image:
+    linear-gradient(rgba(248,241,233,.78),rgba(229,214,195,.78)),
+    url("images/paper-texture.jpeg"),
+    linear-gradient(135deg, rgba(74,43,31,.035), rgba(74,43,31,.015)) !important;
+  background-size:
+    auto,
+    300px auto,
+    auto !important;
+  border:1px solid rgba(74,43,31,.14) !important;
+}
+
+/* Better separation */
+.section{
+  position:relative;
+}
+
+.section:after{
+  content:"";
+  position:absolute;
+  left:7%;
+  right:7%;
+  bottom:0;
+  height:1px;
+  background:rgba(74,43,31,.10);
+}
+
+/* Professional animations everywhere */
+.reveal{
+  opacity:0;
+  transform:translateY(18px) scale(.985);
+  transition:
+    opacity .9s cubic-bezier(.22,1,.36,1),
+    transform .9s cubic-bezier(.22,1,.36,1);
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.hero-panel,
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.contact-card,
+.client-profile-card,
+.admin-card{
+  transition:
+    transform .45s cubic-bezier(.22,1,.36,1),
+    box-shadow .45s cubic-bezier(.22,1,.36,1),
+    background-color .45s cubic-bezier(.22,1,.36,1);
+}
+
+.hero-panel:hover,
+.info-card:hover,
+.service-card:hover,
+.review-card:hover,
+.cert-card:hover,
+.contact-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 22px 60px rgba(45,23,16,.16),
+    inset 0 1px 0 rgba(255,255,255,.42);
+}
+
+.btn,
+.small-btn,
+.nav a,
+.calendar-day,
+.slot-chip{
+  transition:
+    transform .32s cubic-bezier(.22,1,.36,1),
+    background-color .32s cubic-bezier(.22,1,.36,1),
+    box-shadow .32s cubic-bezier(.22,1,.36,1),
+    color .32s cubic-bezier(.22,1,.36,1);
+}
+
+.btn:hover,
+.small-btn:hover{
+  transform:translateY(-3px);
+}
+
+.nav a:hover{
+  transform:translateY(-2px);
+}
+
+.calendar-day:hover{
+  transform:translateY(-4px);
+}
+
+/* Smooth page feeling */
+html{
+  scroll-behavior:smooth;
+}
+
+/* Floating soft animation */
+.hero-panel,
+.client-profile-card{
+  animation:floatSoft 7s ease-in-out infinite;
+}
+
+@keyframes floatSoft{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-4px);}
+  100%{transform:translateY(0);}
+}
+
+/* Text / form cleanup */
+input,
+select,
+textarea{
+  border-radius:18px !important;
+  min-height:54px;
+  font-size:15px;
+  background:#faf5ef !important;
+}
+
+textarea{
+  min-height:130px;
+}
+
+h1,h2,h3{
+  letter-spacing:-.03em;
+}
+
