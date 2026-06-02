@@ -1,328 +1,44 @@
 
-const OWNER_EMAIL = "psychologist@example.com";
-const OWNER_PASSWORD = "123456";
-
-const DEFAULT_SITE = {
-  homeEyebrow: "Онлайн та офлайн консультації",
-  homeTitle: "Психологічна підтримка у спокійному просторі",
-  homeText: "Консультації українською для тих, хто хоче краще зрозуміти себе, впоратися з тривогою, стресом, емоційним вигоранням або складними життєвими ситуаціями.",
-  homeCardTitle: "Оберіть послугу, день та зручний час",
-  homeCardText: "Запис проходить у кілька простих кроків: вибір послуги, дати, часу та контактних даних.",
-  psychologistName: "Імʼя Психолога",
-  aboutIntro: "Тут буде короткий опис спеціаліста, досвіду, освіти, підходу до роботи та напрямків консультацій.",
-  aboutTitle: "Професійний шлях",
-  aboutText: "Тут варто написати про освіту, практичний досвід, методи роботи, цінності та формат консультацій.",
-  aboutBulletsText: "Індивідуальні онлайн-консультації\nРобота з тривогою, стресом та вигоранням\nКонфіденційний та етичний формат\nМожливість офлайн-консультацій за містом",
-  photoUrl: "",
-  contactEmail: "psychologist@example.com",
-  contactPhone: "+380 XX XXX XX XX",
-  contactTelegram: "@USERNAME",
-  telegramUrl: "https://t.me/USERNAME",
-  zoomLink: "",
-  privacyTextRaw: "Сайт може збирати імʼя, email, номер телефону, інформацію про обрану консультацію, дату та час запису. Дані використовуються для організації консультацій, звʼязку з клієнтом та підтвердження запису."
-};
-
-const DEFAULT_SERVICES = [
-  { id:"s1", title:"Індивідуальна консультація онлайн", format:"Онлайн", duration:"50 хв", price:1500, text:"Онлайн-зустріч у Zoom. Підходить для роботи з тривогою, стресом, самооцінкою та емоційним станом." },
-  { id:"s2", title:"Офлайн консультація", format:"Офлайн", duration:"50 хв", price:1800, text:"Особиста зустріч у кабінеті. Місто та адреса вказуються психологом для доступних офлайн-годин." },
-  { id:"s3", title:"Повторна консультація", format:"Онлайн або офлайн", duration:"50 хв", price:1400, text:"Для клієнтів, які вже були на першій консультації та хочуть продовжити роботу." }
-];
-
-const DEFAULT_DIRECTIONS = [
-  { id:"d1", title:"Тривога та стрес", text:"Робота з напругою, навʼязливими думками, панічними проявами та внутрішнім неспокоєм." },
-  { id:"d2", title:"Емоційне вигорання", text:"Підтримка при втомі, втраті мотивації, перевантаженні, виснаженні та апатії." },
-  { id:"d3", title:"Стосунки та кордони", text:"Допомога у розумінні себе, конфліктів, особистих кордонів і повторюваних сценаріїв." }
-];
-
-const DEFAULT_FAQ = [
-  { id:"f1", q:"Як проходить онлайн консультація?", a:"Після підтвердження запису клієнт отримує посилання на Zoom або інструкцію для підключення." },
-  { id:"f2", q:"Чи можна скасувати консультацію?", a:"Так. Умови скасування узгоджуються з психологом." },
-  { id:"f3", q:"Чи є консультації конфіденційними?", a:"Так, конфіденційність є базовою умовою роботи з клієнтом." }
-];
-
-const DEFAULT_REVIEWS = [
-  { id:"r1", name:"Клієнт", text:"Тут буде реальний відгук клієнта." },
-  { id:"r2", name:"Клієнт", text:"Текст можна змінити у кабінеті психолога." }
-];
-
-const DEFAULT_CERTS = [
-  { id:"c1", title:"Сертифікат 1", image:"" },
-  { id:"c2", title:"Сертифікат 2", image:"" },
-  { id:"c3", title:"Сертифікат 3", image:"" }
-];
-
-const DEFAULT_SLOTS = [
-  { id:"slot1", date:"2026-06-05", time:"10:00", format:"online", city:"" },
-  { id:"slot2", date:"2026-06-05", time:"12:00", format:"online", city:"" },
-  { id:"slot3", date:"2026-06-06", time:"14:00", format:"offline", city:"Київ" }
-];
-
-function getJSON(key, fallback) {
-  try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch { return fallback; }
-}
-function setJSON(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
-function initData() {
-  if (!localStorage.getItem("psy_site")) setJSON("psy_site", DEFAULT_SITE);
-  if (!localStorage.getItem("psy_services")) setJSON("psy_services", DEFAULT_SERVICES);
-  if (!localStorage.getItem("psy_directions")) setJSON("psy_directions", DEFAULT_DIRECTIONS);
-  if (!localStorage.getItem("psy_faq")) setJSON("psy_faq", DEFAULT_FAQ);
-  if (!localStorage.getItem("psy_reviews")) setJSON("psy_reviews", DEFAULT_REVIEWS);
-  if (!localStorage.getItem("psy_certs")) setJSON("psy_certs", DEFAULT_CERTS);
-  if (!localStorage.getItem("psy_slots")) setJSON("psy_slots", DEFAULT_SLOTS);
-  if (!localStorage.getItem("psy_bookings")) setJSON("psy_bookings", []);
-}
-initData();
-
-const menuBtn = document.getElementById("menuBtn");
-const nav = document.getElementById("nav");
-if (menuBtn && nav) {
-  menuBtn.onclick = () => { nav.classList.toggle("active"); menuBtn.classList.toggle("active"); };
-}
-
-const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting)e.target.classList.add("visible") }), { threshold:.12 });
-document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-function site() { return getJSON("psy_site", DEFAULT_SITE); }
-function services() { return getJSON("psy_services", DEFAULT_SERVICES); }
-function directions() { return getJSON("psy_directions", DEFAULT_DIRECTIONS); }
-function faqs() { return getJSON("psy_faq", DEFAULT_FAQ); }
-function reviews() { return getJSON("psy_reviews", DEFAULT_REVIEWS); }
-function certs() { return getJSON("psy_certs", DEFAULT_CERTS); }
-function slots() { return getJSON("psy_slots", DEFAULT_SLOTS); }
-function bookings() { return getJSON("psy_bookings", []); }
-
-function applyPublicContent() {
-  const s = site();
-  document.querySelectorAll("[data-field]").forEach(el => {
-    const key = el.dataset.field;
-    if (key === "privacyText") return;
-    if (s[key] !== undefined) el.textContent = s[key];
-  });
-  const float = document.getElementById("telegramFloat");
-  if (float) float.href = s.telegramUrl || "#";
-  const tgBtn = document.getElementById("telegramContactBtn");
-  if (tgBtn) tgBtn.href = s.telegramUrl || "#";
-  const photo = document.getElementById("psychologistPhoto");
-  if (photo && s.photoUrl) photo.innerHTML = `<img src="${escapeHTML(s.photoUrl)}" alt="Фото психолога">`;
-  const aboutBullets = document.getElementById("aboutBullets");
-  if (aboutBullets) aboutBullets.innerHTML = (s.aboutBulletsText || "").split("\n").filter(Boolean).map(x => `<li>${escapeHTML(x)}</li>`).join("");
-  const privacy = document.querySelector("[data-field='privacyText']");
-  if (privacy) privacy.innerHTML = `<h2>Основні положення</h2><p>${escapeHTML(s.privacyTextRaw).replace(/\n/g,"</p><p>")}</p>`;
-}
-function escapeHTML(str="") {
-  return String(str).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
-}
-
-function renderDirectionsPublic() {
-  const grid = document.getElementById("directionsGrid");
-  if (!grid) return;
-  grid.innerHTML = directions().map((d,i)=>`<article class="info-card reveal visible"><div class="icon-bubble">${String(i+1).padStart(2,"0")}</div><h3>${escapeHTML(d.title)}</h3><p>${escapeHTML(d.text)}</p></article>`).join("");
-}
-
-function renderServicesPublic() {
-  const grid = document.getElementById("servicesGrid");
-  const select = document.getElementById("bookingService");
-  if (grid) grid.innerHTML = services().map(s=>`<article class="service-card reveal visible"><div class="service-tag">${escapeHTML(s.format)}</div><h3>${escapeHTML(s.title)}</h3><p>${escapeHTML(s.text)}</p><ul class="mini-list"><li>Формат: ${escapeHTML(s.format)}</li><li>Тривалість: ${escapeHTML(s.duration)}</li></ul><div class="price">${Number(s.price)||0} грн</div><button class="btn primary open-booking" data-service="${escapeHTML(s.title)}">Обрати час</button></article>`).join("");
-  if (select) select.innerHTML = `<option value="">Оберіть послугу</option>` + services().map(s=>`<option value="${escapeHTML(s.title)}">${escapeHTML(s.title)} — ${Number(s.price)||0} грн</option>`).join("");
-  document.querySelectorAll(".open-booking").forEach(btn => btn.onclick = () => {
-    if(select) select.value = btn.dataset.service;
-    document.getElementById("booking")?.scrollIntoView({behavior:"smooth"});
-  });
-}
-
-function renderFaqPublic() {
-  const list = document.getElementById("faqList");
-  if (!list) return;
-  list.innerHTML = faqs().map((f,i)=>`<details ${i===0?"open":""}><summary>${escapeHTML(f.q)}</summary><p>${escapeHTML(f.a)}</p></details>`).join("");
-}
-function renderReviewsPublic() {
-  const grid = document.getElementById("reviewsGrid");
-  if (!grid) return;
-  grid.innerHTML = reviews().map(r=>`<article class="review-card reveal visible"><p>“${escapeHTML(r.text)}”</p><strong>${escapeHTML(r.name)}</strong></article>`).join("");
-}
-function renderCertsPublic() {
-  const grid = document.getElementById("certificatesGrid");
-  if (!grid) return;
-  grid.innerHTML = certs().map(c=>`<article class="cert-card reveal visible">${c.image?`<img src="${escapeHTML(c.image)}" alt="${escapeHTML(c.title)}">`:""}<span>${escapeHTML(c.title)}</span></article>`).join("");
-}
-
-function bookedKeys() { return bookings().filter(b=>b.status!=="cancelled").map(b=>`${b.date}_${b.time}`); }
-function updateBookingTimes() {
-  const date = document.getElementById("bookingDate");
-  const time = document.getElementById("bookingTime");
-  if(!date || !time) return;
-  const selected = date.value;
-  const keys = bookedKeys();
-  const available = slots().filter(s => s.date === selected && !keys.includes(`${s.date}_${s.time}`));
-  time.innerHTML = !selected ? `<option value="">Спочатку оберіть дату</option>` : available.length ? `<option value="">Оберіть час</option>` + available.map(s=>`<option value="${s.time}">${s.time} — ${s.format==="offline"?"офлайн":"онлайн"}${s.city ? ", " + s.city : ""}</option>`).join("") : `<option value="">На цей день немає вільного часу</option>`;
-}
-document.getElementById("bookingDate")?.addEventListener("change", updateBookingTimes);
-
-document.getElementById("bookingForm")?.addEventListener("submit", e => {
-  e.preventDefault();
-  const serviceTitle = document.getElementById("bookingService").value;
-  const service = services().find(s=>s.title===serviceTitle);
-  const data = {
-    id: "b"+Date.now(),
-    clientName: document.getElementById("clientName").value,
-    clientEmail: document.getElementById("clientEmail").value,
-    clientPhone: document.getElementById("clientPhone").value,
-    service: serviceTitle,
-    price: service ? service.price : 0,
-    date: document.getElementById("bookingDate").value,
-    time: document.getElementById("bookingTime").value,
-    comment: document.getElementById("clientComment").value,
-    status: "new",
-    createdAt: new Date().toISOString()
-  };
-  if(!data.time) return;
-  const all = bookings(); all.push(data); setJSON("psy_bookings", all);
-  const res = document.getElementById("bookingResult");
-  res.style.display = "block";
-  res.innerHTML = `<strong>Запис створено.</strong><br>${escapeHTML(data.service)}<br>${data.date} о ${data.time}`;
-  e.target.reset(); updateBookingTimes();
-});
-
-document.getElementById("contactForm")?.addEventListener("submit", e => {
-  e.preventDefault();
-  const res = document.getElementById("contactResult");
-  res.style.display = "block"; res.textContent = "Повідомлення відправлено.";
-  e.target.reset();
-});
-
-document.getElementById("clientSearchForm")?.addEventListener("submit", e => {
-  e.preventDefault();
-  renderClientBookings(document.getElementById("clientSearchEmail").value);
-});
-function renderClientBookings(email="") {
-  const box = document.getElementById("clientBookings");
-  if(!box) return;
-  const list = bookings().filter(b => !email || b.clientEmail.toLowerCase() === email.toLowerCase());
-  box.innerHTML = list.length ? list.map(b=>`<div class="booking-item"><strong>${escapeHTML(b.service)}</strong><br>${b.date} о ${b.time}<br>Статус: ${b.status==="confirmed"?"підтверджено":b.status==="cancelled"?"скасовано":"новий запис"}</div>`).join("") : `<div class="booking-item">Записів не знайдено.</div>`;
-}
-
-document.getElementById("adminLoginForm")?.addEventListener("submit", e => {
-  e.preventDefault();
-  const email = document.getElementById("adminEmail").value.trim();
-  const pass = document.getElementById("adminPassword").value;
-  if(email === OWNER_EMAIL && pass === OWNER_PASSWORD) {
-    localStorage.setItem("psy_admin_auth", "yes");
-    location.href = "admin.html";
-  } else {
-    const res = document.getElementById("adminLoginResult");
-    res.style.display = "block"; res.textContent = "Неправильний email або пароль.";
-  }
-});
-
-if(location.pathname.endsWith("admin.html") && localStorage.getItem("psy_admin_auth") !== "yes") {
-  location.href = "login.html";
-}
-document.getElementById("logoutBtn")?.addEventListener("click", e => {
-  e.preventDefault(); localStorage.removeItem("psy_admin_auth"); location.href = "login.html";
-});
-
-document.querySelectorAll(".tab-btn").forEach(btn => btn.onclick = () => {
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-  document.querySelectorAll(".admin-tab").forEach(t=>t.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("tab-"+btn.dataset.tab)?.classList.add("active");
-});
-
-function fillEditors() {
-  const s = site();
-  document.querySelectorAll("[data-edit]").forEach(el => {
-    el.value = s[el.dataset.edit] || "";
-  });
-}
-function saveSiteFromForm(form) {
-  const s = site();
-  form.querySelectorAll("[data-edit]").forEach(el => s[el.dataset.edit] = el.value);
-  setJSON("psy_site", s); applyPublicContent(); fillEditors();
-}
-["homeEditor","aboutEditor","contactsEditor","privacyEditor"].forEach(id => {
-  document.getElementById(id)?.addEventListener("submit", e => { e.preventDefault(); saveSiteFromForm(e.target); });
-});
-
-function renderAdminLists() {
-  const ad = document.getElementById("adminDirections");
-  if(ad) ad.innerHTML = directions().map((x,i)=>listItem(x.title,x.text,`deleteItem('psy_directions',${i})`)).join("");
-  const as = document.getElementById("adminServices");
-  if(as) as.innerHTML = services().map((x,i)=>listItem(x.title,`${x.price} грн · ${x.format} · ${x.duration}`,`deleteItem('psy_services',${i})`)).join("");
-  const ac = document.getElementById("adminCertificates");
-  if(ac) ac.innerHTML = certs().map((x,i)=>listItem(x.title,x.image||"",`deleteItem('psy_certs',${i})`)).join("");
-  const ar = document.getElementById("adminReviews");
-  if(ar) ar.innerHTML = reviews().map((x,i)=>listItem(x.name,x.text,`deleteItem('psy_reviews',${i})`)).join("");
-  const af = document.getElementById("adminFaq");
-  if(af) af.innerHTML = faqs().map((x,i)=>listItem(x.q,x.a,`deleteItem('psy_faq',${i})`)).join("");
-  document.getElementById("statBookings") && (document.getElementById("statBookings").textContent = bookings().length);
-  document.getElementById("statServices") && (document.getElementById("statServices").textContent = services().length);
-  document.getElementById("statSlots") && (document.getElementById("statSlots").textContent = slots().length);
-}
-function listItem(title,text,onclick) {
-  return `<div class="list-item"><strong>${escapeHTML(title)}</strong><p>${escapeHTML(text)}</p><div class="item-actions"><button class="small-btn danger" onclick="${onclick}">Видалити</button></div></div>`;
-}
-window.deleteItem = function(key, index) {
-  const arr = getJSON(key, []); arr.splice(index,1); setJSON(key, arr); renderAll();
-}
-
-document.getElementById("directionForm")?.addEventListener("submit", e => {
-  e.preventDefault(); const arr = directions(); arr.push({id:"d"+Date.now(), title:directionTitle.value, text:directionText.value}); setJSON("psy_directions", arr); e.target.reset(); renderAll();
-});
-document.getElementById("serviceForm")?.addEventListener("submit", e => {
-  e.preventDefault(); const arr = services(); arr.push({id:"s"+Date.now(), title:serviceTitle.value, format:serviceFormat.value, duration:serviceDuration.value, price:Number(servicePrice.value), text:serviceText.value}); setJSON("psy_services", arr); e.target.reset(); renderAll();
-});
-document.getElementById("certificateForm")?.addEventListener("submit", e => {
-  e.preventDefault(); const arr = certs(); arr.push({id:"c"+Date.now(), title:certTitle.value, image:certImage.value}); setJSON("psy_certs", arr); e.target.reset(); renderAll();
-});
-document.getElementById("reviewForm")?.addEventListener("submit", e => {
-  e.preventDefault(); const arr = reviews(); arr.push({id:"r"+Date.now(), name:reviewName.value, text:reviewText.value}); setJSON("psy_reviews", arr); e.target.reset(); renderAll();
-});
-document.getElementById("faqForm")?.addEventListener("submit", e => {
-  e.preventDefault(); const arr = faqs(); arr.push({id:"f"+Date.now(), q:faqQuestion.value, a:faqAnswer.value}); setJSON("psy_faq", arr); e.target.reset(); renderAll();
-});
-
-let calDate = new Date();
-function renderCalendar() {
-  const grid = document.getElementById("adminCalendar");
-  const title = document.getElementById("calendarTitle");
-  if(!grid || !title) return;
-  const y = calDate.getFullYear(), m = calDate.getMonth();
-  title.textContent = calDate.toLocaleDateString("uk-UA", {month:"long", year:"numeric"});
-  const first = new Date(y,m,1);
-  const start = new Date(first);
-  const offset = (first.getDay()+6)%7;
-  start.setDate(first.getDate()-offset);
-  const names = ["Пн","Вт","Ср","Чт","Пт","Сб","Нд"];
-  grid.innerHTML = names.map(n=>`<div class="calendar-day-name">${n}</div>`).join("");
-  for(let i=0;i<42;i++) {
-    const d = new Date(start); d.setDate(start.getDate()+i);
-    const iso = d.toISOString().slice(0,10);
-    const daySlots = slots().filter(s=>s.date===iso);
-    grid.innerHTML += `<div class="calendar-day ${d.getMonth()!==m?"other":""}" onclick="selectSlotDate('${iso}')"><div class="day-number">${d.getDate()}</div>${daySlots.map(s=>`<span class="slot-chip">${s.time} ${s.format==="offline"?"офлайн":"онлайн"}</span>`).join("")}</div>`;
-  }
-}
-window.selectSlotDate = function(iso) {
-  const input = document.getElementById("slotDate");
-  if(input) input.value = iso;
-}
-document.getElementById("prevMonth")?.addEventListener("click", e => { e.preventDefault(); calDate.setMonth(calDate.getMonth()-1); renderCalendar(); });
-document.getElementById("nextMonth")?.addEventListener("click", e => { e.preventDefault(); calDate.setMonth(calDate.getMonth()+1); renderCalendar(); });
-document.getElementById("slotForm")?.addEventListener("submit", e => {
-  e.preventDefault(); const arr=slots(); arr.push({id:"slot"+Date.now(), date:slotDate.value, time:slotTime.value, format:slotFormat.value, city:slotCity.value}); setJSON("psy_slots", arr); e.target.reset(); renderAll();
-});
-
-function renderAdminBookings() {
-  const box = document.getElementById("adminBookings");
-  if(!box) return;
-  const list = bookings();
-  box.innerHTML = list.length ? list.map(b=>`<div class="booking-item"><strong>${escapeHTML(b.clientName)}</strong><br>${escapeHTML(b.service)}<br>${b.date} о ${b.time}<br>${escapeHTML(b.clientPhone)} · ${escapeHTML(b.clientEmail)}<br>${escapeHTML(b.comment || "")}<div class="item-actions"><button class="small-btn" onclick="setBookingStatus('${b.id}','confirmed')">Підтвердити</button><button class="small-btn danger" onclick="setBookingStatus('${b.id}','cancelled')">Скасувати</button></div></div>`).join("") : `<div class="booking-item">Записів поки немає.</div>`;
-}
-window.setBookingStatus = function(id,status) {
-  const arr = bookings().map(b => b.id===id ? {...b,status} : b);
-  setJSON("psy_bookings", arr); renderAll();
-}
-
-function renderAll() {
-  applyPublicContent(); renderDirectionsPublic(); renderServicesPublic(); renderFaqPublic(); renderReviewsPublic(); renderCertsPublic(); updateBookingTimes(); fillEditors(); renderAdminLists(); renderCalendar(); renderAdminBookings(); renderClientBookings();
-}
-renderAll();
+const OWNER_EMAIL='psychologist@example.com',OWNER_PASSWORD='123456';
+const todayISO=()=>new Date().toISOString().slice(0,10),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+const get=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}},set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const D_SITE={homeEyebrow:'Особисті консультації',homeTitle:'Спокійний простір для важливих розмов',homeText:'Індивідуальна робота з тривогою, напругою, стосунками, самооцінкою та складними періодами.',homeTagsText:'Конфіденційно\nОнлайн\nОфлайн\nZoom',psychologistName:'Імʼя Психолога',aboutIntro:'Коротко про спеціаліста, досвід і підхід.',aboutTitle:'Підхід до роботи',aboutText:'Тут буде основний опис.',aboutBulletsText:'Індивідуальні консультації\nРобота з тривогою та стресом\nПідтримка у складні періоди',photoUrl:'',telegramUrl:'https://t.me/USERNAME',zoomLink:'',privacyText:'Сайт збирає дані, необхідні для запису та звʼязку з клієнтом.'};
+const D_SERV=[{id:'s1',title:'Індивідуальна консультація',format:'Онлайн',duration:'50 хв',price:1500,text:'Особиста зустріч для роботи з вашим запитом.'},{id:'s2',title:'Офлайн консультація',format:'Офлайн',duration:'50 хв',price:1800,text:'Зустріч у кабінеті за доступним містом і часом.'}];
+const D_DIR=[{id:'d1',title:'Тривога',text:'Робота з напругою та внутрішнім неспокоєм.'},{id:'d2',title:'Вигорання',text:'Підтримка при виснаженні та втраті ресурсу.'},{id:'d3',title:'Стосунки',text:'Кордони, конфлікти, повторювані сценарії.'}];
+const D_CON=[{id:'c1',title:'Telegram',value:'@USERNAME',link:'https://t.me/USERNAME'},{id:'c2',title:'Email',value:'psychologist@example.com',link:'mailto:psychologist@example.com'}],D_CERT=[{id:'cert1',title:'Сертифікат 1',image:''}],D_REV=[{id:'r1',name:'Клієнт',text:'Дякую за підтримку.',status:'published'}],D_FAQ=[{id:'f1',q:'Як проходить зустріч?',a:'Після запису ви отримаєте деталі зустрічі.'},{id:'f2',q:'Чи можна перенести запис?',a:'Так, через запит у кабінеті клієнта.'}],D_SLOTS=[{id:'sl1',date:'2026-06-05',time:'10:00',format:'online',city:''},{id:'sl2',date:'2026-06-05',time:'12:00',format:'online',city:''},{id:'sl3',date:'2026-06-06',time:'14:00',format:'offline',city:'Київ'}];
+function init(){[['psy_site',D_SITE],['psy_services',D_SERV],['psy_directions',D_DIR],['psy_contacts',D_CON],['psy_certs',D_CERT],['psy_reviews',D_REV],['psy_faq',D_FAQ],['psy_slots',D_SLOTS],['psy_bookings',[]],['psy_days_off',[]],['psy_clients',[]],['psy_about_extra',[]]].forEach(x=>{if(!localStorage.getItem(x[0]))set(x[0],x[1])})}init();
+const site=()=>get('psy_site',D_SITE),services=()=>get('psy_services',D_SERV),directions=()=>get('psy_directions',D_DIR),contacts=()=>get('psy_contacts',D_CON),certs=()=>get('psy_certs',D_CERT),reviews=()=>get('psy_reviews',D_REV),faqs=()=>get('psy_faq',D_FAQ),slots=()=>get('psy_slots',D_SLOTS),bookings=()=>get('psy_bookings',[]),daysOff=()=>get('psy_days_off',[]);
+let menuBtn=document.getElementById('menuBtn'),nav=document.getElementById('nav');if(menuBtn&&nav)menuBtn.onclick=()=>{nav.classList.toggle('active');menuBtn.classList.toggle('active')};
+let obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.1});document.querySelectorAll('.reveal').forEach(e=>obs.observe(e));
+function openModal(h){modalContent.innerHTML=h;globalModal.classList.add('active')}document.getElementById('modalClose')?.addEventListener('click',()=>globalModal.classList.remove('active'));
+function apply(){let s=site();document.querySelectorAll('[data-field]').forEach(el=>{if(s[el.dataset.field]!=null)el.textContent=s[el.dataset.field]});if(document.getElementById('telegramFloat'))telegramFloat.href=s.telegramUrl;let t=document.getElementById('homeTags');if(t)t.innerHTML=(s.homeTagsText||'').split('\n').filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join('');let ab=document.getElementById('aboutBullets');if(ab)ab.innerHTML=(s.aboutBulletsText||'').split('\n').filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join('');let ph=document.getElementById('psychologistPhoto');if(ph&&s.photoUrl)ph.innerHTML=`<img src="${esc(s.photoUrl)}">`;let pr=document.getElementById('privacyBlock');if(pr)pr.innerHTML=`<p>${esc(s.privacyText).replace(/\n/g,'</p><p>')}</p>`}
+function renderPublic(){apply();let g=document.getElementById('directionsGrid');if(g)g.innerHTML=directions().map((d,i)=>`<article class="info-card reveal visible"><div class="icon-bubble">${i+1}</div><h3>${esc(d.title)}</h3><p>${esc(d.text)}</p></article>`).join('');let ag=document.getElementById('aboutExtraGrid');if(ag)ag.innerHTML=get('psy_about_extra',[]).map(d=>`<article class="info-card reveal visible"><h3>${esc(d.title)}</h3><p>${esc(d.text)}</p></article>`).join('');let sg=document.getElementById('servicesGrid'),bs=document.getElementById('bookingService');if(sg)sg.innerHTML=services().map(s=>`<article class="service-card reveal visible"><div class="service-tag">${esc(s.format)}</div><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><p>${esc(s.duration)}</p><div class="price">${s.price} грн</div><button class="btn primary open-booking" data-service="${esc(s.title)}">Обрати час</button></article>`).join('');if(bs)bs.innerHTML='<option value="">Оберіть консультацію</option>'+services().map(s=>`<option value="${esc(s.title)}">${esc(s.title)} — ${s.price} грн</option>`).join('');document.querySelectorAll('.open-booking').forEach(b=>b.onclick=()=>{if(bs)bs.value=b.dataset.service;document.getElementById('booking')?.scrollIntoView({behavior:'smooth'})});let cg=document.getElementById('certificatesGrid');if(cg)cg.innerHTML=certs().map(c=>`<article class="cert-card reveal visible">${c.image?`<img src="${esc(c.image)}">`:''}<h3>${esc(c.title)}</h3></article>`).join('');let rg=document.getElementById('reviewsGrid');if(rg)rg.innerHTML=reviews().filter(r=>r.status!=='hidden').map(r=>`<article class="review-card reveal visible"><p>“${esc(r.text)}”</p><strong>${esc(r.name)}</strong></article>`).join('');let fq=document.getElementById('faqList');if(fq)fq.innerHTML=faqs().map((f,i)=>`<details ${i==0?'open':''}><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('');let con=document.getElementById('contactsGrid');if(con)con.innerHTML=contacts().map(c=>`<a class="contact-card reveal visible" href="${esc(c.link||'#')}" target="_blank"><h3>${esc(c.title)}</h3><p>${esc(c.value)}</p></a>`).join('');renderNextSlots()}
+function takenKeys(){return bookings().filter(b=>b.status!=='cancelled').map(b=>b.date+'_'+b.time)}function avail(date){let k=takenKeys();return slots().filter(s=>s.date===date&&!k.includes(s.date+'_'+s.time)&&!daysOff().includes(s.date)&&s.date>=todayISO())}
+function updateTimes(){let d=document.getElementById('bookingDate'),t=document.getElementById('bookingTime');if(!d||!t)return;d.min=todayISO();let a=avail(d.value);t.innerHTML=!d.value?'<option value="">Спочатку оберіть дату</option>':a.length?'<option value="">Оберіть час</option>'+a.map(s=>`<option value="${s.time}">${s.time} — ${s.format==='offline'?'офлайн':'онлайн'}${s.city?', '+s.city:''}</option>`).join(''):'<option value="">Немає вільного часу</option>'}document.getElementById('bookingDate')?.addEventListener('change',updateTimes);
+document.getElementById('bookingForm')?.addEventListener('submit',e=>{e.preventDefault();let service=services().find(s=>s.title===bookingService.value);if(!bookingTime.value)return;let b={id:uid(),clientFullName:clientFullName.value,clientEmail:clientEmail.value.trim().toLowerCase(),clientPhone:clientPhone.value,clientSocial:clientSocial.value,service:bookingService.value,price:service?.price||0,date:bookingDate.value,time:bookingTime.value,comment:clientComment.value,status:'new',zoom:site().zoomLink,createdAt:new Date().toISOString()};let arr=bookings();arr.push(b);set('psy_bookings',arr);let cs=get('psy_clients',[]);if(!cs.some(c=>c.email===b.clientEmail)){cs.push({email:b.clientEmail,name:b.clientFullName,password:'123456'});set('psy_clients',cs)}bookingResult.style.display='block';bookingResult.innerHTML=`<strong>Запис створено.</strong><br>${esc(b.service)}<br>${b.date} о ${b.time}`;e.target.reset();updateTimes();renderAll()});
+document.getElementById('openReviewForm')?.addEventListener('click',()=>reviewFormCard.classList.toggle('active'));function addReview(n,t){let a=reviews();a.push({id:uid(),name:n,text:t,status:'published'});set('psy_reviews',a);renderAll()}document.getElementById('publicReviewForm')?.addEventListener('submit',e=>{e.preventDefault();addReview(publicReviewName.value,publicReviewText.value);e.target.reset()});document.getElementById('clientReviewForm')?.addEventListener('submit',e=>{e.preventDefault();addReview(clientReviewName.value,clientReviewText.value);e.target.reset()});
+document.getElementById('clientAuthForm')?.addEventListener('submit',e=>{e.preventDefault();let cs=get('psy_clients',[]),email=clientAuthEmail.value.trim().toLowerCase(),pass=clientAuthPassword.value,name=clientAuthName.value||email.split('@')[0];let u=cs.find(c=>c.email===email);if(!u){cs.push({email,name,password:pass});set('psy_clients',cs)}localStorage.psy_client_email=email;location.href='client-dashboard.html'});document.getElementById('googleClientBtn')?.addEventListener('click',()=>openModal('<h2>Google</h2><p>Реальний Google-вхід підключається через Firebase або Supabase.</p>'));
+document.getElementById('ownerAuthForm')?.addEventListener('submit',e=>{e.preventDefault();if(ownerEmail.value.trim()===OWNER_EMAIL&&ownerPassword.value===OWNER_PASSWORD){localStorage.psy_admin_auth='yes';location.href='admin.html'}else openModal('<h2>Помилка</h2><p>Неправильний email або пароль.</p>')});if(location.pathname.endsWith('admin.html')&&localStorage.psy_admin_auth!=='yes')location.href='auth.html';if(location.pathname.endsWith('client-dashboard.html')&&!localStorage.psy_client_email)location.href='auth.html';document.getElementById('logoutBtn')?.addEventListener('click',e=>{e.preventDefault();localStorage.removeItem('psy_admin_auth');localStorage.removeItem('psy_client_email');location.href='auth.html'});
+document.querySelectorAll('.client-tab-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.client-tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.client-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('client-tab-'+b.dataset.clientTab).classList.add('active')});document.querySelectorAll('.tab-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active')});
+function statusLabel(s){return{new:'новий',confirmed:'підтверджено',completed:'завершено',cancelled:'скасовано',cancel_requested:'клієнт просить скасувати',change_requested:'клієнт просить перенести'}[s]||s}
+function renderClient(){let email=localStorage.psy_client_email,u=get('psy_clients',[]).find(c=>c.email===email);if(document.getElementById('clientDashboardTitle'))clientDashboardTitle.textContent=u?`Вітаємо, ${u.name}`:'Мій кабінет';let cards=document.getElementById('clientMainCards');if(cards)cards.innerHTML='<article class="info-card"><h3>Новий запис</h3><a class="btn primary" href="services.html#booking">Записатись</a></article><article class="info-card"><h3>Відгук</h3><p>Після консультації можна залишити відгук.</p></article>';let box=document.getElementById('clientBookings');if(box){let list=bookings().filter(b=>b.clientEmail===email);box.innerHTML=list.length?list.map(b=>`<div class="booking-item"><strong>${esc(b.service)}</strong><br>${b.date} о ${b.time}<br>Статус: ${statusLabel(b.status)}${b.zoom?`<br><a class="small-btn" href="${esc(b.zoom)}" target="_blank">Zoom</a>`:''}<div class="item-actions">${b.status!=='cancelled'?`<button class="small-btn danger" onclick="clientCancel('${b.id}')">Запит на скасування</button><button class="small-btn" onclick="clientMove('${b.id}')">Запит на перенесення</button>`:''}</div></div>`).join(''):'<div class="booking-item">Записів поки немає.</div>'}}}
+window.clientCancel=idv=>{set('psy_bookings',bookings().map(b=>b.id===idv?{...b,status:'cancel_requested'}:b));renderAll()};window.clientMove=idv=>openModal(`<h2>Запит на перенесення</h2><form onsubmit="submitMoveRequest(event,'${idv}')"><input type="date" id="moveDate" min="${todayISO()}" required><input type="time" id="moveTime" required><textarea id="moveComment" placeholder="Коментар"></textarea><button class="btn primary full">Надіслати</button></form>`);window.submitMoveRequest=(e,idv)=>{e.preventDefault();set('psy_bookings',bookings().map(b=>b.id===idv?{...b,status:'change_requested',requestedDate:moveDate.value,requestedTime:moveTime.value,requestComment:moveComment.value}:b));globalModal.classList.remove('active');renderAll()};
+let calDate=new Date(),selectedDate=todayISO();function renderNextSlots(){let box=document.getElementById('nextSlots');if(!box)return;let a=slots().filter(s=>s.date>=todayISO()&&!daysOff().includes(s.date)&&!takenKeys().includes(s.date+'_'+s.time)).slice(0,4);box.innerHTML=a.length?a.map(s=>`<div class="slot-item"><strong>${s.date}</strong><br>${s.time} · ${s.format==='offline'?'офлайн':'онлайн'}</div>`).join(''):'<div class="slot-item">Скоро зʼявляться нові години.</div>'}
+function renderCalendar(){let grid=document.getElementById('adminCalendar'),title=document.getElementById('calendarTitle');if(!grid||!title)return;let y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1),start=new Date(first),off=(first.getDay()+6)%7;start.setDate(first.getDate()-off);title.textContent=calDate.toLocaleDateString('uk-UA',{month:'long',year:'numeric'});grid.innerHTML=['Пн','Вт','Ср','Чт','Пт','Сб','Нд'].map(n=>`<div class="calendar-day-name">${n}</div>`).join('');for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let iso=d.toISOString().slice(0,10),ds=slots().filter(s=>s.date===iso),bs=bookings().filter(b=>b.date===iso&&b.status!=='cancelled'),offd=daysOff().includes(iso);grid.innerHTML+=`<div class="calendar-day ${d.getMonth()!==m?'other':''} ${offd?'off':''} ${iso===selectedDate?'selected':''}" onclick="selectDay('${iso}')"><div class="day-number">${d.getDate()}</div>${offd?'<span class="slot-chip request">вихідний</span>':''}${ds.map(s=>`<span class="slot-chip free">${s.time}</span>`).join('')}${bs.map(b=>`<span class="slot-chip ${b.status.includes('requested')?'request':'booked'}">${b.time}</span>`).join('')}</div>`}renderDayPanel()}
+window.selectDay=iso=>{selectedDate=iso;renderCalendar()};document.getElementById('prevMonth')?.addEventListener('click',()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()});document.getElementById('nextMonth')?.addEventListener('click',()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()});
+function renderDayPanel(){let t=document.getElementById('selectedDayTitle'),sd=document.getElementById('slotDate'),box=document.getElementById('selectedDaySlots');if(!t||!box)return;t.textContent=selectedDate;sd.value=selectedDate;let free=slots().filter(s=>s.date===selectedDate),book=bookings().filter(b=>b.date===selectedDate);box.innerHTML=[...free.map(s=>`<div class="slot-item"><strong>${s.time}</strong> · ${s.format==='offline'?'офлайн':'онлайн'}<div class="item-actions"><button class="small-btn danger" onclick="deleteSlot('${s.id}')">Видалити</button></div></div>`),...book.map(b=>`<div class="booking-item"><strong>${b.time} · ${esc(b.clientFullName)}</strong><br>${esc(b.service)}<br>${statusLabel(b.status)}<div class="item-actions"><button class="small-btn" onclick="showBooking('${b.id}')">Деталі</button><button class="small-btn" onclick="adminMove('${b.id}')">Перенести</button><button class="small-btn danger" onclick="adminCancel('${b.id}')">Скасувати</button></div></div>`)].join('')||'<div class="slot-item">Немає годин.</div>'}
+document.getElementById('slotForm')?.addEventListener('submit',e=>{e.preventDefault();if(slotDate.value<todayISO())return;let a=slots();a.push({id:uid(),date:slotDate.value,time:slotTime.value,format:slotFormat.value,city:slotCity.value});set('psy_slots',a);e.target.reset();renderAll()});document.getElementById('toggleDayOff')?.addEventListener('click',()=>{let a=daysOff();a=a.includes(selectedDate)?a.filter(x=>x!==selectedDate):[...a,selectedDate];set('psy_days_off',a);renderAll()});window.deleteSlot=idv=>{set('psy_slots',slots().filter(s=>s.id!==idv));renderAll()};
+function renderAdminBookings(){let box=document.getElementById('adminBookings');if(!box)return;let fd=document.getElementById('bookingFilterDate')?.value,fs=document.getElementById('bookingFilterStatus')?.value;let list=bookings().filter(b=>(!fd||b.date===fd)&&(!fs||b.status===fs));box.innerHTML=list.length?list.map(b=>`<div class="booking-item"><strong>${b.date} ${b.time} · ${esc(b.clientFullName)}</strong><br>${esc(b.service)}<br>${statusLabel(b.status)}<br>${esc(b.clientPhone)} · ${esc(b.clientEmail)}<div class="item-actions"><button class="small-btn" onclick="showBooking('${b.id}')">Деталі</button><button class="small-btn green" onclick="setStatus('${b.id}','confirmed')">Підтвердити</button><button class="small-btn" onclick="setStatus('${b.id}','completed')">Завершено</button><button class="small-btn" onclick="adminMove('${b.id}')">Перенести</button><button class="small-btn danger" onclick="adminCancel('${b.id}')">Скасувати</button></div></div>`).join(''):'<div class="booking-item">Записів немає.</div>'}document.getElementById('bookingFilterDate')?.addEventListener('change',renderAdminBookings);document.getElementById('bookingFilterStatus')?.addEventListener('change',renderAdminBookings);
+window.showBooking=idv=>{let b=bookings().find(x=>x.id===idv);if(!b)return;openModal(`<h2>${esc(b.clientFullName)}</h2><p><b>${esc(b.service)}</b></p><p>${b.date} о ${b.time}</p><p>${esc(b.clientPhone)}<br>${esc(b.clientEmail)}<br>${esc(b.clientSocial||'')}</p><p>${esc(b.comment||'')}</p><p>Статус: ${statusLabel(b.status)}</p>${b.requestedDate?`<p>Запит: ${b.requestedDate} о ${b.requestedTime}<br>${esc(b.requestComment||'')}</p>`:''}`)};window.setStatus=(idv,st)=>{set('psy_bookings',bookings().map(b=>b.id===idv?{...b,status:st}:b));renderAll()};window.adminCancel=idv=>setStatus(idv,'cancelled');window.adminMove=idv=>{let b=bookings().find(x=>x.id===idv);openModal(`<h2>Перенести запис</h2><form onsubmit="submitAdminMove(event,'${idv}')"><input type="date" id="admMoveDate" min="${todayISO()}" value="${b?.requestedDate||b?.date||todayISO()}" required><input type="time" id="admMoveTime" value="${b?.requestedTime||b?.time||'10:00'}" required><button class="btn primary full">Зберегти</button></form>`)};window.submitAdminMove=(e,idv)=>{e.preventDefault();set('psy_bookings',bookings().map(b=>b.id===idv?{...b,date:admMoveDate.value,time:admMoveTime.value,status:'confirmed',requestedDate:'',requestedTime:''}:b));globalModal.classList.remove('active');renderAll()};
+function fillEditors(){let s=site();document.querySelectorAll('[data-edit]').forEach(el=>el.value=s[el.dataset.edit]||'')}['siteEditor','aboutEditor','settingsEditor'].forEach(fid=>document.getElementById(fid)?.addEventListener('submit',e=>{e.preventDefault();let s=site();e.target.querySelectorAll('[data-edit]').forEach(el=>s[el.dataset.edit]=el.value);set('psy_site',s);renderAll()}));
+function listItem(t,sub,edit,del){return`<div class="list-item"><strong>${esc(t)}</strong><p>${esc(sub)}</p><div class="item-actions"><button class="small-btn" onclick="${edit}">Редагувати</button><button class="small-btn danger" onclick="${del}">Видалити</button></div></div>`}window.del=(key,i)=>{let a=get(key,[]);a.splice(i,1);set(key,a);renderAll()};
+function renderLists(){let d=document.getElementById('adminDirections');if(d)d.innerHTML=directions().map((x,i)=>listItem(x.title,x.text,`editDirection(${i})`,`del('psy_directions',${i})`)).join('');let s=document.getElementById('adminServices');if(s)s.innerHTML=services().map((x,i)=>listItem(x.title,`${x.price} грн · ${x.format}`,`editService(${i})`,`del('psy_services',${i})`)).join('');let c=document.getElementById('adminContacts');if(c)c.innerHTML=contacts().map((x,i)=>listItem(x.title,x.value,`editContact(${i})`,`del('psy_contacts',${i})`)).join('');let ce=document.getElementById('adminCertificates');if(ce)ce.innerHTML=certs().map((x,i)=>listItem(x.title,x.image,`editCert(${i})`,`del('psy_certs',${i})`)).join('');let r=document.getElementById('adminReviews');if(r)r.innerHTML=reviews().map((x,i)=>listItem(x.name,x.text,`editReview(${i})`,`del('psy_reviews',${i})`)).join('');let f=document.getElementById('adminFaq');if(f)f.innerHTML=faqs().map((x,i)=>listItem(x.q,x.a,`editFaq(${i})`,`del('psy_faq',${i})`)).join('');let ae=document.getElementById('adminAboutExtra');if(ae)ae.innerHTML=get('psy_about_extra',[]).map((x,i)=>listItem(x.title,x.text,`editAboutExtra(${i})`,`del('psy_about_extra',${i})`)).join('')}
+document.getElementById('directionForm')?.addEventListener('submit',e=>{e.preventDefault();let a=directions();a.push({id:uid(),title:directionTitle.value,text:directionText.value});set('psy_directions',a);e.target.reset();renderAll()});window.editDirection=i=>{let x=directions()[i];directionTitle.value=x.title;directionText.value=x.text;del('psy_directions',i)};
+document.getElementById('serviceForm')?.addEventListener('submit',e=>{e.preventDefault();let a=services(),eid=serviceEditId.value,obj={id:eid||uid(),title:serviceTitle.value,format:serviceFormat.value,duration:serviceDuration.value,price:Number(servicePrice.value),text:serviceText.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_services',a);e.target.reset();serviceEditId.value='';renderAll()});window.editService=i=>{let x=services()[i];serviceEditId.value=x.id;serviceTitle.value=x.title;serviceFormat.value=x.format;serviceDuration.value=x.duration;servicePrice.value=x.price;serviceText.value=x.text};
+document.getElementById('contactItemForm')?.addEventListener('submit',e=>{e.preventDefault();let a=contacts(),eid=contactEditId.value,obj={id:eid||uid(),title:contactTitle.value,value:contactValue.value,link:contactLink.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_contacts',a);e.target.reset();contactEditId.value='';renderAll()});window.editContact=i=>{let x=contacts()[i];contactEditId.value=x.id;contactTitle.value=x.title;contactValue.value=x.value;contactLink.value=x.link};
+document.getElementById('certificateForm')?.addEventListener('submit',e=>{e.preventDefault();let a=certs(),eid=certEditId.value,obj={id:eid||uid(),title:certTitle.value,image:certImage.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_certs',a);e.target.reset();certEditId.value='';renderAll()});window.editCert=i=>{let x=certs()[i];certEditId.value=x.id;certTitle.value=x.title;certImage.value=x.image};
+document.getElementById('reviewForm')?.addEventListener('submit',e=>{e.preventDefault();let a=reviews(),eid=reviewEditId.value,obj={id:eid||uid(),name:reviewName.value,text:reviewText.value,status:'published'};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_reviews',a);e.target.reset();reviewEditId.value='';renderAll()});window.editReview=i=>{let x=reviews()[i];reviewEditId.value=x.id;reviewName.value=x.name;reviewText.value=x.text};
+document.getElementById('faqForm')?.addEventListener('submit',e=>{e.preventDefault();let a=faqs(),eid=faqEditId.value,obj={id:eid||uid(),q:faqQuestion.value,a:faqAnswer.value};if(eid)a=a.map(x=>x.id===eid?obj:x);else a.push(obj);set('psy_faq',a);e.target.reset();faqEditId.value='';renderAll()});window.editFaq=i=>{let x=faqs()[i];faqEditId.value=x.id;faqQuestion.value=x.q;faqAnswer.value=x.a};
+document.getElementById('aboutExtraForm')?.addEventListener('submit',e=>{e.preventDefault();let a=get('psy_about_extra',[]);a.push({id:uid(),title:aboutExtraTitle.value,text:aboutExtraText.value});set('psy_about_extra',a);e.target.reset();renderAll()});window.editAboutExtra=i=>{let a=get('psy_about_extra',[]),x=a[i];aboutExtraTitle.value=x.title;aboutExtraText.value=x.text;del('psy_about_extra',i)};
+function renderAll(){renderPublic();updateTimes();renderClient();renderCalendar();renderAdminBookings();fillEditors();renderLists()}renderAll();
