@@ -4247,3 +4247,153 @@ main { flex: 1 0 auto !important; }
     grid-template-columns: 1fr !important;
   }
 }
+
+
+/* =========================================================
+   FINAL BOOKING FLOW: confirmation / payment placeholder / zoom
+   ========================================================= */
+.booking-flow-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(44,23,16,.34);
+  backdrop-filter: blur(10px);
+}
+
+.booking-flow-modal.active {
+  display: flex;
+  animation: fadeInBooking .22s ease both;
+}
+
+@keyframes fadeInBooking {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.booking-flow-card {
+  width: min(680px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  border-radius: 34px;
+  padding: 30px;
+  background:
+    linear-gradient(rgba(255,255,255,.48), rgba(239,227,212,.34)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 145px auto !important;
+  border: 1px solid rgba(75,45,32,.16);
+  box-shadow: 0 34px 100px rgba(44,23,16,.26), inset 0 1px 0 rgba(255,255,255,.74);
+  color: #2c1710;
+}
+
+.booking-flow-card h2 {
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.05;
+  margin: 0 0 14px;
+  letter-spacing: -.035em;
+}
+
+.booking-flow-card p {
+  line-height: 1.58;
+  color: #735e50;
+}
+
+.booking-flow-summary {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.booking-flow-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 18px;
+  background: rgba(255,250,243,.72);
+  border: 1px solid rgba(75,45,32,.10);
+}
+
+.booking-flow-row span {
+  color: #735e50;
+  font-weight: 850;
+}
+
+.booking-flow-row strong {
+  color: #2c1710;
+  font-weight: 950;
+}
+
+.booking-flow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.booking-result-final,
+#bookingResult {
+  margin-top: 18px;
+  padding: 22px;
+  border-radius: 26px;
+  background:
+    linear-gradient(rgba(255,255,255,.42), rgba(239,227,212,.30)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 145px auto !important;
+  border: 1px solid rgba(75,45,32,.14);
+  box-shadow: 0 20px 54px rgba(75,45,32,.10), inset 0 1px 0 rgba(255,255,255,.66);
+}
+
+.payment-placeholder {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(75,45,32,.08);
+  border: 1px dashed rgba(75,45,32,.28);
+  margin: 18px 0;
+}
+
+.zoom-box {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(111,157,112,.13);
+  border: 1px solid rgba(111,157,112,.26);
+  margin: 18px 0;
+}
+
+.booking-status-pill {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(75,45,32,.10);
+  color: #4b2d20;
+  font-weight: 950;
+  margin-bottom: 12px;
+}
+
+.client-pay-box {
+  margin: 14px 0;
+  padding: 18px;
+  border-radius: 22px;
+  background:
+    linear-gradient(rgba(255,255,255,.42), rgba(239,227,212,.30)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 145px auto !important;
+  border: 1px solid rgba(75,45,32,.14);
+}
+
+.admin-urgent-panel {
+  margin-bottom: 22px;
+}
+
+@media(max-width: 620px){
+  .booking-flow-row {
+    grid-template-columns: 1fr;
+  }
+  .booking-flow-card {
+    padding: 22px;
+    border-radius: 28px;
+  }
+}
