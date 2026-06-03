@@ -1291,3 +1291,317 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('DOMContentLoaded', () => setTimeout(window.bindPhotoFixes, 50));
   setTimeout(window.bindPhotoFixes, 300);
 })();
+
+
+
+/* === v3: urgent consultation logic + robust photo profile save + service type management === */
+(function(){
+  function tomorrowISO(){
+    const d = new Date();
+    d.setDate(d.getDate()+1);
+    return d.toISOString().slice(0,10);
+  }
+  function isUrgentService(service){
+    if(!service) return false;
+    const cat = (service.category || '').toLowerCase();
+    const title = (service.title || '').toLowerCase();
+    return cat.includes('термін') || title.includes('термін');
+  }
+  function getSelectedService(){
+    const title = document.getElementById('bookingService')?.value || '';
+    if(typeof services !== 'function') return null;
+    return services().find(s => s.title === title) || null;
+  }
+  function baseAvailableFor(date){
+    try{
+      const keys = typeof takenKeys === 'function' ? takenKeys() : [];
+      return slots().filter(s => s.date===date && !keys.includes(`${s.date}_${s.time}`) && !daysOff().includes(s.date));
+    }catch(e){ return []; }
+  }
+  window.availableForBooking = function(date){
+    const service = getSelectedService();
+    const urgent = isUrgentService(service);
+    const minDate = urgent ? (typeof todayISO === 'function' ? todayISO() : new Date().toISOString().slice(0,10)) : tomorrowISO();
+    if(date < minDate) return [];
+    return baseAvailableFor(date);
+  };
+
+  // Override visible date/time picker
+  window.renderBookingDateStrip = function(){
+    const strip = document.getElementById('bookingDateStrip');
+    const grid = document.getElementById('bookingTimeGrid');
+    const dateInput = document.getElementById('bookingDate');
+    if(!strip || !grid || !dateInput) return;
+    const service = getSelectedService();
+    const urgent = isUrgentService(service);
+    const start = new Date();
+    if(!urgent) start.setDate(start.getDate()+1);
+
+    const days = [];
+    for(let i=0;i<14;i++){
+      const d = new Date(start);
+      d.setDate(start.getDate()+i);
+      const iso = d.toISOString().slice(0,10);
+      const arr = window.availableForBooking(iso);
+      if(arr.length){
+        days.push({
+          iso,
+          label:d.toLocaleDateString('uk-UA',{weekday:'short', day:'numeric', month:'short'}),
+          count:arr.length,
+          urgentToday: urgent && iso === (typeof todayISO === 'function' ? todayISO() : new Date().toISOString().slice(0,10))
+        });
+      }
+    }
+    strip.innerHTML = days.length ? days.map(d => `<button type="button" class="booking-date-card ${dateInput.value===d.iso?'active':''} ${d.urgentToday?'urgent-today':''}" data-date="${d.iso}"><strong>${d.label}</strong><br><small>${d.count} год.</small></button>`).join('') : '<div class="booking-date-card normal-disabled">Немає доступних днів</div>';
+    strip.querySelectorAll('[data-date]').forEach(btn => btn.onclick = () => {
+      dateInput.value = btn.dataset.date;
+      renderBookingDateStrip();
+      renderBookingTimeGrid();
+      if(typeof updateTimes === 'function') updateTimes();
+    });
+    renderBookingTimeGrid();
+  };
+  window.renderBookingTimeGrid = function(){
+    const grid = document.getElementById('bookingTimeGrid');
+    const dateInput = document.getElementById('bookingDate');
+    const timeSelect = document.getElementById('bookingTime');
+    if(!grid || !dateInput || !timeSelect) return;
+    const arr = dateInput.value ? window.availableForBooking(dateInput.value) : [];
+    grid.innerHTML = arr.length ? arr.map(s => `<button type="button" class="time-pill ${timeSelect.value===s.time?'active':''}" data-time="${s.time}">${s.time}</button>`).join('') : '<div class="time-pill normal-disabled">Оберіть доступний день</div>';
+    grid.querySelectorAll('[data-time]').forEach(btn => btn.onclick = () => {
+      timeSelect.value = btn.dataset.time;
+      renderBookingTimeGrid();
+    });
+  };
+
+  // Patch normal select times too
+  const originalUpdateTimes = window.updateTimes || (typeof updateTimes === 'function' ? updateTimes : null);
+  window.updateTimes = function(){
+    const d=document.getElementById('bookingDate'), t=document.getElementById('bookingTime');
+    if(!d || !t) return;
+    const service = getSelectedService();
+    const urgent = isUrgentService(service);
+    d.min = urgent ? (typeof todayISO === 'function' ? todayISO() : new Date().toISOString().slice(0,10)) : tomorrowISO();
+    const a = d.value ? window.availableForBooking(d.value) : [];
+    t.innerHTML = !d.value ? '<option value="">Спочатку оберіть дату</option>' : a.length ? '<option value="">Оберіть час</option>'+a.map(s=>`<option value="${s.time}">${s.time} — ${s.format==='offline'?'офлайн':'онлайн'}${s.city?', '+s.city:''}</option>`).join('') : '<option value="">Немає доступного часу</option>';
+  };
+
+  const bookingService = document.getElementById('bookingService');
+  if(bookingService){
+    bookingService.addEventListener('change', () => {
+      const result = document.getElementById('urgentBookingInfo');
+      const service = getSelectedService();
+      if(result){
+        if(isUrgentService(service)){
+          result.innerHTML = `<div class="urgent-confirm-box"><strong>Термінова консультація</strong><br>Можна обрати час навіть сьогодні, але запис спочатку має підтвердити психолог. Для пришвидшення напишіть у Telegram.</div>`;
+        } else result.innerHTML = '';
+      }
+      window.updateTimes();
+      window.renderBookingDateStrip();
+    });
+  }
+
+  // Override submit with urgent statuses while preserving old fields
+  const bookingForm = document.getElementById('bookingForm');
+  if(bookingForm && bookingForm.dataset.urgentPatch !== 'yes'){
+    bookingForm.dataset.urgentPatch = 'yes';
+    bookingForm.addEventListener('submit', function(e){
+      const serviceTitle = document.getElementById('bookingService')?.value;
+      const service = (typeof services === 'function' ? services().find(s=>s.title===serviceTitle) : null);
+      if(!isUrgentService(service)) return; // let old handler run for normal
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const date = document.getElementById('bookingDate')?.value;
+      const time = document.getElementById('bookingTime')?.value;
+      if(!date || !time) return;
+
+      const multiplier = Number(service.urgentMultiplier || service.multiplier || document.getElementById('urgentMultiplier')?.value || 2);
+      const price = Number(service.price || 0) * multiplier;
+      const b = {
+        id: (typeof uid === 'function' ? uid() : String(Date.now())),
+        clientFullName: document.getElementById('clientFullName')?.value || '',
+        clientEmail: (document.getElementById('clientEmail')?.value || '').trim().toLowerCase(),
+        clientPhone: document.getElementById('clientPhone')?.value || '',
+        clientSocial: document.getElementById('clientSocial')?.value || '',
+        service: serviceTitle,
+        price,
+        basePrice: Number(service.price || 0),
+        urgentMultiplier: multiplier,
+        date,
+        time,
+        comment: document.getElementById('clientComment')?.value || '',
+        status:'urgent_requested',
+        urgent:true,
+        zoom: (typeof site === 'function' ? site().zoomLink : ''),
+        createdAt:new Date().toISOString()
+      };
+      const arr = bookings();
+      arr.push(b);
+      localStorage.setItem('psy_bookings', JSON.stringify(arr));
+
+      const tg = (typeof site === 'function' ? (site().telegramUrl || '#') : '#');
+      const box = document.getElementById('bookingResult');
+      if(box){
+        box.style.display='block';
+        box.innerHTML = `<strong>Запит на термінову консультацію створено.</strong><br>Психолог має підтвердити цей час. Після підтвердження у вашому кабінеті зʼявиться можливість оплати: <b>${price} грн</b>.<br><a class="btn primary" href="${tg}" target="_blank">Написати психологу в Telegram</a>`;
+      }
+      bookingForm.reset();
+      window.updateTimes();
+      window.renderBookingDateStrip();
+      if(typeof renderAll === 'function') renderAll();
+    }, true);
+  }
+
+  // Status labels and admin/client actions
+  const oldStatusLabel = window.statusLabel;
+  window.statusLabel = function(s){
+    const map = {
+      urgent_requested:'терміновий запит',
+      urgent_confirmed:'термінову підтверджено, очікує оплату',
+      urgent_declined:'термінову відхилено',
+      payment_pending:'очікує оплату'
+    };
+    if(map[s]) return map[s];
+    return typeof oldStatusLabel === 'function' ? oldStatusLabel(s) : s;
+  };
+  window.confirmUrgent = function(id){
+    const arr = bookings().map(b => b.id===id ? {...b,status:'urgent_confirmed'} : b);
+    localStorage.setItem('psy_bookings', JSON.stringify(arr));
+    if(typeof renderAll === 'function') renderAll();
+  };
+  window.declineUrgent = function(id){
+    const arr = bookings().map(b => b.id===id ? {...b,status:'urgent_declined'} : b);
+    localStorage.setItem('psy_bookings', JSON.stringify(arr));
+    if(typeof renderAll === 'function') renderAll();
+  };
+  window.payUrgentPlaceholder = function(id){
+    alert('Оплату ПриватБанк буде підключено на фінальному етапі. Запис ID: '+id);
+  };
+
+  // Render urgent info in existing booking lists after renderAll
+  function enhanceBookingLists(){
+    document.querySelectorAll('.booking-item').forEach(item => {
+      const txt = item.textContent || '';
+      if(txt.includes('терміновий запит') || txt.includes('термінову')) item.classList.add('urgent-request');
+    });
+    const adminBox = document.getElementById('adminBookings');
+    if(adminBox){
+      const arr = bookings().filter(b => b.status === 'urgent_requested' || b.status === 'urgent_confirmed');
+      if(arr.length && !document.getElementById('urgentAdminPanel')){
+        const panel = document.createElement('div');
+        panel.id = 'urgentAdminPanel';
+        panel.className = 'admin-card';
+        panel.innerHTML = '<h2>Термінові запити</h2>' + arr.map(b => `<div class="booking-item urgent-request"><strong>${b.date} ${b.time} · ${b.clientFullName}</strong><br>${b.service}<br>Вартість: ${b.price} грн<br>Статус: ${window.statusLabel(b.status)}<div class="item-actions">${b.status==='urgent_requested'?`<button class="small-btn green" onclick="confirmUrgent('${b.id}')">Підтвердити</button><button class="small-btn danger" onclick="declineUrgent('${b.id}')">Відхилити</button>`:''}</div></div>`).join('');
+        adminBox.prepend(panel);
+      }
+    }
+
+    const clientBox = document.getElementById('clientBookings');
+    if(clientBox){
+      const email = localStorage.psy_client_email;
+      const arr = bookings().filter(b => b.clientEmail === email && b.status === 'urgent_confirmed');
+      arr.forEach(b => {
+        if(!clientBox.querySelector(`[data-pay-urgent="${b.id}"]`)){
+          const div = document.createElement('div');
+          div.className = 'client-pay-box';
+          div.dataset.payUrgent = b.id;
+          div.innerHTML = `<strong>Термінову консультацію підтверджено</strong><br>До оплати: ${b.price} грн<br><button class="small-btn green" onclick="payUrgentPlaceholder('${b.id}')">Оплатити</button>`;
+          clientBox.prepend(div);
+        }
+      });
+    }
+  }
+
+  // Robust client profile photo/save fix
+  function bindProfileSaveFix(){
+    const form = document.getElementById('clientProfileForm');
+    if(!form || form.dataset.profileSaveFix === 'yes') return;
+    form.dataset.profileSaveFix = 'yes';
+
+    const fileInput = document.getElementById('profilePhotoFile');
+    if(fileInput){
+      fileInput.addEventListener('change', async () => {
+        const file = fileInput.files && fileInput.files[0];
+        if(!file) return;
+        const data = await new Promise((resolve,reject)=>{
+          const r = new FileReader();
+          r.onload = () => resolve(r.result);
+          r.onerror = reject;
+          r.readAsDataURL(file);
+        });
+        const hidden = document.getElementById('profilePhoto');
+        if(hidden) hidden.value = data;
+        const preview = document.getElementById('clientPhotoPreview');
+        if(preview) preview.innerHTML = `<img src="${data}" alt="Фото">`;
+      });
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const oldEmail = localStorage.psy_client_email;
+      const newEmail = (document.getElementById('profileEmail')?.value || oldEmail || '').trim().toLowerCase();
+      let arr = [];
+      try{ arr = JSON.parse(localStorage.getItem('psy_clients')) || []; }catch(err){}
+      const idx = arr.findIndex(c => c.email === oldEmail);
+      const old = idx >= 0 ? arr[idx] : {};
+      const updated = {
+        ...old,
+        email:newEmail,
+        name:document.getElementById('profileName')?.value || '',
+        phone:document.getElementById('profilePhone')?.value || '',
+        social:document.getElementById('profileSocial')?.value || '',
+        photo:document.getElementById('profilePhoto')?.value || old.photo || '',
+        password:old.password || '123456'
+      };
+      if(idx >= 0) arr[idx] = updated;
+      else arr.push(updated);
+      localStorage.setItem('psy_clients', JSON.stringify(arr));
+      localStorage.psy_client_email = newEmail;
+      if(typeof openModal === 'function') openModal('<h2>Збережено</h2><p>Профіль оновлено.</p>');
+      if(typeof renderAll === 'function') renderAll();
+    }, true);
+  }
+
+  // Service category + multiplier save patch
+  function patchServiceSave(){
+    const form = document.getElementById('serviceForm');
+    if(!form || form.dataset.urgentServiceSave === 'yes') return;
+    form.dataset.urgentServiceSave = 'yes';
+    form.addEventListener('submit', () => {
+      setTimeout(() => {
+        try{
+          const arr = JSON.parse(localStorage.getItem('psy_services')) || [];
+          const cat = document.getElementById('serviceCategory')?.value || 'Індивідуальні';
+          const mult = Number(document.getElementById('urgentMultiplier')?.value || 2);
+          arr.forEach(s => {
+            if(!s.category) s.category = cat;
+            if(isUrgentService(s)) s.urgentMultiplier = mult;
+          });
+          localStorage.setItem('psy_services', JSON.stringify(arr));
+        }catch(e){}
+      }, 20);
+    }, true);
+  }
+
+  const oldRenderAll3 = window.renderAll || (typeof renderAll === 'function' ? renderAll : null);
+  if(typeof oldRenderAll3 === 'function' && !window.__urgentPatchRender){
+    window.__urgentPatchRender = true;
+    window.renderAll = function(){
+      oldRenderAll3();
+      bindProfileSaveFix();
+      patchServiceSave();
+      window.renderBookingDateStrip && window.renderBookingDateStrip();
+      enhanceBookingLists();
+      document.querySelectorAll('.calendar-day').forEach(day => {
+        if(day.querySelector('.slot-chip.urgent') || (day.textContent||'').includes('термін')) day.classList.add('has-urgent');
+      });
+    };
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    bindProfileSaveFix();
+    patchServiceSave();
+    setTimeout(() => { window.renderBookingDateStrip && window.renderBookingDateStrip(); enhanceBookingLists(); }, 250);
+  });
+})();

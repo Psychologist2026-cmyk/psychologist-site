@@ -2549,3 +2549,181 @@ body.client-page .telegram-float {
     min-height: 280px;
   }
 }
+
+
+/* === v3: urgent consultations, stronger texture, smoother visible animations === */
+body::before {
+  opacity: .68 !important;
+  background-size: 155px auto !important;
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(75,45,32,.07), transparent 28%),
+    radial-gradient(circle at 88% 16%, rgba(255,255,255,.50), transparent 26%),
+    linear-gradient(135deg, rgba(75,45,32,.025), transparent 32%, rgba(75,45,32,.025)) !important;
+}
+
+.section::before {
+  opacity: .32 !important;
+}
+
+.hero-panel,
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.text-block,
+.booking-box,
+.booking-summary,
+.login-card,
+.contact-card,
+.review-form-card,
+.step,
+.client-sidebar,
+.client-content,
+.admin-sidebar,
+.admin-content,
+.admin-card,
+.client-profile-card,
+.process-card,
+.rules-card,
+details,
+.list-item,
+.booking-item,
+.slot-item {
+  background-image:
+    linear-gradient(rgba(255,255,255,.34), rgba(239,227,212,.29)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 155px auto !important;
+}
+
+.hero-panel::before,
+.info-card::before,
+.service-card::before,
+.review-card::before,
+.cert-card::before,
+.text-block::before,
+.booking-box::before,
+.booking-summary::before,
+.login-card::before,
+.contact-card::before {
+  opacity: .45 !important;
+  background-size: 135px auto !important;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0) scale(.985);
+  transition:
+    opacity 1s cubic-bezier(.18, .88, .24, 1),
+    transform 1s cubic-bezier(.18, .88, .24, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+@keyframes softPulsePremium {
+  0%, 100% { box-shadow: 0 22px 68px rgba(75,45,32,.11), inset 0 1px 0 rgba(255,255,255,.66); }
+  50% { box-shadow: 0 30px 86px rgba(75,45,32,.16), inset 0 1px 0 rgba(255,255,255,.72); }
+}
+.urgent-notice,
+.urgent-help-box {
+  border-radius: 28px;
+  padding: 24px 28px;
+  margin-bottom: 26px;
+  background:
+    linear-gradient(rgba(255,250,243,.62), rgba(234,218,195,.42)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 145px auto !important;
+  border: 1px solid rgba(75,45,32,.17);
+  animation: softPulsePremium 5.5s ease-in-out infinite;
+}
+.urgent-notice strong,
+.urgent-help-box h2 {
+  color: var(--final-choco-2, #2c1710);
+}
+.urgent-notice p,
+.urgent-help-box p {
+  margin: 8px 0 0;
+  color: var(--final-muted, #735e50);
+}
+
+.service-card.urgent-service {
+  border-color: rgba(183,101,93,.34) !important;
+  position: relative;
+}
+.service-card.urgent-service::after {
+  content: "Терміново";
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b7655d, #7b2f2b);
+  color: white;
+  font-weight: 950;
+  font-size: 13px;
+}
+
+.urgent-booking-info {
+  margin-top: 14px;
+}
+.urgent-confirm-box {
+  padding: 18px;
+  border-radius: 22px;
+  background: rgba(183,101,93,.10);
+  border: 1px solid rgba(183,101,93,.28);
+  color: var(--final-choco-2, #2c1710);
+}
+.urgent-confirm-box .btn {
+  margin-top: 12px;
+}
+
+.booking-date-card.normal-disabled,
+.time-pill.normal-disabled {
+  opacity: .42;
+  cursor: not-allowed;
+  filter: grayscale(.2);
+}
+
+.booking-date-card.urgent-today {
+  border-color: rgba(183,101,93,.40);
+  background: rgba(183,101,93,.10);
+}
+.booking-date-card.urgent-today strong::after {
+  content: " · терміново";
+  color: #7b2f2b;
+}
+
+.booking-item.urgent-request,
+.calendar-day.has-urgent {
+  background:
+    linear-gradient(rgba(183,101,93,.16), rgba(255,250,243,.48)),
+    url("images/paper-texture.jpeg") !important;
+  border-color: rgba(183,101,93,.34) !important;
+}
+
+.slot-chip.urgent {
+  background: linear-gradient(135deg, #b7655d, #7b2f2b) !important;
+  color: #fff !important;
+}
+
+.client-pay-box {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(111,157,112,.12);
+  border: 1px solid rgba(111,157,112,.26);
+}
+
+.admin-sidebar .tab-btn {
+  text-align: left;
+}
+
+/* Fix profile photo form button visibility */
+.profile-form .btn,
+#clientProfileForm .btn {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
