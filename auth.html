@@ -27,34 +27,16 @@
 
 <section class="section page-hero"><p class="eyebrow">Акаунт</p><h1>Вхід або реєстрація</h1></section>
 
-<section class="section compact-top auth-screen">
-  <div class="auth-shell reveal visible">
-    <div class="auth-visual">
-      <p class="eyebrow">Особистий кабінет</p>
-      <h1>Увійти в акаунт</h1>
-      <p>Один вхід для клієнта й психолога. Роль визначається автоматично за email.</p>
-      <div class="auth-benefits">
-        <span>Мої записи</span>
-        <span>Zoom-посилання</span>
-        <span>Кабінет психолога</span>
-      </div>
-    </div>
-
-    <div class="login-card auth-card reveal visible">
-      <h2>Вхід</h2>
-      <form id="unifiedAuthForm">
-        <input id="authName" placeholder="Ваше імʼя">
-        <input id="authEmail" type="email" placeholder="Email" required>
-        <input id="authPassword" type="password" placeholder="Пароль" required>
-        <button class="btn primary full" type="submit">Увійти / Зареєструватись</button>
-        <div class="auth-divider"><span>або</span></div>
-        <button class="google-auth-btn" type="button" id="googleClientBtn">
-          <span class="google-mark">G</span>
-          <b>Увійти через Google</b>
-        </button>
-      </form>
-      <p class="auth-note">Google відкриє безпечне вікно авторизації. Пароль від Google сайт не бачить і не зберігає.</p>
-    </div>
+<section class="section compact-top auth-grid single-auth">
+  <div class="login-card reveal visible">
+    <h2>Вхід в акаунт</h2>
+    <form id="unifiedAuthForm">
+      <input id="authName" placeholder="Ваше імʼя">
+      <input id="authEmail" type="email" placeholder="Email" required>
+      <input id="authPassword" type="password" placeholder="Пароль" required>
+      <button class="btn primary full" type="submit">Увійти / Зареєструватись</button>
+      <button class="btn secondary full" type="button" id="googleClientBtn">Увійти через Google</button>
+    </form>
   </div>
 </section>
 
