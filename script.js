@@ -800,3 +800,150 @@ function renderAll(){
   renderLists();
 }
 renderAll();
+
+
+
+/* === Final UI/Firebase helper overrides === */
+(function(){
+  const originalRenderAll = window.renderAll || null;
+
+  window.renderFooterContacts = function(){
+    const box = document.getElementById('footerContacts');
+    if(!box) return;
+    const items = (typeof contacts === 'function' ? contacts() : []).length ? contacts() : [
+      {title:'Instagram', value:'Instagram', link:'#'},
+      {title:'Telegram', value:'Telegram', link:'#'},
+      {title:'Facebook', value:'Facebook', link:'#'},
+      {title:'Телефон', value:'+380000000000', link:'tel:+380000000000'},
+      {title:'Email', value:'psychologist@example.com', link:'mailto:psychologist@example.com'}
+    ];
+    const icon = (t) => {
+      const s = (t||'').toLowerCase();
+      if(s.includes('inst')) return '◎';
+      if(s.includes('telegram')) return '◉';
+      if(s.includes('face')) return 'f';
+      if(s.includes('тел') || s.includes('phone')) return '☎';
+      if(s.includes('mail') || s.includes('пошта')) return '@';
+      return '•';
+    };
+    box.innerHTML = items.map(c => `<a href="${esc(c.link||'#')}" target="_blank"><span>${icon(c.title)}</span><b>${esc(c.value || c.title)}</b></a>`).join('');
+  };
+
+  window.renderHomePhoto = function(){
+    const frame = document.getElementById('homePsychologistPhoto');
+    if(!frame || typeof site !== 'function') return;
+    const s = site();
+    const url = s.homePhotoUrl || s.photoUrl || '';
+    if(url) frame.innerHTML = `<img src="${esc(url)}" alt="Фото психолога">`;
+  };
+
+  window.renderRules = function(){
+    const list = document.getElementById('rulesList');
+    if(!list || typeof site !== 'function') return;
+    const s = site();
+    const rules = (s.rulesText || 'Запис підтверджується після оплати або підтвердження психолога.\\nПеренесення та скасування можливі через кабінет клієнта.\\nДля онлайн-зустрічі посилання зʼявиться у вашому профілі.').split('\\n').filter(Boolean);
+    list.innerHTML = rules.map(r => `<li>${esc(r)}</li>`).join('');
+  };
+
+  window.renderBookingDateStrip = function(){
+    const strip = document.getElementById('bookingDateStrip');
+    const grid = document.getElementById('bookingTimeGrid');
+    const dateInput = document.getElementById('bookingDate');
+    if(!strip || !grid || !dateInput || typeof slots !== 'function') return;
+
+    const today = new Date();
+    const days = [];
+    for(let i=0;i<14;i++){
+      const d = new Date(today);
+      d.setDate(today.getDate()+i);
+      const iso = d.toISOString().slice(0,10);
+      const available = typeof availableFor === 'function' ? availableFor(iso) : [];
+      if(available.length) days.push({iso, label:d.toLocaleDateString('uk-UA',{weekday:'short', day:'numeric', month:'short'}), count:available.length});
+    }
+    strip.innerHTML = days.length ? days.map(d => `<button type="button" class="booking-date-card ${dateInput.value===d.iso?'active':''}" data-date="${d.iso}"><strong>${d.label}</strong><br><small>${d.count} год.</small></button>`).join('') : '<div class="booking-date-card disabled">Немає вільних днів</div>';
+    strip.querySelectorAll('[data-date]').forEach(btn => btn.onclick = () => {
+      dateInput.value = btn.dataset.date;
+      if(typeof updateTimes === 'function') updateTimes();
+      renderBookingDateStrip();
+      renderBookingTimeGrid();
+    });
+    renderBookingTimeGrid();
+  };
+
+  window.renderBookingTimeGrid = function(){
+    const grid = document.getElementById('bookingTimeGrid');
+    const dateInput = document.getElementById('bookingDate');
+    const timeSelect = document.getElementById('bookingTime');
+    if(!grid || !dateInput || !timeSelect) return;
+    const arr = dateInput.value && typeof availableFor === 'function' ? availableFor(dateInput.value) : [];
+    grid.innerHTML = arr.length ? arr.map(s => `<button type="button" class="time-pill ${timeSelect.value===s.time?'active':''}" data-time="${s.time}">${s.time}</button>`).join('') : '<div class="time-pill disabled">Оберіть день</div>';
+    grid.querySelectorAll('[data-time]').forEach(btn => btn.onclick = () => {
+      timeSelect.value = btn.dataset.time;
+      renderBookingTimeGrid();
+    });
+  };
+
+  const dateInput = document.getElementById('bookingDate');
+  if(dateInput) dateInput.addEventListener('change', () => setTimeout(renderBookingDateStrip, 0));
+
+  // File upload for new home photo
+  const homeFile = document.getElementById('homePhotoFile');
+  if(homeFile){
+    homeFile.addEventListener('change', async e => {
+      const file = e.target.files && e.target.files[0];
+      if(!file || typeof fileToBase64 !== 'function' || typeof site !== 'function') return;
+      const s = site();
+      s.homePhotoUrl = await fileToBase64(file);
+      localStorage.setItem('psy_site', JSON.stringify(s));
+      if(typeof renderAll === 'function') renderAll();
+    });
+  }
+
+  const rulesForm = document.getElementById('rulesEditor');
+  if(rulesForm){
+    rulesForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const s = site();
+      s.rulesText = document.getElementById('rulesEditorText').value;
+      localStorage.setItem('psy_site', JSON.stringify(s));
+      if(typeof renderAll === 'function') renderAll();
+    });
+  }
+
+  // Google button should prefer real Firebase function when available
+  const gbtn = document.getElementById('googleClientBtn');
+  if(gbtn){
+    gbtn.onclick = (e) => {
+      if(window.signInWithGoogleReal){
+        e.preventDefault();
+        window.signInWithGoogleReal();
+      }
+    };
+  }
+
+  const run = () => {
+    renderFooterContacts();
+    renderHomePhoto();
+    renderRules();
+    renderBookingDateStrip();
+    const rte = document.getElementById('rulesEditorText');
+    if(rte && typeof site === 'function') rte.value = site().rulesText || '';
+  };
+
+  const oldRenderAll = window.renderAll;
+  if(typeof oldRenderAll === 'function'){
+    window.renderAll = function(){
+      oldRenderAll();
+      run();
+      // Calendar classes by status
+      document.querySelectorAll('.calendar-day').forEach(day => {
+        const txt = day.textContent || '';
+        if(txt.includes('Вихідний') || txt.includes('вихідний')) day.classList.add('off');
+        if(day.querySelector('.slot-chip.booked')) day.classList.add('has-booked');
+        if(day.querySelector('.slot-chip.request')) day.classList.add('has-request');
+      });
+    };
+  }
+  document.addEventListener('DOMContentLoaded', run);
+  setTimeout(run, 200);
+})();
