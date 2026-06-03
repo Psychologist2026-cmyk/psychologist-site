@@ -80,3 +80,25 @@ Email: client@psyspace.ua
 - фото психолога в адмінці зберігається одразу після вибору файлу;
 - Google Login має popup + redirect fallback;
 - для Google додано зрозуміле повідомлення про Authorized domains.
+
+
+Оновлення Google/Auth UI:
+- перероблено сторінку входу в красиве єдине вікно;
+- Google-кнопка виглядає як частина сайту;
+- пояснення про безпечний Google popup додано на сторінку;
+- Firebase Auth логіка збережена;
+- для Google важливо: точний домен сайту має бути в Authorized domains.
+
+
+v6: прибрано друге вікно входу, виправлено фото, додано терміновий блок, вирівняно текст.
+
+
+Review-ready polish:
+- footer separated and styled as an information bar;
+- Instagram/Telegram/Facebook icons styled as recognizable branded icons;
+- active menu item is highlighted;
+- About page has no certificates and includes editable extra windows;
+- client booking calendar restyled;
+- home hero makes psychologist name more visible;
+- short pages keep footer at bottom;
+- animations optimized for smoother page transitions.

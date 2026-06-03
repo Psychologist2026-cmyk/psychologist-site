@@ -2946,3 +2946,528 @@ body::before {
 #selectedDayTitle{ font-variant-numeric:tabular-nums; }
 @media(max-width:820px){ .booking-date-strip,.booking-time-grid{ grid-template-columns:1fr 1fr!important; } }
 @media(max-width:390px){ .booking-date-strip,.booking-time-grid{ grid-template-columns:1fr!important; } }
+
+
+/* === Final Google/Auth UI === */
+.auth-screen {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 120px !important;
+}
+
+.auth-shell {
+  width: min(1080px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 470px;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.auth-visual,
+.auth-card {
+  border-radius: 34px;
+  padding: 36px;
+  background:
+    linear-gradient(rgba(255,255,255,.38), rgba(239,227,212,.29)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 155px auto !important;
+  border: 1px solid rgba(75,45,32,.15);
+  box-shadow: 0 24px 74px rgba(75,45,32,.12), inset 0 1px 0 rgba(255,255,255,.66);
+}
+
+.auth-visual {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 520px;
+}
+
+.auth-visual h1 {
+  max-width: 520px;
+  margin-bottom: 18px;
+}
+
+.auth-visual p {
+  max-width: 520px;
+  color: var(--final-muted, #735e50);
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.auth-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.auth-benefits span {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(75,45,32,.10);
+  color: var(--final-choco, #4b2d20);
+  font-weight: 900;
+}
+
+.auth-card h2 {
+  margin-bottom: 20px;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--final-muted, #735e50);
+  font-weight: 850;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(75,45,32,.16);
+}
+
+.google-auth-btn {
+  width: 100%;
+  min-height: 58px;
+  border-radius: 999px;
+  border: 1px solid rgba(75,45,32,.16);
+  background: rgba(255,255,255,.78);
+  color: var(--final-choco-2, #2c1710);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    transform .32s cubic-bezier(.22,1,.36,1),
+    box-shadow .32s cubic-bezier(.22,1,.36,1),
+    background .32s ease;
+  box-shadow: 0 14px 34px rgba(75,45,32,.10), inset 0 1px 0 rgba(255,255,255,.72);
+}
+
+.google-auth-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255,250,243,.96);
+  box-shadow: 0 20px 48px rgba(75,45,32,.14), inset 0 1px 0 rgba(255,255,255,.72);
+}
+
+.google-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #4285f4;
+  font-weight: 950;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+.auth-note {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--final-muted, #735e50);
+  line-height: 1.45;
+}
+
+@media(max-width: 900px) {
+  .auth-screen {
+    padding-top: 100px !important;
+  }
+
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-visual {
+    min-height: auto;
+    padding: 30px;
+  }
+
+  .auth-card {
+    padding: 28px;
+  }
+}
+
+/* v6 clean fixes */
+.single-auth-screen{min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;padding-top:120px!important}
+.single-auth-shell{width:min(560px,100%);display:block!important}
+.single-auth-screen .auth-visual,.single-auth-shell .auth-visual,.auth-note-card{display:none!important}
+.auth-card h1{font-size:clamp(36px,7vw,58px)!important;margin-bottom:12px}
+.auth-subtitle{color:var(--final-muted,#735e50);line-height:1.5;margin-bottom:22px}
+.google-auth-btn{width:100%;min-height:58px;border-radius:999px;border:1px solid rgba(75,45,32,.16);background:rgba(255,255,255,.80);color:var(--final-choco-2,#2c1710);display:flex;align-items:center;justify-content:center;gap:12px}
+.google-mark{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#4285f4;font-weight:950;border:1px solid rgba(0,0,0,.08)}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--final-muted,#735e50);font-weight:850}
+.auth-divider:before,.auth-divider:after{content:"";height:1px;flex:1;background:rgba(75,45,32,.16)}
+.service-card,.info-card,.review-card,.cert-card,.contact-card,.about-facts-grid article,.home-availability-card,.booking-box,.booking-summary,.login-card,.admin-card,.client-content{text-align:left!important;line-height:1.52!important}
+.service-card h3,.info-card h3,.about-facts-grid strong,.booking-box h2,.admin-card h2{line-height:1.15!important;margin-bottom:10px!important;word-break:normal!important;overflow-wrap:anywhere!important}
+.service-card p,.info-card p,.home-availability-card p,.urgent-notice p,.urgent-request-panel p{line-height:1.62!important}
+.urgent-request-panel{display:none;margin-top:18px;padding:24px;border-radius:28px;background:linear-gradient(rgba(255,255,255,.34),rgba(239,227,212,.29)),url("images/paper-texture.jpeg")!important;background-size:auto,145px auto!important;border:1px solid rgba(183,101,93,.28);box-shadow:0 22px 68px rgba(75,45,32,.11),inset 0 1px 0 rgba(255,255,255,.66)}
+.urgent-request-panel.active{display:block;animation:urgentPanelIn .42s cubic-bezier(.22,1,.36,1) both}
+@keyframes urgentPanelIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.home-photo-frame,.photo-placeholder,.photo-placeholder.instagram-photo-frame,.client-avatar-large,.profile-preview{position:relative;overflow:hidden!important;background-clip:padding-box!important}
+.home-photo-frame.has-photo,.photo-placeholder.has-photo,.client-avatar-large.has-photo,.profile-preview.has-photo{padding:0!important;border:1px solid rgba(75,45,32,.12)!important;background:rgba(255,250,243,.50)!important}
+.home-photo-frame img,.photo-placeholder img,#psychologistPhoto img,#homePsychologistPhoto img,.client-avatar-large img,.profile-preview img,#clientHeroPhoto img,#clientPhotoPreview img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important;border-radius:inherit!important;display:block!important;background:rgba(255,250,243,.28)}
+.photo-save-status{display:block;margin-top:8px;padding:8px 10px;border-radius:12px;background:rgba(111,157,112,.14);color:#477047;font-weight:900}
+.calendar-day.selected{outline:2px solid rgba(75,45,32,.32);outline-offset:2px}
+#selectedDayTitle{font-variant-numeric:tabular-nums}
+@media(max-width:820px){.single-auth-screen{padding-top:100px!important}.single-auth-shell{width:100%}.booking-date-strip,.booking-time-grid{grid-template-columns:1fr 1fr!important}}
+@media(max-width:390px){.booking-date-strip,.booking-time-grid{grid-template-columns:1fr!important}}
+
+
+/* =========================================================
+   READY FOR PSYCHOLOGIST REVIEW — final UX polish
+   ========================================================= */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  animation: pageSoftIn .42s cubic-bezier(.22,1,.36,1) both;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+@keyframes pageSoftIn {
+  from { opacity: .72; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Active top navigation */
+.nav a.active-nav,
+.nav a[aria-current="page"] {
+  background: linear-gradient(135deg, var(--final-choco, #4b2d20), var(--final-choco-2, #2c1710)) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 28px rgba(75,45,32,.20);
+}
+
+.nav a.active-nav::after {
+  content: "";
+  position: absolute;
+}
+
+/* More visible but still premium separators */
+.section {
+  position: relative;
+}
+
+.section::after {
+  content: "";
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(75,45,32,.24), transparent) !important;
+}
+
+/* Hero: client immediately sees whose site this is */
+.hero-name-title {
+  font-size: clamp(48px, 8vw, 92px) !important;
+  line-height: .92 !important;
+  letter-spacing: -0.055em !important;
+  margin: 8px 0 16px !important;
+  color: var(--final-choco-2, #2c1710) !important;
+  text-shadow: 0 18px 46px rgba(75,45,32,.10);
+}
+
+.hero-subtitle-main {
+  font-size: clamp(24px, 4vw, 44px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.035em;
+  margin: 0 0 18px !important;
+  color: var(--final-choco, #4b2d20) !important;
+  max-width: 740px;
+}
+
+/* About page layout from requested sketch: photo left, facts top, description below */
+.about-profile-layout {
+  display: grid !important;
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr) !important;
+  align-items: start !important;
+  gap: 34px !important;
+}
+
+.about-profile-layout .photo-placeholder,
+.about-profile-layout #psychologistPhoto {
+  position: sticky;
+  top: 110px;
+  min-height: 560px;
+  border-radius: 34px !important;
+}
+
+.about-profile-layout .about-facts-grid {
+  margin-top: 0 !important;
+}
+
+.about-facts-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.about-custom-section {
+  padding-top: 44px !important;
+}
+
+.about-custom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 20px;
+}
+
+.about-custom-card {
+  min-height: 190px;
+  padding: 28px;
+  border-radius: 30px;
+  background:
+    linear-gradient(rgba(255,255,255,.36), rgba(239,227,212,.30)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 145px auto !important;
+  border: 1px solid rgba(75,45,32,.15);
+  box-shadow: 0 22px 68px rgba(75,45,32,.11), inset 0 1px 0 rgba(255,255,255,.66);
+}
+
+.about-custom-card h3 {
+  color: var(--final-choco-2, #2c1710);
+  line-height: 1.14;
+}
+
+.about-custom-card p {
+  color: var(--final-muted, #735e50);
+  line-height: 1.62;
+}
+
+/* Footer: real social-looking icons and a separated info bar */
+.premium-footer,
+.footer {
+  flex-shrink: 0;
+  margin-top: auto !important;
+  padding: 34px max(6%, calc((100vw - 1180px) / 2)) !important;
+  background:
+    linear-gradient(rgba(239,227,212,.86), rgba(229,211,188,.88)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 155px auto !important;
+  border-top: 1px solid rgba(75,45,32,.22) !important;
+  box-shadow: 0 -22px 70px rgba(75,45,32,.08), inset 0 1px 0 rgba(255,255,255,.58);
+}
+
+.footer::before,
+.premium-footer::before {
+  content: "";
+  display: block;
+  height: 4px;
+  width: min(180px, 40%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--final-choco,#4b2d20), transparent);
+  margin-bottom: 22px;
+}
+
+.footer-contacts {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 10px !important;
+}
+
+.footer-contacts a {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: 999px;
+  text-decoration: none;
+  background: rgba(255,250,243,.76);
+  border: 1px solid rgba(75,45,32,.14);
+  color: var(--final-choco-2,#2c1710);
+  transition: transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s cubic-bezier(.22,1,.36,1), background .28s ease;
+}
+
+.footer-contacts a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(75,45,32,.12);
+  background: rgba(255,250,243,.96);
+}
+
+.social-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex: 0 0 auto;
+  font-weight: 950;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.social-icon.instagram {
+  background: radial-gradient(circle at 30% 110%, #feda75 0%, #fa7e1e 28%, #d62976 55%, #962fbf 76%, #4f5bd5 100%);
+}
+
+.social-icon.telegram {
+  background: #2aabee;
+}
+
+.social-icon.facebook {
+  background: #1877f2;
+}
+
+.social-icon.email,
+.social-icon.phone {
+  background: linear-gradient(135deg, var(--final-choco,#4b2d20), var(--final-choco-2,#2c1710));
+}
+
+/* Client booking calendar redesigned to site style */
+.booking-calendar-ui {
+  padding: 16px;
+  border-radius: 26px;
+  background:
+    linear-gradient(rgba(255,255,255,.28), rgba(239,227,212,.22)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 140px auto !important;
+  border: 1px solid rgba(75,45,32,.13);
+}
+
+.booking-date-strip {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.booking-date-card {
+  min-height: 82px;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(rgba(255,255,255,.42), rgba(239,227,212,.25)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 130px auto !important;
+  border: 1px solid rgba(75,45,32,.14) !important;
+  color: var(--final-choco-2,#2c1710) !important;
+  text-align: left !important;
+  padding: 16px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.64);
+}
+
+.booking-date-card.active,
+.booking-date-card:hover {
+  background: linear-gradient(135deg, var(--final-choco,#4b2d20), var(--final-choco-2,#2c1710)) !important;
+  color: #fff !important;
+  transform: translateY(-3px);
+}
+
+.booking-time-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)) !important;
+  gap: 10px !important;
+  margin-top: 14px;
+}
+
+.time-pill {
+  min-height: 52px;
+  border-radius: 18px !important;
+  background: rgba(255,250,243,.82) !important;
+  color: var(--final-choco-2,#2c1710) !important;
+  border: 1px solid rgba(75,45,32,.14) !important;
+}
+
+.time-pill.active,
+.time-pill:hover {
+  background: linear-gradient(135deg, var(--final-choco,#4b2d20), var(--final-choco-2,#2c1710)) !important;
+  color: #fff !important;
+}
+
+/* Services admin/type management */
+.service-type-head {
+  text-align: left !important;
+}
+
+.admin-list .list-item {
+  text-align: left !important;
+}
+
+/* More pleasant animation, less lag */
+.reveal {
+  transition:
+    opacity .78s cubic-bezier(.22,1,.36,1),
+    transform .78s cubic-bezier(.22,1,.36,1) !important;
+}
+
+.hero-panel,
+.info-card,
+.service-card,
+.review-card,
+.cert-card,
+.contact-card,
+.about-custom-card,
+.booking-date-card,
+.time-pill,
+.footer-contacts a {
+  will-change: transform;
+}
+
+@media(max-width: 1080px) {
+  .about-profile-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-profile-layout .photo-placeholder,
+  .about-profile-layout #psychologistPhoto {
+    position: relative;
+    top: auto;
+    min-height: 420px;
+  }
+
+  .about-facts-grid,
+  .about-custom-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  }
+
+  .premium-footer,
+  .footer {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media(max-width: 820px) {
+  .hero-name-title {
+    font-size: clamp(42px, 13vw, 62px) !important;
+  }
+
+  .hero-subtitle-main {
+    font-size: clamp(24px, 7vw, 34px) !important;
+  }
+
+  .about-facts-grid,
+  .about-custom-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .booking-date-strip,
+  .booking-time-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .footer-contacts a {
+    width: 100%;
+  }
+}
+
+@media(max-width: 430px) {
+  .booking-date-strip,
+  .booking-time-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -50,6 +50,13 @@
   <input id="factCustom" placeholder="Додаткова клітинка">
   <button class="btn primary full" type="submit">Зберегти коротку інформацію</button>
 </form>
+<h2>Додаткові вікна про психолога</h2>
+<form id="aboutCustomWindowForm" class="editor-grid">
+  <input id="aboutCustomTitle" placeholder="Назва вікна">
+  <textarea id="aboutCustomText" placeholder="Опис"></textarea>
+  <button class="btn primary full" type="submit">Додати вікно</button>
+</form>
+<div class="admin-list" id="adminAboutCustomWindows"></div>
 <h2>Додаткові блоки</h2><form id="aboutExtraForm" class="editor-grid"><input id="aboutExtraTitle" placeholder="Назва"><textarea id="aboutExtraText" placeholder="Опис"></textarea><button class="btn primary full" type="submit">Додати</button></form><div id="adminAboutExtra" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-contacts"><h1>Контакти</h1><form id="contactItemForm" class="editor-grid"><input type="hidden" id="contactEditId"><input id="contactTitle" placeholder="Назва"><input id="contactValue" placeholder="Username, номер або email"><input id="contactLink" placeholder="Посилання"><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminContacts" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-certificates"><h1>Сертифікати</h1><form id="certificateForm" class="editor-grid"><input type="hidden" id="certEditId"><input id="certTitle" placeholder="Назва"><input id="certCategory" list="certCategoryList" placeholder="Тип сертифікату"><datalist id="certCategoryList"></datalist><input id="certImage" placeholder="Файл буде збережено після вибору"><input id="certFile" type="file" accept="image/*,.pdf"><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminCertificates" class="admin-list"></div></div>
@@ -63,6 +70,8 @@
 
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
+<script src="review-final.js"></script>
+<script src="final-fixes.js"></script>
 
 </body>
 </html>
