@@ -4397,3 +4397,199 @@ main { flex: 1 0 auto !important; }
     border-radius: 28px;
   }
 }
+
+
+/* =========================================================
+   CALENDAR + URGENT FINAL FIX
+   ========================================================= */
+
+/* About page: reduce huge gap between photo and text/facts */
+.about-critical-layout,
+.about-final-layout,
+.about-profile-layout {
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr) !important;
+  gap: 22px !important;
+  max-width: 1180px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.about-critical-layout .about-facts-grid,
+.about-final-layout .about-facts-grid,
+.about-profile-layout .about-facts-grid {
+  gap: 12px !important;
+}
+
+#psychologistPhoto,
+.about-critical-layout .photo-placeholder,
+.about-final-layout .photo-placeholder,
+.about-profile-layout .photo-placeholder {
+  min-height: 500px !important;
+  max-height: 620px !important;
+}
+
+.about-critical-layout .text-block,
+.about-final-layout .text-block,
+.about-profile-layout .text-block,
+.about-critical-layout .professional-path-card,
+.about-final-layout .professional-path-card,
+.about-profile-layout .professional-path-card {
+  max-width: 760px !important;
+}
+
+/* Admin calendar fixed grid: stable month, no horizontal jump */
+#adminCalendar,
+.admin-calendar,
+.calendar-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(118px, 1fr)) !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+.calendar-day-name {
+  text-align: center !important;
+  font-weight: 950 !important;
+  color: #2c1710 !important;
+  padding: 8px 4px !important;
+}
+
+.calendar-day {
+  min-height: 118px !important;
+  height: 118px !important;
+  border-radius: 22px !important;
+  padding: 12px !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(rgba(255,255,255,.38), rgba(239,227,212,.23)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 135px auto !important;
+  border: 1px solid rgba(75,45,32,.12) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.62) !important;
+  cursor: pointer !important;
+}
+
+.calendar-day.other {
+  opacity: .42 !important;
+}
+
+.calendar-day.selected {
+  outline: 2px solid rgba(75,45,32,.42) !important;
+  outline-offset: 2px !important;
+  background:
+    linear-gradient(rgba(255,255,255,.54), rgba(239,227,212,.35)),
+    url("images/paper-texture.jpeg") !important;
+}
+
+.calendar-day.off {
+  background:
+    linear-gradient(135deg, rgba(183,101,93,.92), rgba(122,47,43,.95)),
+    url("images/paper-texture.jpeg") !important;
+  color: #fff !important;
+}
+
+.day-number {
+  font-weight: 950 !important;
+  color: inherit !important;
+}
+
+.slot-chip {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 7px !important;
+  padding: 7px 9px !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.slot-chip.free {
+  background: rgba(75,45,32,.10) !important;
+  color: #2c1710 !important;
+}
+
+.slot-chip.urgent {
+  background: rgba(183,101,93,.22) !important;
+  color: #7b2f2b !important;
+}
+
+.slot-chip.booked {
+  background: rgba(111,157,112,.20) !important;
+  color: #477047 !important;
+}
+
+.slot-chip.request {
+  background: rgba(210,166,95,.28) !important;
+  color: #6a4a13 !important;
+}
+
+/* Client booking calendar/cards: stronger selected state */
+.booking-date-card.urgent-today::before {
+  content: "сьогодні";
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(183,101,93,.18);
+  color: #7b2f2b;
+  font-size: 12px;
+  font-weight: 950;
+  margin-bottom: 6px;
+}
+
+.booking-date-card.active.urgent-today::before,
+.booking-date-card:hover.urgent-today::before {
+  background: rgba(255,255,255,.18);
+  color: #fff;
+}
+
+.urgent-standalone-card {
+  cursor: pointer;
+}
+
+@media(max-width: 1080px){
+  #adminCalendar,
+  .admin-calendar,
+  .calendar-grid {
+    grid-template-columns: repeat(7, minmax(88px, 1fr)) !important;
+    gap: 8px !important;
+  }
+  .calendar-day {
+    min-height: 100px !important;
+    height: 100px !important;
+    padding: 9px !important;
+  }
+}
+
+@media(max-width: 760px){
+  .about-critical-layout,
+  .about-final-layout,
+  .about-profile-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  #adminCalendar,
+  .admin-calendar,
+  .calendar-grid {
+    grid-template-columns: repeat(7, minmax(44px, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .calendar-day {
+    min-height: 76px !important;
+    height: 76px !important;
+    border-radius: 14px !important;
+    padding: 6px !important;
+  }
+
+  .slot-chip {
+    font-size: 11px !important;
+    padding: 4px 5px !important;
+  }
+}
