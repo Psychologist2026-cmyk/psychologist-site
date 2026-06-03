@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="master-polish.css">
 <link rel="stylesheet" href="design-contacts-fix.css">
 <link rel="stylesheet" href="wide-address-settings.css">
+<link rel="stylesheet" href="final-visual-fix.css">
 </head>
 <body class="admin">
 
@@ -21,6 +22,24 @@
 </header>
 
 <main>
+
+<section class="section admin-card home-identity-settings" id="homeIdentitySettingsMaster">
+  <h2>Головна сторінка</h2>
+  <p>Тут можна змінити імʼя психолога, заголовок і короткий опис на головній сторінці.</p>
+  <div class="admin-form-grid">
+    <label>Імʼя психолога
+      <input id="settingPsychologistName" placeholder="Анастасія Марчук">
+    </label>
+    <label>Заголовок на головній
+      <input id="settingHomeTitle" placeholder="Психотерапевт для важливих розмов">
+    </label>
+    <label class="wide">Короткий опис
+      <textarea id="settingHomeText" placeholder="Короткий опис на головній сторінці"></textarea>
+    </label>
+  </div>
+  <button class="btn primary" type="button" id="saveHomeIdentityBtn">Зберегти головну</button>
+</section>
+
 
 <section class="admin-shell">
   <aside class="admin-sidebar">
@@ -85,5 +104,6 @@
 <script src="final-stable-master.js"></script>
 <script src="design-contacts-fix.js"></script>
 <script src="wide-address-settings.js"></script>
+<script src="final-visual-fix.js"></script>
 </body>
 </html>

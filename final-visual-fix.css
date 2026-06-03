@@ -1,0 +1,401 @@
+
+/* =========================================================
+   FINAL VISUAL FIX: overlap, spacing, readable typography
+   ========================================================= */
+:root{
+  --site-max: 1700px !important;
+  --page-pad: clamp(22px, 3vw, 78px) !important;
+}
+
+/* Wider consistent pages */
+.section,
+.page-hero,
+.compact-top,
+.booking-section,
+.urgent-standalone-section,
+.about-custom-section,
+.offline-addresses-section,
+.home-hero-new,
+.hero-grid,
+.hero-inner,
+.hero-content-grid,
+.about-clean-layout,
+.home-availability-panel,
+.home-panels,
+.home-bottom-grid,
+.services-page-section {
+  max-width: var(--site-max) !important;
+}
+
+/* Fix “склеєні букви” */
+body,
+input,
+textarea,
+select,
+button,
+a,
+p,
+li,
+span,
+small {
+  letter-spacing: .018em !important;
+  font-kerning: normal !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+strong,
+.price,
+.btn,
+.nav a {
+  letter-spacing: .003em !important;
+  font-kerning: normal !important;
+}
+
+#homePsychologistName,
+[data-site="psychologistName"],
+.about-title-row h1 {
+  letter-spacing: .006em !important;
+  word-spacing: .04em !important;
+}
+
+/* Bigger safe gaps between sections */
+.page-hero {
+  padding-bottom: clamp(70px, 7vw, 112px) !important;
+}
+
+.compact-top,
+.services-page-section,
+.urgent-standalone-section,
+.booking-section,
+.about-clean-layout,
+.about-custom-section,
+.offline-addresses-section {
+  padding-top: clamp(58px, 6vw, 96px) !important;
+  padding-bottom: clamp(58px, 6vw, 96px) !important;
+}
+
+/* Prevent chips/cards from touching text */
+.hero-actions,
+.hero-tags,
+.home-tags,
+.service-category-filters {
+  margin-top: 28px !important;
+  margin-bottom: 34px !important;
+  gap: 14px !important;
+}
+
+.hero-tags span,
+.home-tags span,
+.chip,
+.tag,
+.filter-btn,
+.service-category-filters button {
+  min-height: 44px !important;
+  padding: 11px 18px !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+}
+
+/* Home bottom cards: no overlap with text */
+.home-availability-panel,
+.home-panels,
+.home-bottom-grid {
+  margin-top: clamp(86px, 9vw, 136px) !important;
+  gap: clamp(28px, 3.8vw, 52px) !important;
+}
+
+.home-availability-card,
+.urgent-standalone-card,
+.urgent-notice {
+  min-height: 260px !important;
+  padding: clamp(34px, 3.4vw, 52px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 18px !important;
+}
+
+.home-availability-card h2,
+.urgent-standalone-card h2,
+.urgent-notice h2 {
+  margin: 0 0 14px !important;
+}
+
+.home-availability-card p,
+.urgent-standalone-card p,
+.urgent-notice p {
+  margin: 0 !important;
+  max-width: 880px !important;
+}
+
+/* Services: fix “Терміново” label and urgent card overlap */
+.service-category-filters {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.service-type-group {
+  gap: 28px !important;
+}
+
+.service-type-head {
+  padding-bottom: 8px !important;
+}
+
+.service-type-head .eyebrow,
+.service-type-head p:first-child,
+.service-card .service-tag {
+  margin-bottom: 16px !important;
+}
+
+.service-card {
+  min-height: 350px !important;
+  padding: 42px 38px 36px !important;
+  gap: 18px !important;
+  overflow: visible !important;
+}
+
+.service-card.urgent-service {
+  padding-top: 68px !important;
+}
+
+.service-card.urgent-service::before {
+  height: 7px !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  border-radius: 30px 30px 0 0 !important;
+  transform: none !important;
+}
+
+.service-card.urgent-service::after {
+  top: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  z-index: 4 !important;
+}
+
+.service-card.urgent-service h3 {
+  padding-right: 0 !important;
+  margin-top: 0 !important;
+}
+
+.service-card h3 {
+  margin: 0 0 12px !important;
+  line-height: 1.15 !important;
+}
+
+.service-card p {
+  margin: 0 0 10px !important;
+  line-height: 1.72 !important;
+}
+
+/* About: fact cards not stuck together */
+.about-facts-grid {
+  gap: 22px !important;
+}
+
+.about-facts-grid article {
+  min-height: 158px !important;
+  padding: 26px !important;
+}
+
+.about-facts-grid span {
+  margin-bottom: 12px !important;
+}
+
+.about-facts-grid strong {
+  line-height: 1.28 !important;
+  letter-spacing: .006em !important;
+}
+
+/* Contacts: icons next to every contact */
+.contact-list,
+.contacts-list,
+.contacts-grid {
+  display: grid !important;
+  gap: 16px !important;
+}
+
+.contact-card,
+.contact-item,
+.contact-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  min-height: 74px !important;
+  padding: 18px 22px !important;
+  border-radius: 24px !important;
+}
+
+.contact-icon-real {
+  width: 42px !important;
+  height: 42px !important;
+  flex: 0 0 42px !important;
+  border-radius: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+  overflow: hidden !important;
+}
+
+.contact-icon-real svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.contact-icon-real.instagram {
+  background: radial-gradient(circle at 30% 110%,#feda75 0%,#fa7e1e 28%,#d62976 55%,#962fbf 76%,#4f5bd5 100%) !important;
+}
+.contact-icon-real.telegram { background:#2AABEE !important; }
+.contact-icon-real.facebook { background:#1877F2 !important; }
+.contact-icon-real.email,
+.contact-icon-real.phone,
+.contact-icon-real.site { background:linear-gradient(135deg,#4b2d20,#2c1710) !important; }
+
+/* Admin home settings */
+.home-identity-settings {
+  margin-bottom: 28px !important;
+}
+
+.admin-form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  margin: 22px 0 !important;
+}
+
+.admin-form-grid label {
+  display: grid !important;
+  gap: 8px !important;
+  font-weight: 900 !important;
+  color: #2c1710 !important;
+}
+
+.admin-form-grid label.wide {
+  grid-column: 1 / -1 !important;
+}
+
+.admin-form-grid input,
+.admin-form-grid textarea {
+  width: 100% !important;
+  min-height: 54px !important;
+  border-radius: 18px !important;
+  padding: 0 16px !important;
+}
+
+.admin-form-grid textarea {
+  min-height: 120px !important;
+  padding-top: 14px !important;
+}
+
+/* Smoother motion */
+.reveal,
+.service-card,
+.about-facts-grid article,
+.about-custom-card,
+.offline-address-card,
+.contact-card,
+.contact-item,
+.contact-row,
+.btn,
+.nav a,
+.booking-date-card,
+.time-pill,
+.custom-select-button {
+  transition:
+    transform .65s cubic-bezier(.22,1,.36,1),
+    opacity .65s ease,
+    box-shadow .5s ease,
+    border-color .5s ease,
+    background .5s ease !important;
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .service-card,
+  .about-facts-grid article,
+  .offline-address-card,
+  .contact-card,
+  .contact-item,
+  .contact-row {
+    animation: gentleAppear .75s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes gentleAppear{
+    from{ opacity:0; transform: translateY(16px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+}
+
+/* Mobile */
+@media(max-width: 1180px){
+  .home-availability-panel,
+  .home-panels,
+  .home-bottom-grid {
+    margin-top: 64px !important;
+  }
+
+  .service-card {
+    min-height: auto !important;
+  }
+}
+
+@media(max-width: 720px){
+  body,
+  input,
+  textarea,
+  select,
+  button,
+  a,
+  p,
+  li,
+  span,
+  small {
+    letter-spacing: .01em !important;
+  }
+
+  h1,h2,h3,strong {
+    letter-spacing: 0 !important;
+  }
+
+  .page-hero {
+    padding-bottom: 52px !important;
+  }
+
+  .compact-top,
+  .services-page-section,
+  .urgent-standalone-section,
+  .booking-section,
+  .about-clean-layout,
+  .about-custom-section,
+  .offline-addresses-section {
+    padding-top: 46px !important;
+    padding-bottom: 46px !important;
+  }
+
+  .service-card.urgent-service {
+    padding-top: 70px !important;
+  }
+
+  .service-card.urgent-service::after {
+    left: 24px !important;
+    right: auto !important;
+  }
+
+  .admin-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-card,
+  .contact-item,
+  .contact-row {
+    align-items: flex-start !important;
+  }
+}
