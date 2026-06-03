@@ -24,58 +24,64 @@
 </header>
 
 <main>
+<section class="section page-hero">
+  <p class="eyebrow">Послуги</p>
+  <h1>Оберіть консультацію</h1>
+  <p class="hero-text">Плановий запис доступний з наступного дня. Терміновий запис показує доступні години на сьогодні або дозволяє залишити запит без часу.</p>
+</section>
 
-<section class="section page-hero"><p class="eyebrow">Послуги</p><h1>Оберіть консультацію</h1></section>
-<section class="section compact-top"><div class="cards" id="servicesGrid">
-  <article class="service-card"><h3>Індивідуальна консультація</h3><p>Особиста зустріч для роботи з вашим запитом.</p><div class="price">1500 грн</div><a class="btn primary" href="#booking">Обрати час</a></article>
-</div></section>
+<section class="section compact-top">
+  <div class="service-category-filters" id="serviceCategoryFilters"></div>
+  <div class="services-groups" id="servicesGrid"></div>
+</section>
 
 <section class="section urgent-standalone-section" id="urgentStandaloneSection">
-  <div class="section-head reveal visible">
-    <p class="eyebrow">Терміново</p>
-    <h2>Терміновий запис</h2>
-    <p>Для ситуацій, коли консультація потрібна сьогодні. Можна обрати вільну годину або залишити запит без часу й узгодити його з психологом у Telegram.</p>
-  </div>
   <div class="urgent-standalone-card reveal visible">
     <div>
-      <h3>Термінова консультація</h3>
-      <p>Після запиту психолог підтверджує консультацію в кабінеті. Тільки після підтвердження клієнт бачить оплату та посилання.</p>
+      <p class="eyebrow">Терміново</p>
+      <h2>Потрібна зустріч сьогодні?</h2>
+      <p>Оберіть вільну годину на сьогодні або залиште запит без часу. Психолог підтвердить консультацію в кабінеті, після чого зʼявиться оплата.</p>
     </div>
-    <a class="btn primary" href="#booking" id="urgentStandaloneBtn">Записатись терміново</a>
+    <a class="btn primary" href="#booking" id="urgentStandaloneBtn">Терміновий запис</a>
   </div>
 </section>
 
 <section class="section booking-section" id="booking">
-  <div class="section-head reveal"><p class="eyebrow">Запис</p><h2>Запис на консультацію</h2></div>
+  <div class="section-head reveal visible">
+    <p class="eyebrow">Запис</p>
+    <h2>Запис на консультацію</h2>
+  </div>
   <div class="booking-layout">
-    <form id="bookingForm" class="booking-box reveal">
+    <form id="bookingForm" class="booking-box reveal visible">
       <div class="booking-steps"><span class="active">Дані</span><span>Підтвердження</span><span>Оплата</span><span>Zoom</span></div>
       <input id="clientFullName" placeholder="ПІБ" required>
       <input id="clientEmail" type="email" placeholder="Email" required>
       <input id="clientPhone" placeholder="Номер телефону" required>
       <input id="clientSocial" placeholder="Соцмережа для звʼязку">
       <select id="bookingService" required><option value="">Оберіть консультацію</option></select>
-      <div class="custom-booking-label" id="customBookingLabel">Оберіть дату</div><input id="bookingDate" type="date" required>
+      <div class="custom-booking-label">Оберіть дату</div>
+      <input id="bookingDate" type="date" required>
       <div class="booking-calendar-ui">
         <div class="booking-date-strip" id="bookingDateStrip"></div>
         <div class="booking-time-grid" id="bookingTimeGrid"></div>
       </div>
-      <div class="custom-time-label" id="customTimeLabel">Оберіть час</div><select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select><small class="timezone-note">Час вказано за Києвом</small>
+      <div class="custom-time-label">Оберіть час</div>
+      <select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select>
+      <small class="timezone-note">Час вказано за Києвом</small>
       <textarea id="clientComment" placeholder="Коментар або короткий запит"></textarea>
       <button class="btn primary full" type="submit">Записатись</button>
-    <div id="urgentRequestPanelFinal" class="urgent-request-panel-final">
-  <h2>Термінова консультація</h2>
-  <p>Оберіть вільну годину на сьогодні або залиште запит без часу, щоб узгодити його з психологом у Telegram.</p>
-  <button class="btn secondary full" type="button" id="urgentNoTimeBtn">Не знайшли вільну годину? Узгодити в Telegram</button>
-</div><div id="urgentRequestPanelCritical" class="urgent-request-panel-critical">
-  <h2>Термінова консультація</h2>
-  <p>Якщо немає зручної години, залиште запит без часу — психолог узгодить час особисто.</p>
-  <button class="btn secondary full" type="button" id="urgentNoTimeBtn">Узгодити час у Telegram</button>
-</div></form>
-    <aside class="booking-summary reveal"><h3>Деталі</h3><div class="booking-result" id="bookingResult"></div></aside>
+      <div id="urgentRequestPanel" class="urgent-request-panel-clean">
+        <h3>Термінова консультація</h3>
+        <p>Якщо немає зручної години, залиште запит без часу й напишіть психологу в Telegram.</p>
+        <button class="btn secondary full" type="button" id="urgentNoTimeBtn">Узгодити час у Telegram</button>
+      </div>
+    </form>
+    <aside class="booking-summary reveal visible">
+      <h3>Деталі запису</h3>
+      <div class="booking-result" id="bookingResult"></div>
+    </aside>
   </div>
 </section>
-
 </main>
 
 
@@ -97,14 +103,6 @@
 <a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank">Telegram</a>
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
-<script src="review-final.js"></script>
-<script src="final-fixes.js"></script>
-
-<script src="stable-final.js"></script>
-<script src="photo-save-final.js"></script>
-<script src="critical-fix.js"></script>
-<script src="booking-flow-final.js"></script>
-<script src="calendar-urgent-final-fix.js"></script>
-<script src="layout-wide-fix.js"></script>
+<script src="final-stable-clean.js"></script>
 </body>
 </html>

@@ -4400,488 +4400,139 @@ main { flex: 1 0 auto !important; }
 
 
 /* =========================================================
-   CALENDAR + URGENT FINAL FIX
+   FINAL STABLE CLEAN — one reliable override layer
    ========================================================= */
+html { scroll-behavior: smooth; }
+html, body { min-height: 100%; }
+body { min-height: 100vh !important; display: flex !important; flex-direction: column !important; }
+main { flex: 1 0 auto !important; }
+.footer, .premium-footer { margin-top: auto !important; flex-shrink: 0 !important; }
 
-/* About page: reduce huge gap between photo and text/facts */
-.about-critical-layout,
-.about-final-layout,
-.about-profile-layout {
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr) !important;
-  gap: 22px !important;
-  max-width: 1180px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.about-critical-layout .about-facts-grid,
-.about-final-layout .about-facts-grid,
-.about-profile-layout .about-facts-grid {
-  gap: 12px !important;
-}
-
-#psychologistPhoto,
-.about-critical-layout .photo-placeholder,
-.about-final-layout .photo-placeholder,
-.about-profile-layout .photo-placeholder {
-  min-height: 500px !important;
-  max-height: 620px !important;
-}
-
-.about-critical-layout .text-block,
-.about-final-layout .text-block,
-.about-profile-layout .text-block,
-.about-critical-layout .professional-path-card,
-.about-final-layout .professional-path-card,
-.about-profile-layout .professional-path-card {
-  max-width: 760px !important;
-}
-
-/* Admin calendar fixed grid: stable month, no horizontal jump */
-#adminCalendar,
-.admin-calendar,
-.calendar-grid {
-  display: grid !important;
-  grid-template-columns: repeat(7, minmax(118px, 1fr)) !important;
-  gap: 12px !important;
-  align-items: stretch !important;
-  width: 100% !important;
-  overflow: visible !important;
-}
-
-.calendar-day-name {
-  text-align: center !important;
-  font-weight: 950 !important;
-  color: #2c1710 !important;
-  padding: 8px 4px !important;
-}
-
-.calendar-day {
-  min-height: 118px !important;
-  height: 118px !important;
-  border-radius: 22px !important;
-  padding: 12px !important;
-  overflow: hidden !important;
-  background:
-    linear-gradient(rgba(255,255,255,.38), rgba(239,227,212,.23)),
-    url("images/paper-texture.jpeg") !important;
-  background-size: auto, 135px auto !important;
-  border: 1px solid rgba(75,45,32,.12) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.62) !important;
-  cursor: pointer !important;
-}
-
-.calendar-day.other {
-  opacity: .42 !important;
-}
-
-.calendar-day.selected {
-  outline: 2px solid rgba(75,45,32,.42) !important;
-  outline-offset: 2px !important;
-  background:
-    linear-gradient(rgba(255,255,255,.54), rgba(239,227,212,.35)),
-    url("images/paper-texture.jpeg") !important;
-}
-
-.calendar-day.off {
-  background:
-    linear-gradient(135deg, rgba(183,101,93,.92), rgba(122,47,43,.95)),
-    url("images/paper-texture.jpeg") !important;
+/* active nav */
+.nav a.active-nav, .nav a[aria-current="page"] {
+  background: linear-gradient(135deg, #4b2d20, #2c1710) !important;
   color: #fff !important;
-}
-
-.day-number {
-  font-weight: 950 !important;
-  color: inherit !important;
-}
-
-.slot-chip {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin-top: 7px !important;
-  padding: 7px 9px !important;
   border-radius: 999px !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  font-size: 13px !important;
-  font-weight: 900 !important;
+  box-shadow: 0 12px 30px rgba(75,45,32,.18) !important;
 }
 
-.slot-chip.free {
-  background: rgba(75,45,32,.10) !important;
-  color: #2c1710 !important;
+/* footer distinct */
+.footer, .premium-footer {
+  background: linear-gradient(rgba(235,222,205,.96), rgba(224,204,180,.96)), url("images/paper-texture.jpeg") !important;
+  background-size: auto, 150px auto !important;
+  border-top: 1px solid rgba(75,45,32,.24) !important;
+  box-shadow: 0 -20px 60px rgba(75,45,32,.09) !important;
 }
-
-.slot-chip.urgent {
-  background: rgba(183,101,93,.22) !important;
-  color: #7b2f2b !important;
+.footer-contacts { display: flex !important; flex-wrap: wrap !important; gap: 12px !important; }
+.footer-contacts a {
+  display: inline-flex !important; align-items: center !important; gap: 10px !important;
+  padding: 12px 16px !important; border-radius: 999px !important;
+  text-decoration: none !important; color: #2c1710 !important;
+  background: rgba(255,250,243,.86) !important; border: 1px solid rgba(75,45,32,.14) !important;
 }
+.social-icon-svg { width: 34px; height: 34px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-weight: 950; font-size: 12px; flex: 0 0 auto; }
+.social-icon-svg.instagram { background: radial-gradient(circle at 30% 110%,#feda75 0%,#fa7e1e 28%,#d62976 55%,#962fbf 76%,#4f5bd5 100%); }
+.social-icon-svg.telegram { background: #2AABEE; }
+.social-icon-svg.facebook { background: #1877F2; }
+.social-icon-svg.email,.social-icon-svg.phone { background: linear-gradient(135deg,#4b2d20,#2c1710); }
 
-.slot-chip.booked {
-  background: rgba(111,157,112,.20) !important;
-  color: #477047 !important;
-}
-
-.slot-chip.request {
-  background: rgba(210,166,95,.28) !important;
-  color: #6a4a13 !important;
-}
-
-/* Client booking calendar/cards: stronger selected state */
-.booking-date-card.urgent-today::before {
-  content: "сьогодні";
-  display: inline-flex;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(183,101,93,.18);
-  color: #7b2f2b;
-  font-size: 12px;
-  font-weight: 950;
-  margin-bottom: 6px;
-}
-
-.booking-date-card.active.urgent-today::before,
-.booking-date-card:hover.urgent-today::before {
-  background: rgba(255,255,255,.18);
-  color: #fff;
-}
-
-.urgent-standalone-card {
-  cursor: pointer;
-}
-
-@media(max-width: 1080px){
-  #adminCalendar,
-  .admin-calendar,
-  .calendar-grid {
-    grid-template-columns: repeat(7, minmax(88px, 1fr)) !important;
-    gap: 8px !important;
-  }
-  .calendar-day {
-    min-height: 100px !important;
-    height: 100px !important;
-    padding: 9px !important;
-  }
-}
-
-@media(max-width: 760px){
-  .about-critical-layout,
-  .about-final-layout,
-  .about-profile-layout {
-    grid-template-columns: 1fr !important;
-    gap: 20px !important;
-  }
-
-  #adminCalendar,
-  .admin-calendar,
-  .calendar-grid {
-    grid-template-columns: repeat(7, minmax(44px, 1fr)) !important;
-    gap: 6px !important;
-  }
-
-  .calendar-day {
-    min-height: 76px !important;
-    height: 76px !important;
-    border-radius: 14px !important;
-    padding: 6px !important;
-  }
-
-  .slot-chip {
-    font-size: 11px !important;
-    padding: 4px 5px !important;
-  }
-}
-
-
-/* =========================================================
-   WIDE LAYOUT FIX — no centered cramped about/home layout
-   ========================================================= */
-
-/* Return large full-page feeling */
-.section,
-.hero,
-.hero-section,
-.about-critical-layout,
-.about-final-layout,
-.about-profile-layout {
-  width: 100% !important;
-}
-
-/* Hero: photo left, text right, full page width */
-.hero,
-.hero-section,
-.home-hero,
-.main-hero {
-  max-width: 1440px !important;
-  margin: 0 auto !important;
-  padding-left: clamp(28px, 5vw, 76px) !important;
-  padding-right: clamp(28px, 5vw, 76px) !important;
-}
-
-.hero-grid,
-.hero-inner,
-.hero-content-grid {
+/* home stable */
+.home-hero-new {
   display: grid !important;
-  grid-template-columns: minmax(360px, 0.9fr) minmax(520px, 1.25fr) !important;
-  gap: clamp(46px, 7vw, 120px) !important;
+  grid-template-columns: minmax(340px, 520px) minmax(0, 1fr) !important;
+  gap: clamp(44px, 7vw, 108px) !important;
   align-items: center !important;
-}
-
-#homePsychologistPhoto,
-.home-photo-frame {
-  width: min(520px, 100%) !important;
-  min-height: 560px !important;
-  max-height: 680px !important;
-  justify-self: start !important;
-}
-
-#homePsychologistPhoto img,
-.home-photo-frame img {
-  object-fit: cover !important;
-  object-position: center top !important;
-  border-radius: 34px !important;
-}
-
-.hero-text-block,
-.hero-copy,
-.hero-content {
-  justify-self: start !important;
-  text-align: left !important;
-  max-width: 760px !important;
-}
-
-#homePsychologistName,
-.hero-name-title {
-  max-width: 900px !important;
-  white-space: normal !important;
-  word-break: keep-all !important;
-  overflow-wrap: normal !important;
-}
-
-/* About page: wide two-column, not centered narrow */
-.about-critical-layout,
-.about-final-layout,
-.about-profile-layout {
   max-width: 1440px !important;
   margin: 0 auto !important;
-  padding-left: clamp(28px, 5vw, 76px) !important;
-  padding-right: clamp(28px, 5vw, 76px) !important;
+  padding-left: clamp(24px, 5vw, 76px) !important;
+  padding-right: clamp(24px, 5vw, 76px) !important;
+}
+.home-availability-panel { grid-column: 1 / -1 !important; }
+.home-photo-frame { width: 100% !important; min-height: 560px !important; max-height: 690px !important; aspect-ratio: 4/5 !important; padding: 0 !important; border: 0 !important; background: transparent !important; box-shadow: none !important; }
+.home-photo-frame img { width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center top !important; border-radius: 34px !important; box-shadow: 0 28px 78px rgba(75,45,32,.16) !important; }
+.hero-content { text-align: left !important; max-width: 760px !important; }
+#homePsychologistName, .hero-name-title { font-size: clamp(52px, 7vw, 96px) !important; line-height: .92 !important; letter-spacing: -.055em !important; color: #2c1710 !important; }
+
+/* about page: full width, two clean columns */
+.about-clean-layout {
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding-left: clamp(24px, 5vw, 76px) !important;
+  padding-right: clamp(24px, 5vw, 76px) !important;
   display: grid !important;
-  grid-template-columns: minmax(360px, 500px) minmax(640px, 1fr) !important;
-  column-gap: clamp(42px, 6vw, 96px) !important;
-  row-gap: 28px !important;
+  grid-template-columns: minmax(340px, 500px) minmax(0, 1fr) !important;
+  gap: clamp(34px, 5vw, 74px) !important;
   align-items: start !important;
 }
-
-/* Photo should be tall, clean, without extra empty frame */
-.about-critical-layout .photo-placeholder,
-.about-final-layout .photo-placeholder,
-.about-profile-layout .photo-placeholder,
+.about-photo-wrap { width: 100% !important; }
 #psychologistPhoto {
-  grid-column: 1 !important;
-  grid-row: 1 / span 4 !important;
-  width: 100% !important;
-  min-height: 620px !important;
-  max-height: 760px !important;
-  aspect-ratio: 4 / 5.6 !important;
-  padding: 0 !important;
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  overflow: visible !important;
+  width: 100% !important; min-height: 620px !important; max-height: 760px !important; aspect-ratio: 4/5.4 !important;
+  padding: 0 !important; border: 0 !important; background: transparent !important; box-shadow: none !important; overflow: visible !important;
 }
-
-#psychologistPhoto img,
-.about-critical-layout .photo-placeholder img,
-.about-final-layout .photo-placeholder img,
-.about-profile-layout .photo-placeholder img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center top !important;
-  border-radius: 34px !important;
-  box-shadow: 0 28px 78px rgba(75,45,32,.16) !important;
-  border: 1px solid rgba(75,45,32,.10) !important;
+#psychologistPhoto img {
+  width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center top !important;
+  border-radius: 34px !important; box-shadow: 0 28px 78px rgba(75,45,32,.16) !important; border: 1px solid rgba(75,45,32,.10) !important;
 }
-
-/* Facts: no narrow broken words */
-.about-critical-layout .about-facts-grid,
-.about-final-layout .about-facts-grid,
-.about-profile-layout .about-facts-grid {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(145px, 1fr)) !important;
-  gap: 14px !important;
-  margin: 0 0 28px 0 !important;
-  max-width: 100% !important;
+.about-info-wrap { width: 100% !important; min-width: 0 !important; }
+.about-facts-grid {
+  display: grid !important; grid-template-columns: repeat(4, minmax(145px,1fr)) !important; gap: 14px !important; margin: 0 0 24px !important;
 }
-
-.about-critical-layout .about-facts-grid article,
-.about-final-layout .about-facts-grid article,
-.about-profile-layout .about-facts-grid article {
-  min-width: 0 !important;
-  min-height: 112px !important;
-  padding: 22px !important;
-  border-radius: 26px !important;
-  text-align: left !important;
+.about-facts-grid article {
+  min-width: 0 !important; min-height: 112px !important; padding: 22px !important; border-radius: 26px !important; text-align: left !important;
+  background: linear-gradient(rgba(255,255,255,.46),rgba(239,227,212,.30)), url("images/paper-texture.jpeg") !important;
+  background-size: auto, 140px auto !important; border: 1px solid rgba(75,45,32,.13) !important;
 }
+.about-facts-grid strong, .about-facts-grid span { word-break: normal !important; overflow-wrap: normal !important; hyphens: none !important; line-height: 1.2 !important; }
+.about-facts-grid strong { font-size: clamp(18px,1.5vw,25px) !important; }
+.professional-path-card { width: 100% !important; max-width: 920px !important; padding: clamp(28px,4vw,46px) !important; margin: 0 !important; text-align: left !important; }
+.professional-path-card h2 { font-size: clamp(38px,4.8vw,70px) !important; line-height: .96 !important; letter-spacing: -.045em !important; }
+.professional-path-card p, .professional-path-card li { line-height: 1.68 !important; font-size: clamp(15px,1.05vw,18px) !important; }
+.about-custom-section { max-width: 1440px !important; margin: 0 auto !important; padding-left: clamp(24px,5vw,76px) !important; padding-right: clamp(24px,5vw,76px) !important; }
+.about-custom-grid { display: grid !important; grid-template-columns: repeat(3,minmax(260px,1fr)) !important; gap: 20px !important; }
+.about-custom-card { padding: 28px !important; min-height: 190px !important; border-radius: 30px !important; background: linear-gradient(rgba(255,255,255,.38), rgba(239,227,212,.30)), url("images/paper-texture.jpeg") !important; background-size: auto, 145px auto !important; border: 1px solid rgba(75,45,32,.14) !important; }
 
-.about-critical-layout .about-facts-grid strong,
-.about-final-layout .about-facts-grid strong,
-.about-profile-layout .about-facts-grid strong,
-.about-critical-layout .about-facts-grid p,
-.about-final-layout .about-facts-grid p,
-.about-profile-layout .about-facts-grid p {
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  hyphens: none !important;
-  white-space: normal !important;
-  line-height: 1.18 !important;
+/* services/cards not crooked */
+.services-groups { display: grid !important; gap: 32px !important; }
+.service-type-group { display: grid !important; gap: 18px !important; }
+.service-type-head { max-width: 860px !important; text-align: left !important; }
+.service-type-head h2 { font-size: clamp(32px,4vw,58px) !important; line-height: 1 !important; }
+.service-type-group .cards { display: grid !important; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)) !important; gap: 20px !important; }
+.service-card { position: relative !important; text-align: left !important; min-height: 260px !important; }
+
+/* client booking calendar */
+#bookingDate,#bookingTime { position: absolute !important; opacity: 0 !important; pointer-events: none !important; width: 1px !important; height: 1px !important; }
+.booking-date-strip { display: grid !important; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)) !important; gap: 12px !important; }
+.booking-date-card { min-height: 88px !important; border-radius: 24px !important; padding: 16px !important; text-align: left !important; background: linear-gradient(rgba(255,255,255,.50),rgba(239,227,212,.30)), url("images/paper-texture.jpeg") !important; background-size: auto, 135px auto !important; border: 1px solid rgba(75,45,32,.14) !important; color:#2c1710 !important; }
+.booking-date-card.active,.booking-date-card:hover { background: linear-gradient(135deg,#4b2d20,#2c1710) !important; color:#fff !important; }
+.booking-time-grid { display:grid !important; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)) !important; gap:10px !important; margin-top:14px !important; }
+.time-pill { min-height:52px !important; border-radius:18px !important; background:rgba(255,250,243,.86) !important; color:#2c1710 !important; border:1px solid rgba(75,45,32,.14) !important; }
+.time-pill.active,.time-pill:hover { background:linear-gradient(135deg,#4b2d20,#2c1710) !important; color:#fff !important; }
+
+/* admin calendar stable */
+#adminCalendar,.calendar-grid { display:grid !important; grid-template-columns:repeat(7,minmax(100px,1fr)) !important; gap:10px !important; width:100% !important; }
+.calendar-day { min-height:108px !important; height:108px !important; border-radius:20px !important; padding:10px !important; overflow:hidden !important; }
+.calendar-day.off { background:linear-gradient(135deg,rgba(183,101,93,.92),rgba(122,47,43,.95)) !important; color:#fff !important; }
+.slot-chip { display:block !important; width:100% !important; margin-top:6px !important; padding:6px 8px !important; border-radius:999px !important; white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important; font-size:12px !important; font-weight:900 !important; }
+
+/* modals/flow */
+.booking-flow-modal { position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(44,23,16,.34); backdrop-filter:blur(10px); }
+.booking-flow-modal.active { display:flex !important; }
+.booking-flow-card { width:min(680px,100%); max-height:90vh; overflow:auto; border-radius:34px; padding:30px; background:linear-gradient(rgba(255,255,255,.48), rgba(239,227,212,.34)), url("images/paper-texture.jpeg") !important; background-size:auto,145px auto !important; border:1px solid rgba(75,45,32,.16); box-shadow:0 34px 100px rgba(44,23,16,.26); color:#2c1710; }
+.booking-flow-row { display:grid; grid-template-columns:160px 1fr; gap:12px; padding:13px 14px; border-radius:18px; background:rgba(255,250,243,.72); border:1px solid rgba(75,45,32,.10); margin-bottom:10px; }
+.urgent-request-panel-clean { display:none; margin-top:18px; padding:22px; border-radius:24px; background:rgba(255,250,243,.68); border:1px solid rgba(183,101,93,.24); }
+.urgent-request-panel-clean.active { display:block !important; }
+
+@media(max-width:1180px){
+  .home-hero-new,.about-clean-layout { grid-template-columns:1fr !important; }
+  .home-photo-frame,#psychologistPhoto { width:min(520px,100%) !important; min-height:520px !important; }
+  .about-facts-grid { grid-template-columns:repeat(2,minmax(200px,1fr)) !important; }
+  .about-custom-grid { grid-template-columns:repeat(2,minmax(240px,1fr)) !important; }
 }
-
-.about-critical-layout .about-facts-grid strong,
-.about-final-layout .about-facts-grid strong,
-.about-profile-layout .about-facts-grid strong {
-  font-size: clamp(18px, 1.5vw, 26px) !important;
-}
-
-/* Text area below facts, not squeezed */
-.about-critical-layout .text-block,
-.about-final-layout .text-block,
-.about-profile-layout .text-block,
-.about-critical-layout .professional-path-card,
-.about-final-layout .professional-path-card,
-.about-profile-layout .professional-path-card,
-.about-critical-layout .about-text-card,
-.about-final-layout .about-text-card,
-.about-profile-layout .about-text-card {
-  grid-column: 2 !important;
-  width: 100% !important;
-  max-width: 900px !important;
-  margin: 0 !important;
-  padding: clamp(28px, 4vw, 46px) !important;
-  text-align: left !important;
-}
-
-.about-critical-layout h2,
-.about-final-layout h2,
-.about-profile-layout h2 {
-  font-size: clamp(38px, 4.6vw, 72px) !important;
-  line-height: .96 !important;
-  letter-spacing: -.045em !important;
-  margin-bottom: 18px !important;
-}
-
-.about-critical-layout p,
-.about-final-layout p,
-.about-profile-layout p,
-.about-critical-layout li,
-.about-final-layout li,
-.about-profile-layout li {
-  font-size: clamp(15px, 1.05vw, 18px) !important;
-  line-height: 1.68 !important;
-  max-width: 820px !important;
-}
-
-/* Extra about windows full width under the section */
-.about-custom-section {
-  max-width: 1440px !important;
-  margin: 0 auto !important;
-  padding-left: clamp(28px, 5vw, 76px) !important;
-  padding-right: clamp(28px, 5vw, 76px) !important;
-}
-
-.about-custom-grid {
-  grid-template-columns: repeat(3, minmax(260px, 1fr)) !important;
-}
-
-/* Prevent top heading from being clipped on about page */
-main > .section:first-child,
-.compact-top,
-.page-hero {
-  padding-top: clamp(120px, 12vw, 170px) !important;
-}
-
-/* Responsive */
-@media(max-width: 1180px) {
-  .hero-grid,
-  .hero-inner,
-  .hero-content-grid,
-  .about-critical-layout,
-  .about-final-layout,
-  .about-profile-layout {
-    grid-template-columns: 1fr !important;
-  }
-
-  #homePsychologistPhoto,
-  .home-photo-frame,
-  #psychologistPhoto,
-  .about-critical-layout .photo-placeholder,
-  .about-final-layout .photo-placeholder,
-  .about-profile-layout .photo-placeholder {
-    grid-column: auto !important;
-    grid-row: auto !important;
-    width: min(520px, 100%) !important;
-    min-height: 520px !important;
-    justify-self: start !important;
-  }
-
-  .about-critical-layout .about-facts-grid,
-  .about-final-layout .about-facts-grid,
-  .about-profile-layout .about-facts-grid,
-  .about-critical-layout .text-block,
-  .about-final-layout .text-block,
-  .about-profile-layout .text-block,
-  .about-critical-layout .professional-path-card,
-  .about-final-layout .professional-path-card,
-  .about-profile-layout .professional-path-card {
-    grid-column: auto !important;
-    grid-row: auto !important;
-  }
-
-  .about-critical-layout .about-facts-grid,
-  .about-final-layout .about-facts-grid,
-  .about-profile-layout .about-facts-grid {
-    grid-template-columns: repeat(2, minmax(220px, 1fr)) !important;
-  }
-}
-
-@media(max-width: 720px) {
-  .hero,
-  .hero-section,
-  .home-hero,
-  .main-hero,
-  .about-critical-layout,
-  .about-final-layout,
-  .about-profile-layout,
-  .about-custom-section {
-    padding-left: 18px !important;
-    padding-right: 18px !important;
-  }
-
-  .about-critical-layout .about-facts-grid,
-  .about-final-layout .about-facts-grid,
-  .about-profile-layout .about-facts-grid,
-  .about-custom-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  #homePsychologistPhoto,
-  .home-photo-frame,
-  #psychologistPhoto,
-  .about-critical-layout .photo-placeholder,
-  .about-final-layout .photo-placeholder,
-  .about-profile-layout .photo-placeholder {
-    min-height: 430px !important;
-    width: 100% !important;
-  }
-
-  .about-critical-layout h2,
-  .about-final-layout h2,
-  .about-profile-layout h2 {
-    font-size: clamp(34px, 11vw, 52px) !important;
-  }
+@media(max-width:720px){
+  .home-hero-new,.about-clean-layout,.about-custom-section { padding-left:18px !important; padding-right:18px !important; }
+  .about-facts-grid,.about-custom-grid,.booking-date-strip,.booking-time-grid { grid-template-columns:1fr !important; }
+  .home-photo-frame,#psychologistPhoto { min-height:430px !important; width:100% !important; }
+  #adminCalendar,.calendar-grid { grid-template-columns:repeat(7,minmax(42px,1fr)) !important; gap:5px !important; }
+  .calendar-day { min-height:72px !important; height:72px !important; border-radius:12px !important; padding:5px !important; }
+  .slot-chip { font-size:10px !important; padding:3px 4px !important; }
 }

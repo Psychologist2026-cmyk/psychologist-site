@@ -24,30 +24,36 @@
 </header>
 
 <main>
-
-<section class="section page-hero">
+<section class="section page-hero about-title-row">
   <p class="eyebrow">Про психолога</p>
   <h1 data-site="psychologistName">Імʼя Психолога</h1>
   <p class="hero-text" data-site="aboutIntro">Коротко про спеціаліста, досвід і підхід.</p>
 </section>
-<section class="section split about-critical-layout">
-  <div class="photo-placeholder reveal instagram-photo-frame" id="psychologistPhoto"><span>Фото психолога</span></div>
-  <div class="about-facts-grid reveal" id="aboutFactsGrid">
+
+<section class="section about-clean-layout">
+  <div class="about-photo-wrap reveal visible">
+    <div class="photo-placeholder instagram-photo-frame" id="psychologistPhoto"><span>Фото психолога</span></div>
+  </div>
+  <div class="about-info-wrap reveal visible">
+    <div class="about-facts-grid" id="aboutFactsGrid">
       <article><span>Вік</span><strong id="factAgePublic">—</strong></article>
       <article><span>Досвід</span><strong id="factExperiencePublic">—</strong></article>
-      <article><span>Мова</span><strong id="factLanguagePublic">—</strong></article>
-      <article><span>Додатково</span><strong id="factCustomPublic">—</strong></article>
+      <article><span>Мови</span><strong id="factLanguagePublic">—</strong></article>
+      <article><span>Формат</span><strong id="factCustomPublic">—</strong></article>
     </div>
-    <div class="text-block reveal professional-path-card">
-    <h2 data-site="aboutTitle">Підхід до роботи</h2>
-    <p data-site="aboutText">Тут буде основний опис.</p>
-    <ul class="check-list" id="aboutBullets"><li>Індивідуальні консультації</li><li>Підтримка у складні періоди</li></ul>
+    <div class="text-block professional-path-card">
+      <h2 data-site="aboutTitle">Професійний підхід</h2>
+      <p data-site="aboutText">Тут буде основний опис.</p>
+      <ul class="check-list" id="aboutBullets"></ul>
+    </div>
   </div>
 </section>
-<section class="section"><div class="cards" id="aboutExtraGrid"></div></section>
 
 <section class="section about-custom-section">
-  <div class="section-head reveal"><p class="eyebrow">Додатково</p><h2>Більше про психолога</h2></div>
+  <div class="section-head reveal visible">
+    <p class="eyebrow">Додатково</p>
+    <h2>Більше про психолога</h2>
+  </div>
   <div class="about-custom-grid" id="aboutCustomWindows"></div>
 </section>
 </main>
@@ -71,14 +77,6 @@
 <a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank">Telegram</a>
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
-<script src="review-final.js"></script>
-<script src="final-fixes.js"></script>
-
-<script src="stable-final.js"></script>
-<script src="photo-save-final.js"></script>
-<script src="critical-fix.js"></script>
-<script src="booking-flow-final.js"></script>
-<script src="calendar-urgent-final-fix.js"></script>
-<script src="layout-wide-fix.js"></script>
+<script src="final-stable-clean.js"></script>
 </body>
 </html>
