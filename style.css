@@ -4593,3 +4593,295 @@ main { flex: 1 0 auto !important; }
     padding: 4px 5px !important;
   }
 }
+
+
+/* =========================================================
+   WIDE LAYOUT FIX — no centered cramped about/home layout
+   ========================================================= */
+
+/* Return large full-page feeling */
+.section,
+.hero,
+.hero-section,
+.about-critical-layout,
+.about-final-layout,
+.about-profile-layout {
+  width: 100% !important;
+}
+
+/* Hero: photo left, text right, full page width */
+.hero,
+.hero-section,
+.home-hero,
+.main-hero {
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding-left: clamp(28px, 5vw, 76px) !important;
+  padding-right: clamp(28px, 5vw, 76px) !important;
+}
+
+.hero-grid,
+.hero-inner,
+.hero-content-grid {
+  display: grid !important;
+  grid-template-columns: minmax(360px, 0.9fr) minmax(520px, 1.25fr) !important;
+  gap: clamp(46px, 7vw, 120px) !important;
+  align-items: center !important;
+}
+
+#homePsychologistPhoto,
+.home-photo-frame {
+  width: min(520px, 100%) !important;
+  min-height: 560px !important;
+  max-height: 680px !important;
+  justify-self: start !important;
+}
+
+#homePsychologistPhoto img,
+.home-photo-frame img {
+  object-fit: cover !important;
+  object-position: center top !important;
+  border-radius: 34px !important;
+}
+
+.hero-text-block,
+.hero-copy,
+.hero-content {
+  justify-self: start !important;
+  text-align: left !important;
+  max-width: 760px !important;
+}
+
+#homePsychologistName,
+.hero-name-title {
+  max-width: 900px !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+/* About page: wide two-column, not centered narrow */
+.about-critical-layout,
+.about-final-layout,
+.about-profile-layout {
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding-left: clamp(28px, 5vw, 76px) !important;
+  padding-right: clamp(28px, 5vw, 76px) !important;
+  display: grid !important;
+  grid-template-columns: minmax(360px, 500px) minmax(640px, 1fr) !important;
+  column-gap: clamp(42px, 6vw, 96px) !important;
+  row-gap: 28px !important;
+  align-items: start !important;
+}
+
+/* Photo should be tall, clean, without extra empty frame */
+.about-critical-layout .photo-placeholder,
+.about-final-layout .photo-placeholder,
+.about-profile-layout .photo-placeholder,
+#psychologistPhoto {
+  grid-column: 1 !important;
+  grid-row: 1 / span 4 !important;
+  width: 100% !important;
+  min-height: 620px !important;
+  max-height: 760px !important;
+  aspect-ratio: 4 / 5.6 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+#psychologistPhoto img,
+.about-critical-layout .photo-placeholder img,
+.about-final-layout .photo-placeholder img,
+.about-profile-layout .photo-placeholder img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  border-radius: 34px !important;
+  box-shadow: 0 28px 78px rgba(75,45,32,.16) !important;
+  border: 1px solid rgba(75,45,32,.10) !important;
+}
+
+/* Facts: no narrow broken words */
+.about-critical-layout .about-facts-grid,
+.about-final-layout .about-facts-grid,
+.about-profile-layout .about-facts-grid {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(145px, 1fr)) !important;
+  gap: 14px !important;
+  margin: 0 0 28px 0 !important;
+  max-width: 100% !important;
+}
+
+.about-critical-layout .about-facts-grid article,
+.about-final-layout .about-facts-grid article,
+.about-profile-layout .about-facts-grid article {
+  min-width: 0 !important;
+  min-height: 112px !important;
+  padding: 22px !important;
+  border-radius: 26px !important;
+  text-align: left !important;
+}
+
+.about-critical-layout .about-facts-grid strong,
+.about-final-layout .about-facts-grid strong,
+.about-profile-layout .about-facts-grid strong,
+.about-critical-layout .about-facts-grid p,
+.about-final-layout .about-facts-grid p,
+.about-profile-layout .about-facts-grid p {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  white-space: normal !important;
+  line-height: 1.18 !important;
+}
+
+.about-critical-layout .about-facts-grid strong,
+.about-final-layout .about-facts-grid strong,
+.about-profile-layout .about-facts-grid strong {
+  font-size: clamp(18px, 1.5vw, 26px) !important;
+}
+
+/* Text area below facts, not squeezed */
+.about-critical-layout .text-block,
+.about-final-layout .text-block,
+.about-profile-layout .text-block,
+.about-critical-layout .professional-path-card,
+.about-final-layout .professional-path-card,
+.about-profile-layout .professional-path-card,
+.about-critical-layout .about-text-card,
+.about-final-layout .about-text-card,
+.about-profile-layout .about-text-card {
+  grid-column: 2 !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  margin: 0 !important;
+  padding: clamp(28px, 4vw, 46px) !important;
+  text-align: left !important;
+}
+
+.about-critical-layout h2,
+.about-final-layout h2,
+.about-profile-layout h2 {
+  font-size: clamp(38px, 4.6vw, 72px) !important;
+  line-height: .96 !important;
+  letter-spacing: -.045em !important;
+  margin-bottom: 18px !important;
+}
+
+.about-critical-layout p,
+.about-final-layout p,
+.about-profile-layout p,
+.about-critical-layout li,
+.about-final-layout li,
+.about-profile-layout li {
+  font-size: clamp(15px, 1.05vw, 18px) !important;
+  line-height: 1.68 !important;
+  max-width: 820px !important;
+}
+
+/* Extra about windows full width under the section */
+.about-custom-section {
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding-left: clamp(28px, 5vw, 76px) !important;
+  padding-right: clamp(28px, 5vw, 76px) !important;
+}
+
+.about-custom-grid {
+  grid-template-columns: repeat(3, minmax(260px, 1fr)) !important;
+}
+
+/* Prevent top heading from being clipped on about page */
+main > .section:first-child,
+.compact-top,
+.page-hero {
+  padding-top: clamp(120px, 12vw, 170px) !important;
+}
+
+/* Responsive */
+@media(max-width: 1180px) {
+  .hero-grid,
+  .hero-inner,
+  .hero-content-grid,
+  .about-critical-layout,
+  .about-final-layout,
+  .about-profile-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  #homePsychologistPhoto,
+  .home-photo-frame,
+  #psychologistPhoto,
+  .about-critical-layout .photo-placeholder,
+  .about-final-layout .photo-placeholder,
+  .about-profile-layout .photo-placeholder {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: min(520px, 100%) !important;
+    min-height: 520px !important;
+    justify-self: start !important;
+  }
+
+  .about-critical-layout .about-facts-grid,
+  .about-final-layout .about-facts-grid,
+  .about-profile-layout .about-facts-grid,
+  .about-critical-layout .text-block,
+  .about-final-layout .text-block,
+  .about-profile-layout .text-block,
+  .about-critical-layout .professional-path-card,
+  .about-final-layout .professional-path-card,
+  .about-profile-layout .professional-path-card {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .about-critical-layout .about-facts-grid,
+  .about-final-layout .about-facts-grid,
+  .about-profile-layout .about-facts-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr)) !important;
+  }
+}
+
+@media(max-width: 720px) {
+  .hero,
+  .hero-section,
+  .home-hero,
+  .main-hero,
+  .about-critical-layout,
+  .about-final-layout,
+  .about-profile-layout,
+  .about-custom-section {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .about-critical-layout .about-facts-grid,
+  .about-final-layout .about-facts-grid,
+  .about-profile-layout .about-facts-grid,
+  .about-custom-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #homePsychologistPhoto,
+  .home-photo-frame,
+  #psychologistPhoto,
+  .about-critical-layout .photo-placeholder,
+  .about-final-layout .photo-placeholder,
+  .about-profile-layout .photo-placeholder {
+    min-height: 430px !important;
+    width: 100% !important;
+  }
+
+  .about-critical-layout h2,
+  .about-final-layout h2,
+  .about-profile-layout h2 {
+    font-size: clamp(34px, 11vw, 52px) !important;
+  }
+}
