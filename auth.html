@@ -32,16 +32,19 @@
     <div class="login-card auth-card reveal visible">
       <p class="eyebrow">Особистий кабінет</p>
       <h1>Вхід в акаунт</h1>
-      <p class="auth-subtitle">Один вхід для клієнта й психолога. Роль визначається автоматично за email.</p>
+      <p class="auth-subtitle">Один вхід для клієнта й психолога. Google відкриється в цій самій вкладці без додаткового popup-вікна.</p>
       <form id="unifiedAuthForm">
         <input id="authName" placeholder="Ваше імʼя">
         <input id="authEmail" type="email" placeholder="Email" required>
         <input id="authPassword" type="password" placeholder="Пароль" required>
         <button class="btn primary full" type="submit">Увійти / Зареєструватись</button>
         <div class="auth-divider"><span>або</span></div>
-        <button class="google-auth-btn" type="button" id="googleClientBtn"><span class="google-mark">G</span><b>Увійти через Google</b></button>
+        <button class="google-auth-btn" type="button" id="googleClientBtn">
+          <span class="google-mark">G</span>
+          <b>Увійти через Google</b>
+        </button>
       </form>
-      <p class="auth-note">Google відкриє безпечне вікно авторизації.</p>
+      <p class="auth-note">Після підтвердження Google поверне вас назад у кабінет.</p>
     </div>
   </div>
 </section>
@@ -70,7 +73,9 @@
 <script src="script.js"></script>
 <script src="review-final.js"></script>
 <script src="final-fixes.js"></script>
-<script type="module" src="firebase-auth.js"></script>
 
+<script src="stable-final.js"></script>
+<script type="module" src="firebase-auth.js"></script>
+<script src="photo-save-final.js"></script>
 </body>
 </html>

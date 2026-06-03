@@ -102,3 +102,23 @@ Review-ready polish:
 - home hero makes psychologist name more visible;
 - short pages keep footer at bottom;
 - animations optimized for smoother page transitions.
+
+STABLE REVIEW FINAL:
+- обʼєднано останні правки в одну стабільну збірку;
+- терміновий запис: сьогоднішні години, запит без часу через Telegram, підтвердження психологом, оплата після підтвердження;
+- звичайний запис доступний тільки з наступного дня;
+- клієнтський календар перероблений у стилі сайту;
+- footer виділений як інформаційна нижня панель, додані SVG-іконки Instagram / Telegram / Facebook / Email / Phone;
+- активна вкладка меню підсвічується;
+- сторінка “Про психолога” без сертифікатів, із фото зліва, фактами зверху, описом і редагованими додатковими вікнами;
+- типи консультацій повністю редаговані психологом;
+- фото психолога зберігається одразу після вибору файлу;
+- додано релевантний контент із профілю психолога pleso.
+
+
+FINAL AUTH + PHOTO FIX:
+- Google login changed from popup to redirect in the same browser tab.
+- Auth page remains a single clean login card.
+- Psychologist photo upload now compresses image before saving to localStorage.
+- Photo appears immediately on home/about pages after selection.
+- Client profile photo upload also compresses before saving.

@@ -39,15 +39,19 @@
       <input id="clientPhone" placeholder="Номер телефону" required>
       <input id="clientSocial" placeholder="Соцмережа для звʼязку">
       <select id="bookingService" required><option value="">Оберіть консультацію</option></select>
-      <input id="bookingDate" type="date" required>
+      <div class="custom-booking-label" id="customBookingLabel">Оберіть дату</div><input id="bookingDate" type="date" required>
       <div class="booking-calendar-ui">
         <div class="booking-date-strip" id="bookingDateStrip"></div>
         <div class="booking-time-grid" id="bookingTimeGrid"></div>
       </div>
-      <select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select><small class="timezone-note">Час вказано за Києвом</small>
+      <div class="custom-time-label" id="customTimeLabel">Оберіть час</div><select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select><small class="timezone-note">Час вказано за Києвом</small>
       <textarea id="clientComment" placeholder="Коментар або короткий запит"></textarea>
       <button class="btn primary full" type="submit">Записатись</button>
-    </form>
+    <div id="urgentRequestPanelFinal" class="urgent-request-panel-final">
+  <h2>Термінова консультація</h2>
+  <p>Оберіть вільну годину на сьогодні або залиште запит без часу, щоб узгодити його з психологом у Telegram.</p>
+  <button class="btn secondary full" type="button" id="urgentNoTimeBtn">Не знайшли вільну годину? Узгодити в Telegram</button>
+</div></form>
     <aside class="booking-summary reveal"><h3>Деталі</h3><div class="booking-result" id="bookingResult"></div></aside>
   </div>
 </section>
@@ -76,5 +80,7 @@
 <script src="review-final.js"></script>
 <script src="final-fixes.js"></script>
 
+<script src="stable-final.js"></script>
+<script src="photo-save-final.js"></script>
 </body>
 </html>
