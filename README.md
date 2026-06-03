@@ -122,3 +122,12 @@ FINAL AUTH + PHOTO FIX:
 - Psychologist photo upload now compresses image before saving to localStorage.
 - Photo appears immediately on home/about pages after selection.
 - Client profile photo upload also compresses before saving.
+
+
+CRITICAL FIX:
+- прибрана некрасива зовнішня рамка фото, фото тепер обрізається як преміальне портретне зображення;
+- сторінка “Про психолога” перебудована під структуру: фото зліва, факти справа, опис нижче, додаткові вікна;
+- активна вкладка меню примусово підсвічується;
+- доданий видимий окремий блок “Терміновий запис”;
+- терміновий запис: сьогоднішні години або запит без часу через Telegram;
+- клієнтський календар і модальні/вікна приведені до стилю сайту.

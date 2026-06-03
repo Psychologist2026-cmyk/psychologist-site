@@ -29,6 +29,22 @@
 <section class="section compact-top"><div class="cards" id="servicesGrid">
   <article class="service-card"><h3>Індивідуальна консультація</h3><p>Особиста зустріч для роботи з вашим запитом.</p><div class="price">1500 грн</div><a class="btn primary" href="#booking">Обрати час</a></article>
 </div></section>
+
+<section class="section urgent-standalone-section" id="urgentStandaloneSection">
+  <div class="section-head reveal visible">
+    <p class="eyebrow">Терміново</p>
+    <h2>Терміновий запис</h2>
+    <p>Для ситуацій, коли консультація потрібна сьогодні. Можна обрати вільну годину або залишити запит без часу й узгодити його з психологом у Telegram.</p>
+  </div>
+  <div class="urgent-standalone-card reveal visible">
+    <div>
+      <h3>Термінова консультація</h3>
+      <p>Після запиту психолог підтверджує консультацію в кабінеті. Тільки після підтвердження клієнт бачить оплату та посилання.</p>
+    </div>
+    <a class="btn primary" href="#booking" id="urgentStandaloneBtn">Записатись терміново</a>
+  </div>
+</section>
+
 <section class="section booking-section" id="booking">
   <div class="section-head reveal"><p class="eyebrow">Запис</p><h2>Запис на консультацію</h2></div>
   <div class="booking-layout">
@@ -51,6 +67,10 @@
   <h2>Термінова консультація</h2>
   <p>Оберіть вільну годину на сьогодні або залиште запит без часу, щоб узгодити його з психологом у Telegram.</p>
   <button class="btn secondary full" type="button" id="urgentNoTimeBtn">Не знайшли вільну годину? Узгодити в Telegram</button>
+</div><div id="urgentRequestPanelCritical" class="urgent-request-panel-critical">
+  <h2>Термінова консультація</h2>
+  <p>Якщо немає зручної години, залиште запит без часу — психолог узгодить час особисто.</p>
+  <button class="btn secondary full" type="button" id="urgentNoTimeBtn">Узгодити час у Telegram</button>
 </div></form>
     <aside class="booking-summary reveal"><h3>Деталі</h3><div class="booking-result" id="bookingResult"></div></aside>
   </div>
@@ -82,5 +102,6 @@
 
 <script src="stable-final.js"></script>
 <script src="photo-save-final.js"></script>
+<script src="critical-fix.js"></script>
 </body>
 </html>
