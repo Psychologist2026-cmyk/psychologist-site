@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Вхід / Реєстрація</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="master-polish.css">
 </head>
 <body class="public">
 
@@ -24,15 +25,12 @@
 </header>
 
 <main>
-
-<section class="section page-hero"><p class="eyebrow">Акаунт</p><h1>Вхід або реєстрація</h1></section>
-
 <section class="section compact-top auth-screen single-auth-screen">
   <div class="auth-shell single-auth-shell reveal visible">
     <div class="login-card auth-card reveal visible">
       <p class="eyebrow">Особистий кабінет</p>
       <h1>Вхід в акаунт</h1>
-      <p class="auth-subtitle">Один вхід для клієнта й психолога. Google відкриється в цій самій вкладці без додаткового popup-вікна.</p>
+      <p class="auth-subtitle">Один вхід для клієнта й психолога. Роль визначається автоматично за email.</p>
       <form id="unifiedAuthForm">
         <input id="authName" placeholder="Ваше імʼя">
         <input id="authEmail" type="email" placeholder="Email" required>
@@ -44,12 +42,10 @@
           <b>Увійти через Google</b>
         </button>
       </form>
-      <p class="auth-note">Після підтвердження Google поверне вас назад у кабінет.</p>
+      <p class="auth-note">Google-вхід відкривається у цій самій вкладці й повертає користувача в кабінет.</p>
     </div>
   </div>
 </section>
-
-
 </main>
 
 
@@ -71,9 +67,7 @@
 <a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank">Telegram</a>
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
-<script src="final-stable-clean.js"></script>
+<script src="final-stable-master.js"></script>
 <script type="module" src="firebase-auth.js"></script>
-<script src="alignment-polish.js"></script>
-<script src="wide-ui-polish.js"></script>
 </body>
 </html>

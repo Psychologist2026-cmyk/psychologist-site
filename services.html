@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Послуги та запис</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="master-polish.css">
 </head>
 <body class="public">
 
@@ -30,7 +31,7 @@
   <p class="hero-text">Плановий запис доступний з наступного дня. Терміновий запис показує доступні години на сьогодні або дозволяє залишити запит без часу.</p>
 </section>
 
-<section class="section compact-top">
+<section class="section compact-top services-page-section">
   <div class="service-category-filters" id="serviceCategoryFilters"></div>
   <div class="services-groups" id="servicesGrid"></div>
 </section>
@@ -40,7 +41,7 @@
     <div>
       <p class="eyebrow">Терміново</p>
       <h2>Потрібна зустріч сьогодні?</h2>
-      <p>Оберіть вільну годину на сьогодні або залиште запит без часу. Психолог підтвердить консультацію в кабінеті, після чого зʼявиться оплата.</p>
+      <p>Оберіть вільну годину на сьогодні або залиште запит без часу. Психолог підтвердить консультацію в кабінеті, після чого зʼявиться можливість оплати.</p>
     </div>
     <a class="btn primary" href="#booking" id="urgentStandaloneBtn">Терміновий запис</a>
   </div>
@@ -59,13 +60,11 @@
       <input id="clientPhone" placeholder="Номер телефону" required>
       <input id="clientSocial" placeholder="Соцмережа для звʼязку">
       <select id="bookingService" required><option value="">Оберіть консультацію</option></select>
-      <div class="custom-booking-label">Оберіть дату</div>
-      <input id="bookingDate" type="date" required>
       <div class="booking-calendar-ui">
         <div class="booking-date-strip" id="bookingDateStrip"></div>
         <div class="booking-time-grid" id="bookingTimeGrid"></div>
       </div>
-      <div class="custom-time-label">Оберіть час</div>
+      <input id="bookingDate" type="date" required>
       <select id="bookingTime" required><option value="">Спочатку оберіть дату</option></select>
       <small class="timezone-note">Час вказано за Києвом</small>
       <textarea id="clientComment" placeholder="Коментар або короткий запит"></textarea>
@@ -103,8 +102,6 @@
 <a class="telegram-float" id="telegramFloat" href="https://t.me/USERNAME" target="_blank">Telegram</a>
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
-<script src="final-stable-clean.js"></script>
-<script src="alignment-polish.js"></script>
-<script src="wide-ui-polish.js"></script>
+<script src="final-stable-master.js"></script>
 </body>
 </html>

@@ -25,10 +25,7 @@ const firebaseConfig = {
   measurementId: "G-KVCP2GGMKS"
 };
 
-// Тут треба поставити реальну пошту психолога, коли буде відома.
-// Саме ця пошта після Google-входу відкриватиме кабінет психолога.
 const OWNER_EMAIL = localStorage.getItem("psy_owner_email") || "psychologist@example.com";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -38,9 +35,7 @@ provider.setCustomParameters({ prompt: "select_account" });
 function getClients(){
   try { return JSON.parse(localStorage.getItem("psy_clients")) || []; } catch(e){ return []; }
 }
-function setClients(arr){
-  localStorage.setItem("psy_clients", JSON.stringify(arr));
-}
+function setClients(arr){ localStorage.setItem("psy_clients", JSON.stringify(arr)); }
 function upsertLocalClient(user){
   const email = (user.email || "").toLowerCase();
   const clients = getClients();
@@ -85,42 +80,31 @@ async function finishLogin(user){
 async function googleLoginSameTab(){
   try{
     await setPersistence(auth, browserLocalPersistence);
-    localStorage.setItem("psy_google_login_started", "yes");
     await signInWithRedirect(auth, provider);
   }catch(error){
     console.error(error);
     let message = error && error.message ? error.message : String(error);
     if(error.code === "auth/unauthorized-domain"){
-      message = "Поточний домен не доданий у Firebase → Authentication → Settings → Authorized domains. Додай точний домен із адресного рядка без https:// і без / в кінці.";
+      message = "Додай поточний домен у Firebase → Authentication → Settings → Authorized domains.";
     }
     alert("Google-вхід не спрацював: " + message);
   }
 }
-
 window.signInWithGoogleReal = googleLoginSameTab;
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const oldBtn = document.getElementById("googleClientBtn");
-  if(oldBtn){
-    const btn = oldBtn.cloneNode(true);
-    oldBtn.parentNode.replaceChild(btn, oldBtn);
+  const btn = document.getElementById("googleClientBtn");
+  if(btn){
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       googleLoginSameTab();
     });
   }
-
   try{
     const result = await getRedirectResult(auth);
-    if(result && result.user){
-      await finishLogin(result.user);
-    }
+    if(result && result.user) await finishLogin(result.user);
   }catch(error){
     console.error(error);
-    let message = error && error.message ? error.message : String(error);
-    if(error.code === "auth/unauthorized-domain"){
-      message = "Додай домен сайту в Firebase Authorized domains.";
-    }
-    alert("Google-вхід не завершився: " + message);
+    alert("Google-вхід не завершився: " + (error && error.message ? error.message : String(error)));
   }
 });
