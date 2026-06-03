@@ -947,3 +947,347 @@ renderAll();
   document.addEventListener('DOMContentLoaded', run);
   setTimeout(run, 200);
 })();
+
+
+
+/* === Editable v2: categories, facts, red day-off cells === */
+document.addEventListener('DOMContentLoaded', () => {
+  if(location.pathname.endsWith('admin.html')) document.body.classList.add('admin-page');
+  if(location.pathname.endsWith('client-dashboard.html')) document.body.classList.add('client-page');
+});
+
+(function(){
+  if(!localStorage.getItem('psy_service_categories')){
+    localStorage.setItem('psy_service_categories', JSON.stringify([
+      {id:'cat1', title:'Індивідуальні'},
+      {id:'cat2', title:'Пари'},
+      {id:'cat3', title:'Сімейні'},
+      {id:'cat4', title:'Діти'}
+    ]));
+  }
+
+  try{
+    const arr = JSON.parse(localStorage.getItem('psy_services')) || [];
+    let changed = false;
+    arr.forEach(s => { if(!s.category){ s.category = 'Індивідуальні'; changed = true; } });
+    if(changed) localStorage.setItem('psy_services', JSON.stringify(arr));
+  }catch(e){}
+
+  window.serviceCategories = function(){
+    try { return JSON.parse(localStorage.getItem('psy_service_categories')) || []; } catch(e){ return []; }
+  };
+  window.setServiceCategories = function(arr){
+    localStorage.setItem('psy_service_categories', JSON.stringify(arr));
+  };
+  window.currentServiceCategory = window.currentServiceCategory || 'all';
+
+  function localSite(){
+    try { return JSON.parse(localStorage.getItem('psy_site')) || {}; } catch(e){ return {}; }
+  }
+  function saveLocalSite(s){ localStorage.setItem('psy_site', JSON.stringify(s)); }
+
+  window.renderAboutFacts = function(){
+    const s = localSite();
+    const vals = {
+      factAgePublic: s.factAge || '—',
+      factExperiencePublic: s.factExperience || '—',
+      factLanguagePublic: s.factLanguage || '—',
+      factCustomPublic: s.factCustom || '—'
+    };
+    Object.entries(vals).forEach(([id,val]) => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = val;
+    });
+    ['factAge','factExperience','factLanguage','factCustom'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.value = s[id] || '';
+    });
+  };
+
+  const factsForm = document.getElementById('aboutFactsForm');
+  if(factsForm){
+    factsForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const s = localSite();
+      s.factAge = document.getElementById('factAge').value;
+      s.factExperience = document.getElementById('factExperience').value;
+      s.factLanguage = document.getElementById('factLanguage').value;
+      s.factCustom = document.getElementById('factCustom').value;
+      saveLocalSite(s);
+      if(typeof renderAll === 'function') renderAll();
+      if(typeof openModal === 'function') openModal('<h2>Збережено</h2><p>Коротку інформацію оновлено.</p>');
+    });
+  }
+
+  window.renderServiceCategoriesPublic = function(){
+    const filters = document.getElementById('serviceCategoryFilters');
+    if(filters){
+      const cats = serviceCategories();
+      filters.innerHTML = '<button class="service-category-filter '+(window.currentServiceCategory==='all'?'active':'')+'" data-service-cat="all">Усі</button>' +
+        cats.map(c => '<button class="service-category-filter '+(window.currentServiceCategory===c.title?'active':'')+'" data-service-cat="'+esc(c.title)+'">'+esc(c.title)+'</button>').join('');
+      filters.querySelectorAll('[data-service-cat]').forEach(btn => {
+        btn.onclick = () => {
+          window.currentServiceCategory = btn.dataset.serviceCat;
+          if(typeof renderAll === 'function') renderAll();
+        };
+      });
+    }
+
+    const select = document.getElementById('serviceCategory');
+    if(select){
+      select.innerHTML = serviceCategories().map(c => '<option value="'+esc(c.title)+'">'+esc(c.title)+'</option>').join('');
+    }
+
+    const adminList = document.getElementById('adminServiceCategories');
+    if(adminList){
+      adminList.innerHTML = serviceCategories().map((c,i) => '<div class="list-item"><strong>'+esc(c.title)+'</strong><div class="item-actions"><button class="small-btn" onclick="editServiceCategory('+i+')">Редагувати</button><button class="small-btn danger" onclick="deleteServiceCategory('+i+')">Видалити</button></div></div>').join('');
+    }
+  };
+
+  const catForm = document.getElementById('serviceCategoriesForm');
+  if(catForm){
+    catForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const val = document.getElementById('serviceCategoryName').value.trim();
+      if(!val) return;
+      const arr = serviceCategories();
+      arr.push({id: (typeof uid === 'function' ? uid() : String(Date.now())), title: val});
+      setServiceCategories(arr);
+      e.target.reset();
+      if(typeof renderAll === 'function') renderAll();
+    });
+  }
+
+  window.editServiceCategory = function(i){
+    const arr = serviceCategories();
+    const next = prompt('Нова назва категорії', arr[i].title);
+    if(!next) return;
+    const old = arr[i].title;
+    arr[i].title = next;
+    setServiceCategories(arr);
+    try{
+      const serv = JSON.parse(localStorage.getItem('psy_services')) || [];
+      serv.forEach(s => { if(s.category === old) s.category = next; });
+      localStorage.setItem('psy_services', JSON.stringify(serv));
+    }catch(e){}
+    if(typeof renderAll === 'function') renderAll();
+  };
+
+  window.deleteServiceCategory = function(i){
+    const arr = serviceCategories();
+    const removed = arr[i].title;
+    arr.splice(i,1);
+    setServiceCategories(arr);
+    try{
+      const serv = JSON.parse(localStorage.getItem('psy_services')) || [];
+      serv.forEach(s => { if(s.category === removed) s.category = 'Індивідуальні'; });
+      localStorage.setItem('psy_services', JSON.stringify(serv));
+    }catch(e){}
+    if(typeof renderAll === 'function') renderAll();
+  };
+
+  window.renderServicesWithCategories = function(){
+    const grid = document.getElementById('servicesGrid');
+    const bookingService = document.getElementById('bookingService');
+    if(!grid || typeof services !== 'function') return;
+    const all = services();
+    const visible = (window.currentServiceCategory === 'all') ? all : all.filter(s => (s.category || 'Індивідуальні') === window.currentServiceCategory);
+    grid.innerHTML = visible.map(s => '<article class="service-card reveal visible"><span class="service-category-label">'+esc(s.category || 'Індивідуальні')+'</span><div class="service-tag">'+esc(s.format||'')+'</div><h3>'+esc(s.title)+'</h3><p>'+esc(s.text||'')+'</p><p>'+esc(s.duration||'')+'</p><div class="price">'+(s.price||0)+' грн</div><button class="btn primary open-booking" data-service="'+esc(s.title)+'">Обрати час</button></article>').join('');
+    if(bookingService){
+      bookingService.innerHTML = '<option value="">Оберіть консультацію</option>' + all.map(s => '<option value="'+esc(s.title)+'">'+esc(s.title)+' — '+(s.price||0)+' грн</option>').join('');
+    }
+    document.querySelectorAll('.open-booking').forEach(btn=>btn.addEventListener('click',()=>{ 
+      if(bookingService) bookingService.value=btn.dataset.service; 
+      document.getElementById('booking')?.scrollIntoView({behavior:'smooth'}); 
+    }));
+  };
+
+  const serviceForm = document.getElementById('serviceForm');
+  if(serviceForm && !serviceForm.dataset.categoryPatch){
+    serviceForm.dataset.categoryPatch = 'yes';
+    serviceForm.addEventListener('submit', () => {
+      setTimeout(() => {
+        try{
+          const arr = JSON.parse(localStorage.getItem('psy_services')) || [];
+          const cat = document.getElementById('serviceCategory')?.value || 'Індивідуальні';
+          arr.forEach(s => { if(!s.category) s.category = cat; });
+          localStorage.setItem('psy_services', JSON.stringify(arr));
+        }catch(e){}
+      }, 0);
+    }, true);
+  }
+
+  const oldEditService = window.editService;
+  if(typeof oldEditService === 'function'){
+    window.editService = function(i){
+      oldEditService(i);
+      try{
+        const s = services()[i];
+        const sel = document.getElementById('serviceCategory');
+        if(sel) sel.value = s.category || 'Індивідуальні';
+      }catch(e){}
+    };
+  }
+
+  function colorCalendarDays(){
+    document.querySelectorAll('.calendar-day').forEach(day => {
+      const text = (day.textContent || '').toLowerCase();
+      if(text.includes('вихідний')) day.classList.add('off');
+      if(day.querySelector('.slot-chip.booked')) day.classList.add('has-booked');
+      if(day.querySelector('.slot-chip.request') && !text.includes('вихідний')) day.classList.add('has-request');
+    });
+  }
+
+  const oldRenderAll2 = window.renderAll || (typeof renderAll === 'function' ? renderAll : null);
+  if(typeof oldRenderAll2 === 'function' && !window.__editableV2Patch){
+    window.__editableV2Patch = true;
+    window.renderAll = function(){
+      oldRenderAll2();
+      renderAboutFacts();
+      renderServiceCategoriesPublic();
+      renderServicesWithCategories();
+      colorCalendarDays();
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderAboutFacts();
+    renderServiceCategoriesPublic();
+    renderServicesWithCategories();
+    colorCalendarDays();
+  });
+  setTimeout(() => {
+    renderAboutFacts();
+    renderServiceCategoriesPublic();
+    renderServicesWithCategories();
+    colorCalendarDays();
+  }, 300);
+})();
+
+
+
+/* === Photo save/render fix + Google button handoff === */
+(function(){
+  function getSiteSafe(){
+    try { return JSON.parse(localStorage.getItem('psy_site')) || {}; } catch(e){ return {}; }
+  }
+  function saveSiteSafe(s){ localStorage.setItem('psy_site', JSON.stringify(s)); }
+
+  function markPhoto(el){
+    if(!el) return;
+    if(el.querySelector('img')) el.classList.add('has-photo');
+    else el.classList.remove('has-photo');
+  }
+
+  window.renderAllPhotosFixed = function(){
+    const s = getSiteSafe();
+
+    const home = document.getElementById('homePsychologistPhoto');
+    if(home){
+      const url = s.homePhotoUrl || s.photoUrl || '';
+      if(url) home.innerHTML = '<img src="'+url+'" alt="Фото психолога">';
+      markPhoto(home);
+    }
+
+    const about = document.getElementById('psychologistPhoto');
+    if(about){
+      const url = s.photoUrl || s.homePhotoUrl || '';
+      if(url) about.innerHTML = '<img src="'+url+'" alt="Фото психолога">';
+      markPhoto(about);
+    }
+
+    const ch = document.getElementById('clientHeroPhoto');
+    if(ch){
+      try{
+        const clients = JSON.parse(localStorage.getItem('psy_clients')) || [];
+        const u = clients.find(c => c.email === localStorage.psy_client_email);
+        if(u && u.photo) ch.innerHTML = '<img src="'+u.photo+'" alt="Фото">';
+      }catch(e){}
+      markPhoto(ch);
+    }
+
+    const cp = document.getElementById('clientPhotoPreview');
+    if(cp) markPhoto(cp);
+  };
+
+  async function inputToBase64(input){
+    const file = input.files && input.files[0];
+    if(!file) return '';
+    if(typeof fileToBase64 === 'function') return await fileToBase64(file);
+    return await new Promise((resolve,reject)=>{
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+
+  function bindImageInput(id, siteKey, alsoKey){
+    const input = document.getElementById(id);
+    if(!input || input.dataset.photoFixed === 'yes') return;
+    input.dataset.photoFixed = 'yes';
+    input.addEventListener('change', async () => {
+      const data = await inputToBase64(input);
+      if(!data) return;
+      const s = getSiteSafe();
+      s[siteKey] = data;
+      if(alsoKey) s[alsoKey] = data;
+      saveSiteSafe(s);
+      if(typeof renderAll === 'function') renderAll();
+      renderAllPhotosFixed();
+      if(typeof openModal === 'function') openModal('<h2>Фото збережено</h2><p>Фото оновлено і вже відображається на сайті.</p>');
+    });
+  }
+
+  function bindClientPhoto(){
+    const input = document.getElementById('profilePhotoFile');
+    if(!input || input.dataset.photoFixed === 'yes') return;
+    input.dataset.photoFixed = 'yes';
+    input.addEventListener('change', async () => {
+      const data = await inputToBase64(input);
+      if(!data) return;
+      const hidden = document.getElementById('profilePhoto');
+      if(hidden) hidden.value = data;
+      const preview = document.getElementById('clientPhotoPreview');
+      if(preview) {
+        preview.innerHTML = '<img src="'+data+'" alt="Фото">';
+        markPhoto(preview);
+      }
+    });
+  }
+
+  function bindAllPhotoFixes(){
+    
+  }
+
+  // JS has no None; bind manually:
+  window.bindPhotoFixes = function(){
+    bindImageInput('homePhotoFile', 'homePhotoUrl');
+    bindImageInput('psychologistPhotoFile', 'photoUrl');
+    bindClientPhoto();
+    renderAllPhotosFixed();
+
+    const gbtn = document.getElementById('googleClientBtn');
+    if(gbtn && gbtn.dataset.realGoogleBound !== 'yes'){
+      gbtn.dataset.realGoogleBound = 'yes';
+      gbtn.addEventListener('click', (e) => {
+        if(window.signInWithGoogleReal){
+          e.preventDefault();
+          window.signInWithGoogleReal();
+        }
+      }, true);
+    }
+  };
+
+  const oldRenderAll = window.renderAll || (typeof renderAll === 'function' ? renderAll : null);
+  if(typeof oldRenderAll === 'function' && !window.__photoFixRenderPatch){
+    window.__photoFixRenderPatch = true;
+    window.renderAll = function(){
+      oldRenderAll();
+      window.bindPhotoFixes();
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => setTimeout(window.bindPhotoFixes, 50));
+  setTimeout(window.bindPhotoFixes, 300);
+})();

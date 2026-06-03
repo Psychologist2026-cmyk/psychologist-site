@@ -1,7 +1,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAm8VyPlmKPQ0hd78zR79om9a2kXdnRxyE",
@@ -14,21 +14,21 @@ const firebaseConfig = {
 };
 
 const OWNER_EMAIL = "psychologist@example.com";
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
 function getClients(){
   try { return JSON.parse(localStorage.getItem("psy_clients")) || []; } catch(e){ return []; }
 }
-
 function setClients(arr){
   localStorage.setItem("psy_clients", JSON.stringify(arr));
 }
-
 function upsertLocalClient(user){
-  const email = user.email.toLowerCase();
+  const email = (user.email || "").toLowerCase();
   const clients = getClients();
   const idx = clients.findIndex(c => c.email === email);
   const profile = {
@@ -43,9 +43,8 @@ function upsertLocalClient(user){
   else clients.push(profile);
   setClients(clients);
 }
-
-async function saveUserToFirestore(user){
-  const email = user.email.toLowerCase();
+async function saveUser(user){
+  const email = (user.email || "").toLowerCase();
   await setDoc(doc(db, "users", user.uid), {
     uid: user.uid,
     email,
@@ -55,13 +54,14 @@ async function saveUserToFirestore(user){
     updatedAt: serverTimestamp()
   }, { merge: true });
 }
-
-window.signInWithGoogleReal = async function(){
+async function googleLogin(){
   try{
+    await setPersistence(auth, browserLocalPersistence);
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    const email = user.email.toLowerCase();
-    await saveUserToFirestore(user);
+    const email = (user.email || "").toLowerCase();
+
+    await saveUser(user);
 
     if(email === OWNER_EMAIL){
       localStorage.psy_admin_auth = "yes";
@@ -73,17 +73,27 @@ window.signInWithGoogleReal = async function(){
       localStorage.removeItem("psy_admin_auth");
       location.href = "client-dashboard.html";
     }
-  } catch(error){
-    alert("Google-вхід не спрацював: " + error.message);
+  }catch(error){
+    console.error(error);
+    let message = error && error.message ? error.message : String(error);
+    if(error.code === "auth/unauthorized-domain"){
+      message = "Домен не доданий в Firebase Authorized domains. Додай psychologistа.netlify.app / psychologista.netlify.app без https.";
+    }
+    alert("Google-вхід не спрацював: " + message);
   }
-};
+}
+
+window.signInWithGoogleReal = googleLogin;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("googleClientBtn");
-  if(btn){
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.signInWithGoogleReal();
-    });
-  }
+  const oldBtn = document.getElementById("googleClientBtn");
+  if(!oldBtn) return;
+
+  const btn = oldBtn.cloneNode(true);
+  oldBtn.parentNode.replaceChild(btn, oldBtn);
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    googleLogin();
+  });
 });
