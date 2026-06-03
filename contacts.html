@@ -6,6 +6,7 @@
 <title>Контакти</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="master-polish.css">
+<link rel="stylesheet" href="design-contacts-fix.css">
 </head>
 <body class="public">
 
@@ -29,6 +30,45 @@
 <section class="section page-hero"><p class="eyebrow">Контакти</p><h1>Звʼязок</h1></section>
 <section class="section compact-top"><div class="contacts-grid" id="contactsGrid"><a class="contact-card" href="#"><h3>Telegram</h3><p>@USERNAME</p></a></div></section>
 
+
+<section class="section offline-addresses-section" id="offlineAddressesSection">
+  <div class="section-head reveal visible">
+    <p class="eyebrow">Офлайн консультації</p>
+    <h2>Адреси офлайн консультацій</h2>
+    <p>Оберіть зручне місто. При натисканні відкриється Google Maps із точною адресою.</p>
+  </div>
+  <div class="offline-address-grid">
+    <article class="offline-address-card reveal visible">
+      <div class="map-preview">
+        <span class="map-pin-icon" aria-hidden="true"></span>
+        <div>
+          <small>м. Кривий Ріг</small>
+          <strong>вулиця Героїв АТО, 32</strong>
+        </div>
+      </div>
+      <div class="address-card-body">
+        <h3>Кривий Ріг</h3>
+        <p>вулиця Героїв АТО, 32</p>
+        <a class="btn primary map-link" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%D0%9A%D1%80%D0%B8%D0%B2%D0%B8%D0%B9%20%D0%A0%D1%96%D0%B3%2C%20%D0%B2%D1%83%D0%BB%D0%B8%D1%86%D1%8F%20%D0%93%D0%B5%D1%80%D0%BE%D1%97%D0%B2%20%D0%90%D0%A2%D0%9E%2032">Відкрити карту</a>
+      </div>
+    </article>
+    <article class="offline-address-card reveal visible">
+      <div class="map-preview">
+        <span class="map-pin-icon" aria-hidden="true"></span>
+        <div>
+          <small>м. Київ</small>
+          <strong>вулиця Прорізна, 4</strong>
+        </div>
+      </div>
+      <div class="address-card-body">
+        <h3>Київ</h3>
+        <p>вулиця Прорізна, 4</p>
+        <a class="btn primary map-link" target="_blank" href="https://www.google.com/maps/search/?api=1&query=%D0%9A%D0%B8%D1%97%D0%B2%2C%20%D0%B2%D1%83%D0%BB%D0%B8%D1%86%D1%8F%20%D0%9F%D1%80%D0%BE%D1%80%D1%96%D0%B7%D0%BD%D0%B0%204">Відкрити карту</a>
+      </div>
+    </article>
+  </div>
+</section>
+
 </main>
 
 
@@ -51,5 +91,6 @@
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
 <script src="final-stable-master.js"></script>
+<script src="design-contacts-fix.js"></script>
 </body>
 </html>
