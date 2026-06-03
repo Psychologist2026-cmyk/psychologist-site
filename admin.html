@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="master-polish.css">
 <link rel="stylesheet" href="design-contacts-fix.css">
+<link rel="stylesheet" href="wide-address-settings.css">
 </head>
 <body class="admin">
 
@@ -68,11 +69,21 @@
   </section>
 </section>
 
+
+<section class="section admin-card offline-address-settings" id="offlineAddressSettingsMaster">
+  <h2>Адреси офлайн консультацій</h2>
+  <p>Тут психолог може змінити місто, адресу і посилання на Google Maps. Якщо посилання не вказати, сайт автоматично створить пошук у Google Maps за містом та адресою.</p>
+  <div id="offlineAddressSettingsList"></div>
+  <button class="btn secondary" type="button" id="addOfflineAddressBtn">Додати адресу</button>
+  <button class="btn primary" type="button" id="saveOfflineAddressesBtn">Зберегти адреси</button>
+</section>
+
 </main>
 
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
 <script src="script.js"></script>
 <script src="final-stable-master.js"></script>
 <script src="design-contacts-fix.js"></script>
+<script src="wide-address-settings.js"></script>
 </body>
 </html>
