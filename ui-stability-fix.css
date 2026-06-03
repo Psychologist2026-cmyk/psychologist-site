@@ -1,0 +1,346 @@
+
+/* =========================================================
+   UI STABILITY FIX
+   duplicates, empty spaces, dropdown overlay, text centering,
+   and no jump/flicker on page load
+   ========================================================= */
+
+/* prevent flicker/jump from stacked reveal animations */
+.reveal,
+.reveal.visible,
+.page-hero h1,
+.hero-content,
+.home-photo-frame,
+.about-photo-wrap,
+.service-card,
+.about-facts-grid article,
+.offline-address-card,
+.contact-card,
+.contact-item,
+.contact-row {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* smoother only on real interactions, not initial load */
+.btn,
+.nav a,
+.service-card,
+.about-custom-card,
+.offline-address-card,
+.contact-card,
+.booking-date-card,
+.time-pill,
+.custom-select-button {
+  transition:
+    transform .32s ease,
+    box-shadow .32s ease,
+    border-color .32s ease,
+    background .32s ease,
+    color .32s ease !important;
+}
+
+/* remove duplicate action buttons created by stacked patches */
+.duplicate-hidden,
+.service-card .btn.duplicate-hidden,
+.service-card button.duplicate-hidden,
+.hero-actions .duplicate-hidden,
+.booking-box .duplicate-hidden {
+  display: none !important;
+}
+
+/* if two same buttons are next to each other, keep the first */
+.service-card .btn + .btn.same-action,
+.service-card button + button.same-action,
+.hero-actions .btn + .btn.same-action,
+.booking-box .btn + .btn.same-action {
+  display: none !important;
+}
+
+/* reduce over-large vertical gaps */
+.page-hero {
+  padding-top: clamp(105px, 9vw, 142px) !important;
+  padding-bottom: clamp(42px, 4.8vw, 70px) !important;
+}
+
+.compact-top,
+.services-page-section,
+.urgent-standalone-section,
+.booking-section,
+.about-clean-layout,
+.about-custom-section,
+.offline-addresses-section {
+  padding-top: clamp(38px, 4.4vw, 68px) !important;
+  padding-bottom: clamp(42px, 4.8vw, 72px) !important;
+}
+
+/* Home bottom blocks closer when content is short */
+.home-availability-panel,
+.home-panels,
+.home-bottom-grid {
+  margin-top: clamp(42px, 5.5vw, 78px) !important;
+}
+
+/* About page: less empty top space, stable layout before images load */
+.about-title-row {
+  padding-bottom: clamp(28px, 3.8vw, 54px) !important;
+}
+
+.about-clean-layout {
+  padding-top: clamp(30px, 3.8vw, 58px) !important;
+  align-items: start !important;
+  contain: layout paint !important;
+}
+
+.about-info-wrap {
+  align-self: start !important;
+}
+
+/* photo box has fixed aspect ratio, so it doesn't jump */
+#psychologistPhoto,
+.about-photo-wrap .photo-placeholder,
+#homePsychologistPhoto,
+.home-photo-frame {
+  display: block !important;
+  contain: layout paint !important;
+}
+
+/* when no long text exists, blocks should sit higher */
+.professional-path-card {
+  margin-top: 0 !important;
+}
+
+.professional-path-card:has(p:empty),
+.about-custom-section:has(.about-custom-grid:empty) {
+  display: none !important;
+}
+
+/* service page: prevent huge empty rows */
+.services-groups {
+  gap: clamp(28px, 4vw, 48px) !important;
+}
+
+.service-type-group {
+  gap: 20px !important;
+}
+
+.service-type-head {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.service-card {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 34px !important;
+  justify-content: flex-start !important;
+}
+
+.service-card .price {
+  margin-top: auto !important;
+  padding-top: 16px !important;
+}
+
+.service-card .btn,
+.service-card button {
+  margin-top: 18px !important;
+}
+
+/* urgent card alignment */
+.service-card.urgent-service {
+  padding-top: 66px !important;
+}
+
+.service-card.urgent-service::after {
+  top: 18px !important;
+  right: 18px !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+/* dropdowns must open above other fields/cards */
+.booking-box,
+.booking-layout,
+.custom-select-ui {
+  overflow: visible !important;
+}
+
+.booking-box {
+  position: relative !important;
+  z-index: 20 !important;
+}
+
+.booking-summary {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.custom-select-ui {
+  z-index: 1000 !important;
+}
+
+.custom-select-ui.open {
+  z-index: 5000 !important;
+}
+
+.custom-select-menu {
+  z-index: 99999 !important;
+  max-height: 320px !important;
+  overscroll-behavior: contain !important;
+}
+
+/* When dropdown is open, give it a clean surface */
+.custom-select-ui.open .custom-select-menu {
+  display: grid !important;
+}
+
+/* text centered/straightened in small chips and buttons */
+.btn,
+button,
+.filter-btn,
+.service-category-filters button,
+.hero-tags span,
+.home-tags span,
+.chip,
+.tag,
+.time-pill,
+.booking-date-card,
+.custom-select-button,
+.custom-select-option {
+  text-align: center !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.18 !important;
+}
+
+.custom-select-button,
+.custom-select-option {
+  text-align: left !important;
+  justify-content: space-between !important;
+}
+
+.custom-select-option {
+  justify-content: flex-start !important;
+}
+
+/* fix text not visually centered in service buttons */
+.service-card .btn,
+.service-card button,
+.booking-box .btn,
+.urgent-standalone-card .btn {
+  min-height: 54px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* contact rows: no doubled icons/overlap */
+.contact-card,
+.contact-item,
+.contact-row {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.contact-icon-real + .contact-icon-real,
+.contact-card .social-icon-svg + .contact-icon-real,
+.contact-item .social-icon-svg + .contact-icon-real,
+.contact-row .social-icon-svg + .contact-icon-real {
+  display: none !important;
+}
+
+.contact-card > *:not(.contact-icon-real),
+.contact-item > *:not(.contact-icon-real),
+.contact-row > *:not(.contact-icon-real) {
+  min-width: 0 !important;
+}
+
+/* admin/settings cards less spread out */
+.admin-card,
+.client-card,
+.booking-box,
+.booking-summary {
+  scroll-margin-top: 110px !important;
+}
+
+/* remove empty cards/sections that create blank places */
+.section:empty,
+.card:empty,
+.admin-card:empty,
+.client-card:empty,
+.about-custom-card:empty,
+.service-card:empty,
+.booking-summary:empty {
+  display: none !important;
+}
+
+/* mobile polishing */
+@media(max-width: 1180px) {
+  .page-hero {
+    padding-bottom: 36px !important;
+  }
+
+  .about-clean-layout,
+  .compact-top,
+  .services-page-section,
+  .urgent-standalone-section,
+  .booking-section {
+    padding-top: 34px !important;
+  }
+
+  .service-card {
+    padding: 30px !important;
+  }
+}
+
+@media(max-width: 720px) {
+  .page-hero {
+    padding-top: 96px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .compact-top,
+  .services-page-section,
+  .urgent-standalone-section,
+  .booking-section,
+  .about-clean-layout,
+  .about-custom-section,
+  .offline-addresses-section {
+    padding-top: 32px !important;
+    padding-bottom: 36px !important;
+  }
+
+  .home-availability-panel,
+  .home-panels,
+  .home-bottom-grid {
+    margin-top: 34px !important;
+  }
+
+  .custom-select-menu {
+    position: fixed !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    bottom: 18px !important;
+    max-height: 55vh !important;
+  }
+
+  .custom-select-ui.open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(44,23,16,.18);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+  }
+
+  .custom-select-ui.open .custom-select-menu {
+    z-index: 10000 !important;
+  }
+
+  .service-card.urgent-service::after {
+    left: 24px !important;
+    right: auto !important;
+  }
+}
