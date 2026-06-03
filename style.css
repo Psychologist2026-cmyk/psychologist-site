@@ -4978,3 +4978,364 @@ main { flex: 1 0 auto !important; }
     padding: 3px 4px !important;
   }
 }
+
+
+/* =========================================================
+   WIDE UI POLISH — spacing, typography, selects, wide layout
+   ========================================================= */
+:root {
+  --site-max: 1480px !important;
+  --page-pad: clamp(20px, 3.6vw, 64px) !important;
+}
+
+.section,
+.page-hero,
+.compact-top,
+.booking-section,
+.urgent-standalone-section,
+.about-custom-section,
+.home-hero-new,
+.hero-grid,
+.hero-inner,
+.hero-content-grid,
+.about-clean-layout,
+.home-availability-panel,
+.home-panels,
+.home-bottom-grid {
+  max-width: var(--site-max) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+  letter-spacing: .005em !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+p,
+li,
+.hero-text,
+.service-card p,
+.professional-path-card p,
+.booking-box,
+.booking-summary,
+.about-custom-card p {
+  line-height: 1.72 !important;
+  letter-spacing: .01em !important;
+}
+
+h1, h2, h3,
+.btn,
+button,
+.nav a,
+.price,
+strong {
+  letter-spacing: -.012em !important;
+}
+
+.eyebrow {
+  letter-spacing: .035em !important;
+}
+
+/* більше повітря між блоками, щоб текст не налягав */
+.home-availability-panel,
+.home-panels,
+.home-bottom-grid,
+.urgent-standalone-section {
+  margin-top: clamp(52px, 7vw, 96px) !important;
+}
+
+.home-availability-card,
+.urgent-notice,
+.urgent-standalone-card {
+  overflow: visible !important;
+}
+
+.home-availability-card h2,
+.urgent-standalone-card h2,
+.urgent-notice h2 {
+  margin-bottom: 14px !important;
+}
+
+.home-availability-card p,
+.urgent-standalone-card p,
+.urgent-notice p {
+  margin-top: 0 !important;
+  max-width: 780px !important;
+}
+
+/* головна нижня зона */
+.home-availability-panel,
+.home-panels,
+.home-bottom-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(380px, .82fr) !important;
+  align-items: stretch !important;
+}
+
+.home-availability-card li,
+.home-availability-card .available-item {
+  min-height: 58px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  padding: 14px 18px !important;
+  border-radius: 18px !important;
+  background: rgba(255,250,243,.58) !important;
+  border: 1px solid rgba(75,45,32,.10) !important;
+}
+
+/* Про психолога */
+.about-clean-layout {
+  grid-template-columns: minmax(340px, 440px) minmax(0, 1fr) !important;
+  gap: clamp(34px, 5vw, 78px) !important;
+}
+
+.about-facts-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+}
+
+.about-facts-grid article {
+  height: auto !important;
+  min-height: 132px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.about-facts-grid span,
+.about-facts-grid strong,
+.service-card h3,
+.service-card p,
+.professional-path-card h2,
+.professional-path-card p,
+.professional-path-card li,
+.about-custom-card h3,
+.about-custom-card p {
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+.about-facts-grid strong {
+  font-size: clamp(17px, 1.18vw, 22px) !important;
+  line-height: 1.2 !important;
+}
+
+.about-facts-grid article:nth-child(3) strong,
+.about-facts-grid article:nth-child(4) strong {
+  font-size: clamp(15px, 1vw, 20px) !important;
+}
+
+/* Послуги: прибрати криву червону смугу */
+.service-card {
+  overflow: hidden !important;
+}
+
+.service-card.urgent-service {
+  border-color: rgba(183,101,93,.26) !important;
+}
+
+.service-card.urgent-service::before {
+  content: "";
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 8px !important;
+  border-radius: 30px 30px 0 0 !important;
+  background: linear-gradient(90deg, #b7655d, rgba(183,101,93,.35)) !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.service-card.urgent-service::after {
+  content: "Терміново" !important;
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 8px 12px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #b7655d, #7b2f2b) !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 950 !important;
+  transform: none !important;
+}
+
+.service-card.urgent-service h3 {
+  padding-right: 118px !important;
+}
+
+/* кастомні меню замість стандартного синього select */
+.booking-box select,
+.booking-box input[type="date"] {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+}
+
+.custom-select-ui {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 62px !important;
+  margin: 8px 0 16px !important;
+  z-index: 20 !important;
+}
+
+.custom-select-button {
+  width: 100% !important;
+  min-height: 62px !important;
+  border-radius: 22px !important;
+  padding: 0 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  background:
+    linear-gradient(rgba(255,255,255,.56), rgba(239,227,212,.30)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 140px auto !important;
+  border: 1px solid rgba(75,45,32,.16) !important;
+  color: #2c1710 !important;
+  font-weight: 900 !important;
+  text-align: left !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.68) !important;
+}
+
+.custom-select-button::after {
+  content: "⌄";
+  font-size: 22px;
+  line-height: 1;
+  color: #4b2d20;
+}
+
+.custom-select-menu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  display: none !important;
+  padding: 10px !important;
+  border-radius: 24px !important;
+  background:
+    linear-gradient(rgba(255,255,255,.96), rgba(239,227,212,.94)),
+    url("images/paper-texture.jpeg") !important;
+  background-size: auto, 140px auto !important;
+  border: 1px solid rgba(75,45,32,.16) !important;
+  box-shadow: 0 24px 74px rgba(44,23,16,.18) !important;
+  max-height: 280px !important;
+  overflow: auto !important;
+  z-index: 999 !important;
+}
+
+.custom-select-ui.open .custom-select-menu {
+  display: grid !important;
+  gap: 6px !important;
+}
+
+.custom-select-option {
+  border: 0 !important;
+  width: 100% !important;
+  padding: 14px 16px !important;
+  border-radius: 16px !important;
+  background: transparent !important;
+  color: #2c1710 !important;
+  font-weight: 850 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+}
+
+.custom-select-option:hover,
+.custom-select-option.active {
+  background: linear-gradient(135deg, #4b2d20, #2c1710) !important;
+  color: #fff !important;
+}
+
+.custom-field-label {
+  display: block !important;
+  margin: 16px 0 8px !important;
+  color: #4b2d20 !important;
+  font-weight: 950 !important;
+}
+
+.booking-calendar-ui {
+  margin-top: 10px !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.booking-date-strip {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+}
+
+@media(min-width: 1300px) {
+  .section,
+  .page-hero,
+  .compact-top,
+  .booking-section,
+  .urgent-standalone-section,
+  .about-custom-section,
+  .home-hero-new,
+  .about-clean-layout {
+    max-width: 1480px !important;
+  }
+
+  .service-type-group .cards,
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)) !important;
+  }
+}
+
+@media(max-width: 1180px) {
+  .home-availability-panel,
+  .home-panels,
+  .home-bottom-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-facts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .about-facts-grid strong {
+    font-size: clamp(18px, 2.2vw, 24px) !important;
+  }
+}
+
+@media(max-width: 720px) {
+  p, li, .hero-text {
+    line-height: 1.62 !important;
+  }
+
+  .about-facts-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-facts-grid article {
+    min-height: auto !important;
+    align-items: flex-start !important;
+  }
+
+  .service-card.urgent-service h3 {
+    padding-right: 0 !important;
+    margin-top: 42px !important;
+  }
+
+  .custom-select-menu {
+    max-height: 230px !important;
+  }
+}
