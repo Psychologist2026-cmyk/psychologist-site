@@ -30,3 +30,6 @@ Design contacts fix:
 - додано блок “Адреси офлайн консультацій” у контакти;
 - додано Google Maps links для Кривого Рогу і Києва;
 - кастомні меню вибору консультації/часу залишені в стилі сайту.
+
+
+Mobile polish final: mobile menu, footer/contact alignment, compact booking spacing, no initial flicker, duplicate button cleanup, mobile-first layout fixes.
