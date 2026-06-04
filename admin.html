@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="mobile-clean-fix.css">
 <link rel="stylesheet" href="sticky-menu-contact-fix.css">
 <link rel="stylesheet" href="admin-footer-cta-fix.css">
+<link rel="stylesheet" href="admin-structure-footer-fix.css">
+<link rel="stylesheet" href="direct-structure-fix.css">
 </head>
 <body class="admin">
 
@@ -27,25 +29,6 @@
 </header>
 
 <main>
-
-<section class="section admin-card home-identity-settings" id="homeIdentitySettingsMaster">
-  <h2>Головна сторінка</h2>
-  <p>Тут можна змінити імʼя психолога, заголовок і короткий опис на головній сторінці.</p>
-  <div class="admin-form-grid">
-    <label>Імʼя психолога
-      <input id="settingPsychologistName" placeholder="Анастасія Марчук">
-    </label>
-    <label>Заголовок на головній
-      <input id="settingHomeTitle" placeholder="Психотерапевт для важливих розмов">
-    </label>
-    <label class="wide">Короткий опис
-      <textarea id="settingHomeText" placeholder="Короткий опис на головній сторінці"></textarea>
-    </label>
-  </div>
-  <button class="btn primary" type="button" id="saveHomeIdentityBtn">Зберегти головну</button>
-</section>
-
-
 <section class="admin-shell">
   <aside class="admin-sidebar">
 <button class="tab-btn active" data-tab="calendar" type="button">Календар / записи</button>
@@ -61,7 +44,18 @@
   <section class="admin-content">
     <div class="admin-tab active" id="tab-calendar"><div class="calendar-top"><h1>Календар</h1><div class="calendar-nav"><button id="prevMonth" class="small-btn" type="button">Назад</button><strong id="calendarTitle"></strong><button id="nextMonth" class="small-btn" type="button">Вперед</button></div></div><div class="calendar-legend"><span class="legend-free">Вільно</span><span class="legend-booked">Заброньовано</span><span class="legend-request">Запит</span><span class="legend-off">Вихідний</span></div><div class="calendar-grid" id="adminCalendar"></div><div class="admin-card"><h2 id="selectedDayTitle">Оберіть день</h2><button class="small-btn" id="toggleDayOff" type="button">Вихідний</button><form id="slotForm" class="slot-form"><input id="slotDate" type="date" required><input id="slotTime" type="time" required><select id="slotFormat"><option value="online">Онлайн</option><option value="offline">Офлайн</option></select><input id="slotCity" placeholder="Місто для офлайн"><button class="btn primary full" type="submit">Додати час</button></form><div id="selectedDaySlots" class="booking-list"></div></div></div>
     <div class="admin-tab" id="tab-bookings"><h1>Записи</h1><div class="admin-filters"><input id="bookingFilterDate" type="date"><select id="bookingFilterStatus"><option value="">Усі</option><option value="new">Нові</option><option value="confirmed">Підтверджені</option><option value="change_requested">Запит на перенесення</option><option value="cancel_requested">Запит на скасування</option><option value="completed">Завершені</option><option value="cancelled">Скасовані</option></select></div><div id="adminBookings" class="booking-list"></div></div>
-    <div class="admin-tab" id="tab-site"><h1>Сайт</h1><form id="siteEditor" class="editor-grid"><input data-edit="homeEyebrow" placeholder="Підпис"><input data-edit="homeTitle" placeholder="Заголовок"><textarea data-edit="homeText" placeholder="Опис"></textarea><input data-edit="homePhotoUrl" placeholder="Фото на головній буде збережено після вибору файлу"><input id="homePhotoFile" type="file" accept="image/*,.heic,.heif,.webp,.avif"><small id="homePhotoSaveHint">Фото зберігається одразу після вибору файлу.</small><textarea data-edit="homeTagsText" placeholder="Теги"></textarea><button class="btn primary full" type="submit">Зберегти</button></form><h2>Правила консультацій</h2><form id="rulesEditor" class="editor-grid"><textarea id="rulesEditorText" placeholder="Кожне правило з нового рядка"></textarea><button class="btn primary full" type="submit">Зберегти правила</button></form><h2>Напрямки</h2><form id="directionForm" class="editor-grid"><input id="directionTitle" placeholder="Назва"><textarea id="directionText" placeholder="Опис"></textarea><button class="btn primary full" type="submit">Додати</button></form><div id="adminDirections" class="admin-list"></div></div>
+    <div class="admin-tab" id="tab-site"><h1>Головна сторінка</h1>
+<div class="admin-direct-block" id="directHomeSettingsBlock">
+  <h2>Головна сторінка</h2>
+  <p>Редагування імені психолога, заголовка та короткого опису на головній сторінці.</p>
+  <form id="directHomeSettingsForm" class="editor-grid">
+    <input id="directPsychologistName" placeholder="Імʼя психолога">
+    <input id="directHomeTitle" placeholder="Заголовок на головній">
+    <textarea id="directHomeText" placeholder="Короткий опис на головній"></textarea>
+    <button class="btn primary full" type="submit">Зберегти головну</button>
+  </form>
+</div>
+<form id="siteEditor" class="editor-grid"><input data-edit="homeEyebrow" placeholder="Підпис"><input data-edit="homeTitle" placeholder="Заголовок"><textarea data-edit="homeText" placeholder="Опис"></textarea><input data-edit="homePhotoUrl" placeholder="Фото на головній буде збережено після вибору файлу"><input id="homePhotoFile" type="file" accept="image/*,.heic,.heif,.webp,.avif"><small id="homePhotoSaveHint">Фото зберігається одразу після вибору файлу.</small><textarea data-edit="homeTagsText" placeholder="Теги"></textarea><button class="btn primary full" type="submit">Зберегти</button></form><h2>Правила консультацій</h2><form id="rulesEditor" class="editor-grid"><textarea id="rulesEditorText" placeholder="Кожне правило з нового рядка"></textarea><button class="btn primary full" type="submit">Зберегти правила</button></form><h2>Напрямки</h2><form id="directionForm" class="editor-grid"><input id="directionTitle" placeholder="Назва"><textarea id="directionText" placeholder="Опис"></textarea><button class="btn primary full" type="submit">Додати</button></form><div id="adminDirections" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-services"><h1>Послуги</h1><form id="serviceForm" class="editor-grid"><input type="hidden" id="serviceEditId"><select id="serviceCategory"></select><input id="serviceTitle" placeholder="Назва"><input id="serviceFormat" placeholder="Формат"><input id="serviceDuration" placeholder="Тривалість"><input id="servicePrice" type="number" placeholder="Ціна"><textarea id="serviceText" placeholder="Опис"></textarea><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminServices" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-about"><h1>Про психолога</h1><form id="aboutEditor" class="editor-grid"><input data-edit="psychologistName" placeholder="Імʼя"><textarea data-edit="aboutIntro" placeholder="Короткий опис"></textarea><input data-edit="aboutTitle" placeholder="Заголовок"><textarea data-edit="aboutText" placeholder="Текст"></textarea><input data-edit="photoUrl" placeholder="Фото буде збережено після вибору файлу"><input id="psychologistPhotoFile" type="file" accept="image/*,.heic,.heif,.webp,.avif"><small id="psychologistPhotoSaveHint">Фото зберігається одразу після вибору файлу.</small><textarea data-edit="aboutBulletsText" placeholder="Пункти"></textarea><button class="btn primary full" type="submit">Зберегти</button></form><h2>Коротка інформація на сторінці психолога</h2>
 <form id="aboutFactItemsForm" class="editor-grid">
@@ -85,23 +79,23 @@
 </form>
 <div class="admin-list" id="adminAboutCustomWindows"></div>
 <h2>Додаткові блоки</h2><form id="aboutExtraForm" class="editor-grid"><input id="aboutExtraTitle" placeholder="Назва"><textarea id="aboutExtraText" placeholder="Опис"></textarea><button class="btn primary full" type="submit">Додати</button></form><div id="adminAboutExtra" class="admin-list"></div></div>
-    <div class="admin-tab" id="tab-contacts"><h1>Контакти</h1><form id="contactItemForm" class="editor-grid"><input type="hidden" id="contactEditId"><input id="contactTitle" placeholder="Назва"><input id="contactValue" placeholder="Username, номер або email"><input id="contactLink" placeholder="Посилання"><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminContacts" class="admin-list"></div></div>
+    <div class="admin-tab" id="tab-contacts"><h1>Контакти</h1>
+<div class="admin-direct-block" id="directAddressSettingsBlock">
+  <h2>Адреси офлайн консультацій</h2>
+  <p>Адреси відображаються на сторінці “Контакти”. Можна додавати, редагувати, видаляти адреси та вказувати посилання Google Maps.</p>
+  <div id="directAddressList" class="direct-address-list"></div>
+  <div class="admin-save-row">
+    <button class="btn secondary" type="button" id="directAddAddress">Додати адресу</button>
+    <button class="btn primary" type="button" id="directSaveAddresses">Зберегти адреси</button>
+  </div>
+</div>
+<form id="contactItemForm" class="editor-grid"><input type="hidden" id="contactEditId"><input id="contactTitle" placeholder="Назва"><input id="contactValue" placeholder="Username, номер або email"><input id="contactLink" placeholder="Посилання"><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminContacts" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-certificates"><h1>Сертифікати</h1><form id="certificateForm" class="editor-grid"><input type="hidden" id="certEditId"><input id="certTitle" placeholder="Назва"><input id="certCategory" list="certCategoryList" placeholder="Тип сертифікату"><datalist id="certCategoryList"></datalist><input id="certImage" placeholder="Файл буде збережено після вибору"><input id="certFile" type="file" accept="image/*,.pdf"><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminCertificates" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-reviews"><h1>Відгуки</h1><form id="reviewForm" class="editor-grid"><input type="hidden" id="reviewEditId"><input id="reviewName" placeholder="Імʼя"><textarea id="reviewText" placeholder="Відгук"></textarea><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminReviews" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-faq"><h1>FAQ</h1><form id="faqForm" class="editor-grid"><input type="hidden" id="faqEditId"><input id="faqQuestion" placeholder="Питання"><textarea id="faqAnswer" placeholder="Відповідь"></textarea><button class="btn primary full" type="submit">Зберегти</button></form><div id="adminFaq" class="admin-list"></div></div>
     <div class="admin-tab" id="tab-settings"><h1>Налаштування</h1><form id="settingsEditor" class="editor-grid"><input data-edit="telegramUrl" placeholder="Telegram посилання"><input data-edit="zoomLink" placeholder="Zoom посилання"><textarea data-edit="privacyText" placeholder="Політика"></textarea><button class="btn primary full" type="submit">Зберегти</button></form></div>
   </section>
 </section>
-
-
-<section class="section admin-card offline-address-settings" id="offlineAddressSettingsMaster">
-  <h2>Адреси офлайн консультацій</h2>
-  <p>Тут психолог може змінити місто, адресу і посилання на Google Maps. Якщо посилання не вказати, сайт автоматично створить пошук у Google Maps за містом та адресою.</p>
-  <div id="offlineAddressSettingsList"></div>
-  <button class="btn secondary" type="button" id="addOfflineAddressBtn">Додати адресу</button>
-  <button class="btn primary" type="button" id="saveOfflineAddressesBtn">Зберегти адреси</button>
-</section>
-
 </main>
 
 <div class="modal" id="appModal"><div class="modal-card"><button class="modal-close" id="modalClose" type="button">×</button><div id="modalBody"></div></div></div>
@@ -115,5 +109,7 @@
 <script src="mobile-clean-fix.js"></script>
 <script src="sticky-menu-contact-fix.js"></script>
 <script src="admin-footer-cta-fix.js"></script>
+<script src="admin-structure-footer-fix.js"></script>
+<script src="direct-structure-fix.js"></script>
 </body>
 </html>
