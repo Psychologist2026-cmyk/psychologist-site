@@ -1,0 +1,392 @@
+
+/* =========================================================
+   CLIENT + FOOTER FINAL TARGETED FIX
+   ========================================================= */
+
+:root{
+  --cfft-brown:#2c1710;
+  --cfft-brown2:#4b2d20;
+  --cfft-cream:#fffaf3;
+}
+
+/* ---------- FOOTER CONTACTS ---------- */
+.footer,
+.premium-footer{
+  position:relative !important;
+  overflow:visible !important;
+  padding-bottom:calc(155px + env(safe-area-inset-bottom)) !important;
+}
+
+.footer-contacts,
+#footerContacts{
+  width:min(860px, calc(100vw - 390px)) !important;
+  max-width:860px !important;
+  margin:24px auto 0 !important;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(260px,1fr)) !important;
+  gap:12px 14px !important;
+  justify-content:center !important;
+  align-items:stretch !important;
+  min-height:0 !important;
+}
+
+.footer-contact-final{
+  position:relative !important;
+  min-width:0 !important;
+  min-height:68px !important;
+  display:grid !important;
+  grid-template-columns:44px minmax(0,1fr) !important;
+  grid-template-rows:auto auto !important;
+  column-gap:13px !important;
+  row-gap:2px !important;
+  align-items:center !important;
+  padding:11px 15px !important;
+  border-radius:22px !important;
+  background:rgba(255,250,243,.68) !important;
+  border:1px solid rgba(75,45,32,.10) !important;
+  box-shadow:0 12px 34px rgba(44,23,16,.05) !important;
+  overflow:hidden !important;
+  text-decoration:none !important;
+}
+
+/* прибрати квадрати/маркери */
+.footer-contact-final::before,
+.footer-contact-final::after,
+.footer-contact-final *::before,
+.footer-contact-final *::after,
+.footer-contacts a::before,
+.footer-contacts a::after,
+.footer-contacts a *::before,
+.footer-contacts a *::after,
+#footerContacts a::before,
+#footerContacts a::after,
+#footerContacts a *::before,
+#footerContacts a *::after,
+.footer-contacts .dot,
+.footer-contacts .square,
+.footer-contacts .marker,
+.footer-contacts .contact-marker,
+.footer-contacts i,
+.footer-contacts em,
+#footerContacts .dot,
+#footerContacts .square,
+#footerContacts .marker,
+#footerContacts .contact-marker,
+#footerContacts i,
+#footerContacts em{
+  content:none !important;
+  display:none !important;
+}
+
+.footer-contact-final-icon{
+  grid-column:1 !important;
+  grid-row:1/3 !important;
+  width:42px !important;
+  height:42px !important;
+  min-width:42px !important;
+  border-radius:14px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  justify-self:center !important;
+  align-self:center !important;
+  color:#fff !important;
+  font-size:0 !important;
+  line-height:0 !important;
+  overflow:hidden !important;
+}
+
+.footer-contact-final-icon svg{
+  width:23px !important;
+  height:23px !important;
+  display:block !important;
+}
+
+.footer-contact-final-icon.telegram{background:#2AABEE !important;}
+.footer-contact-final-icon.facebook{background:#1877F2 !important;}
+.footer-contact-final-icon.instagram{
+  background:radial-gradient(circle at 30% 110%,#feda75 0%,#fa7e1e 28%,#d62976 55%,#962fbf 76%,#4f5bd5 100%) !important;
+}
+.footer-contact-final-icon.email,
+.footer-contact-final-icon.phone,
+.footer-contact-final-icon.site{
+  background:linear-gradient(135deg,#4b2d20,#2c1710) !important;
+}
+
+.footer-contact-final-label{
+  grid-column:2 !important;
+  grid-row:1 !important;
+  display:block !important;
+  font-size:12px !important;
+  line-height:1.08 !important;
+  font-weight:850 !important;
+  color:rgba(44,23,16,.56) !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+.footer-contact-final-value{
+  grid-column:2 !important;
+  grid-row:2 !important;
+  display:block !important;
+  font-size:16px !important;
+  line-height:1.15 !important;
+  font-weight:950 !important;
+  color:var(--cfft-brown) !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+
+/* нижні посилання футера */
+.footer nav,
+.footer-links,
+.footer-bottom-links{
+  position:absolute !important;
+  left:clamp(22px,4vw,76px) !important;
+  bottom:calc(30px + env(safe-area-inset-bottom)) !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:18px !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  margin:0 !important;
+  z-index:3 !important;
+}
+
+/* ---------- TRUE FIXED CTA ---------- */
+#clientFooterFixedCta{
+  position:fixed !important;
+  right:max(22px, env(safe-area-inset-right)) !important;
+  bottom:calc(22px + env(safe-area-inset-bottom)) !important;
+  z-index:2147483647 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:10px !important;
+  align-items:flex-end !important;
+  justify-content:flex-end !important;
+  pointer-events:none !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:translateZ(0) !important;
+  will-change:transform !important;
+}
+
+#clientFooterFixedCta a{
+  pointer-events:auto !important;
+  min-width:176px !important;
+  height:56px !important;
+  padding:0 24px !important;
+  border-radius:999px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-decoration:none !important;
+  font-size:17px !important;
+  font-weight:950 !important;
+  line-height:1 !important;
+  border:1px solid rgba(75,45,32,.14) !important;
+  box-shadow:0 18px 48px rgba(44,23,16,.24) !important;
+}
+
+#clientFooterFixedCta .book{
+  background:linear-gradient(135deg,#4b2d20,#2c1710) !important;
+  color:#fffaf3 !important;
+}
+
+#clientFooterFixedCta .telegram{
+  background:rgba(255,250,243,.96) !important;
+  color:#2c1710 !important;
+}
+
+/* disable previous floating/fixed button duplicates */
+.floating-actions,
+.float-actions,
+.sticky-actions,
+.sticky-cta,
+.quick-actions,
+.quick-contact,
+.fixed-cta,
+.fixed-buttons,
+.fixed-bottom-cta,
+#fixedBottomCta,
+.f2-fixed-cta,
+#guardFixedCta{
+  display:none !important;
+}
+
+/* ---------- CLIENT DASHBOARD ALIGNMENT ---------- */
+body.client main,
+body.client-page main,
+body:has(.client-shell) main,
+body:has(.client-sidebar) main,
+body:has(#clientOverview) main{
+  padding-top:116px !important;
+}
+
+.client-shell{
+  max-width:min(1360px, calc(100vw - 56px)) !important;
+  margin:0 auto !important;
+  display:grid !important;
+  grid-template-columns:240px minmax(0,1fr) !important;
+  gap:30px !important;
+  align-items:start !important;
+}
+
+.client-sidebar{
+  position:sticky !important;
+  top:126px !important;
+  align-self:start !important;
+  margin-top:0 !important;
+  padding:18px !important;
+  border-radius:30px !important;
+  max-height:calc(100vh - 150px) !important;
+  overflow-y:auto !important;
+}
+
+.client-content{
+  min-width:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+.client-tab,
+.client-tab.active{
+  padding:0 !important;
+  margin:0 !important;
+}
+
+.client-tab h2,
+.client-content h2,
+.client-main h2,
+.profile-content h2,
+.dashboard-content h2,
+#clientOverview h2,
+#clientAppointments h2,
+#clientSettings h2,
+#clientReview h2{
+  margin:0 0 22px !important;
+  padding:0 !important;
+  text-align:left !important;
+  transform:none !important;
+  max-width:100% !important;
+}
+
+/* the glass panel around client tabs should not shift heading left */
+.client-content > .glass,
+.client-content > .card,
+.client-content > .panel,
+.client-content > section{
+  margin-left:0 !important;
+  padding-left:clamp(24px,2.2vw,34px) !important;
+  padding-right:clamp(24px,2.2vw,34px) !important;
+}
+
+#clientMainCards.cards,
+.client-overview,
+.overview-grid,
+.client-dashboard-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:18px !important;
+  align-items:stretch !important;
+}
+
+#clientMainCards .info-card,
+.client-overview .info-card,
+.overview-grid .info-card,
+.client-dashboard-grid .info-card{
+  min-height:190px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  text-align:left !important;
+  padding:30px !important;
+}
+
+#clientMainCards .info-card h3,
+#clientMainCards .info-card p,
+.client-overview .info-card h3,
+.client-overview .info-card p{
+  text-align:left !important;
+  margin-left:0 !important;
+}
+
+/* file input */
+input[type="file"]{
+  width:100% !important;
+  min-height:56px !important;
+  padding:8px 12px !important;
+  border-radius:18px !important;
+  border:1px solid rgba(75,45,32,.14) !important;
+  background:rgba(255,250,243,.74) !important;
+  color:rgba(44,23,16,.72) !important;
+  font-weight:800 !important;
+}
+
+input[type="file"]::file-selector-button{
+  min-height:40px !important;
+  margin-right:14px !important;
+  padding:0 18px !important;
+  border:0 !important;
+  border-radius:999px !important;
+  background:linear-gradient(135deg,#4b2d20,#2c1710) !important;
+  color:#fffaf3 !important;
+  font-weight:900 !important;
+  cursor:pointer !important;
+}
+
+/* mobile */
+@media(max-width:980px){
+  .footer-contacts,
+  #footerContacts{
+    width:min(760px, calc(100vw - 32px)) !important;
+    grid-template-columns:1fr !important;
+  }
+
+  .client-shell{
+    grid-template-columns:1fr !important;
+    max-width:calc(100vw - 32px) !important;
+  }
+
+  .client-sidebar{
+    position:relative !important;
+    top:auto !important;
+    max-height:none !important;
+  }
+
+  #clientMainCards.cards,
+  .client-overview,
+  .overview-grid,
+  .client-dashboard-grid{
+    grid-template-columns:1fr !important;
+  }
+}
+
+@media(max-width:760px){
+  #clientFooterFixedCta{
+    right:14px !important;
+    bottom:calc(16px + env(safe-area-inset-bottom)) !important;
+    gap:8px !important;
+  }
+
+  #clientFooterFixedCta a{
+    min-width:148px !important;
+    height:52px !important;
+    font-size:16px !important;
+  }
+
+  .footer,
+  .premium-footer{
+    padding-bottom:calc(152px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .footer nav,
+  .footer-links,
+  .footer-bottom-links{
+    position:static !important;
+    margin-top:22px !important;
+  }
+}
