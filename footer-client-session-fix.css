@@ -1,0 +1,436 @@
+
+/* =========================================================
+   FOOTER + CLIENT SESSION FIX
+   Точкова правка без переробки всього сайту.
+   ========================================================= */
+
+:root {
+  --fcs-brown: #2c1710;
+  --fcs-brown-2: #4b2d20;
+  --fcs-cream: #fffaf3;
+  --fcs-line: rgba(75, 45, 32, .13);
+}
+
+/* ---------- FOOTER CONTACTS: center + remove brown squares ---------- */
+.footer,
+.premium-footer {
+  position: relative !important;
+  z-index: 2 !important;
+  padding-bottom: calc(124px + env(safe-area-inset-bottom)) !important;
+}
+
+/* footer contacts centered in lower part */
+.footer-contacts,
+#footerContacts {
+  width: min(900px, calc(100vw - 360px)) !important;
+  max-width: 900px !important;
+  margin: 26px auto 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(260px, 1fr)) !important;
+  gap: 12px 14px !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+}
+
+/* exact contact row */
+.footer-contacts a,
+#footerContacts a,
+.footer-contact-clean {
+  min-width: 0 !important;
+  min-height: 68px !important;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  grid-template-rows: auto auto !important;
+  column-gap: 13px !important;
+  row-gap: 2px !important;
+  align-items: center !important;
+  padding: 11px 15px !important;
+  border-radius: 22px !important;
+  background: rgba(255, 250, 243, .66) !important;
+  border: 1px solid rgba(75, 45, 32, .10) !important;
+  box-shadow: 0 12px 34px rgba(44, 23, 16, .05) !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+}
+
+/* remove ALL strange squares/dots beside icons */
+.footer-contacts a::before,
+.footer-contacts a::after,
+.footer-contacts a *::before,
+.footer-contacts a *::after,
+#footerContacts a::before,
+#footerContacts a::after,
+#footerContacts a *::before,
+#footerContacts a *::after,
+.footer-contact-clean::before,
+.footer-contact-clean::after,
+.footer-contact-clean *::before,
+.footer-contact-clean *::after,
+.footer-contacts .dot,
+.footer-contacts .square,
+.footer-contacts .marker,
+.footer-contacts .contact-marker,
+.footer-contacts i,
+.footer-contacts em,
+#footerContacts .dot,
+#footerContacts .square,
+#footerContacts .marker,
+#footerContacts .contact-marker,
+#footerContacts i,
+#footerContacts em {
+  content: none !important;
+  display: none !important;
+}
+
+/* hide old stray children after JS normalizes */
+.footer-contacts a > *:not(.footer-social-icon):not(.footer-contact-label):not(.footer-contact-value),
+#footerContacts a > *:not(.footer-social-icon):not(.footer-contact-label):not(.footer-contact-value) {
+  display: none !important;
+}
+
+.footer-social-icon {
+  grid-column: 1 !important;
+  grid-row: 1 / 3 !important;
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border-radius: 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  justify-self: center !important;
+  align-self: center !important;
+  overflow: hidden !important;
+  color: #fff !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+.footer-social-icon svg {
+  width: 23px !important;
+  height: 23px !important;
+  display: block !important;
+}
+
+.footer-social-icon.telegram { background: #2AABEE !important; }
+.footer-social-icon.facebook { background: #1877F2 !important; }
+.footer-social-icon.instagram {
+  background: radial-gradient(circle at 30% 110%, #feda75 0%, #fa7e1e 28%, #d62976 55%, #962fbf 76%, #4f5bd5 100%) !important;
+}
+.footer-social-icon.email,
+.footer-social-icon.phone,
+.footer-social-icon.site {
+  background: linear-gradient(135deg, #4b2d20, #2c1710) !important;
+}
+
+.footer-contact-label {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  display: block !important;
+  font-size: 12px !important;
+  line-height: 1.08 !important;
+  font-weight: 850 !important;
+  color: rgba(44, 23, 16, .56) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.footer-contact-value {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  display: block !important;
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+  font-weight: 950 !important;
+  color: var(--fcs-brown) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* footer bottom links stay bottom-left */
+.footer nav,
+.footer-links,
+.footer-bottom-links {
+  position: absolute !important;
+  left: clamp(22px, 4vw, 76px) !important;
+  bottom: calc(30px + env(safe-area-inset-bottom)) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 18px !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  margin: 0 !important;
+  z-index: 3 !important;
+}
+
+/* ---------- ALWAYS VISIBLE BOOK/TELEGRAM BUTTONS ---------- */
+.fixed-bottom-cta,
+#fixedBottomCta,
+.fcs-fixed-cta {
+  position: fixed !important;
+  right: max(22px, env(safe-area-inset-right)) !important;
+  bottom: calc(22px + env(safe-area-inset-bottom)) !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.fixed-bottom-cta a,
+#fixedBottomCta a,
+.fcs-fixed-cta a {
+  pointer-events: auto !important;
+  min-width: 176px !important;
+  height: 56px !important;
+  padding: 0 24px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  font-size: 17px !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
+  border: 1px solid rgba(75, 45, 32, .14) !important;
+  box-shadow: 0 18px 48px rgba(44, 23, 16, .24) !important;
+  transition: transform .24s ease, box-shadow .24s ease !important;
+}
+
+.fixed-bottom-cta a:hover,
+#fixedBottomCta a:hover,
+.fcs-fixed-cta a:hover {
+  transform: translateY(-2px) !important;
+}
+
+.fixed-bottom-cta .cta-book,
+#fixedBottomCta .cta-book,
+.fcs-fixed-cta .cta-book {
+  background: linear-gradient(135deg, #4b2d20, #2c1710) !important;
+  color: #fffaf3 !important;
+}
+
+.fixed-bottom-cta .cta-telegram,
+#fixedBottomCta .cta-telegram,
+.fcs-fixed-cta .cta-telegram {
+  background: rgba(255, 250, 243, .96) !important;
+  color: #2c1710 !important;
+}
+
+/* disable broken old floating containers, not our fcs-fixed-cta */
+.floating-actions,
+.float-actions,
+.sticky-actions,
+.sticky-cta,
+.quick-actions,
+.quick-contact,
+.fixed-cta,
+.fixed-buttons {
+  display: none !important;
+}
+
+/* ---------- CLIENT DASHBOARD ALIGNMENT ---------- */
+body.client main,
+body:has(.client-shell) main,
+body:has(.client-sidebar) main,
+body:has(#clientOverview) main {
+  padding-top: 116px !important;
+}
+
+/* client full area */
+.client-shell {
+  max-width: min(1360px, calc(100vw - 56px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: grid !important;
+  grid-template-columns: 240px minmax(0, 1fr) !important;
+  gap: 30px !important;
+  align-items: start !important;
+}
+
+/* left menu */
+.client-sidebar {
+  position: sticky !important;
+  top: 126px !important;
+  align-self: start !important;
+  margin-top: 0 !important;
+  padding: 18px !important;
+  border-radius: 30px !important;
+  max-height: calc(100vh - 150px) !important;
+  overflow-y: auto !important;
+}
+
+/* content alignment */
+.client-content {
+  min-width: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* all client tabs start with clean left indent */
+.client-tab {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.client-tab h2,
+.client-content h2,
+.client-main h2,
+.profile-content h2,
+.dashboard-content h2 {
+  margin: 0 0 22px !important;
+  padding-left: 0 !important;
+  text-align: left !important;
+  transform: none !important;
+}
+
+/* overview title no overflow to left */
+#clientOverview h2,
+#clientAppointments h2,
+#clientSettings h2,
+#clientReview h2 {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* cards in overview */
+#clientMainCards.cards,
+.client-overview,
+.overview-grid,
+.client-dashboard-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  align-items: stretch !important;
+}
+
+#clientMainCards .info-card,
+.client-overview .info-card,
+.overview-grid .info-card,
+.client-dashboard-grid .info-card {
+  min-height: 190px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  text-align: left !important;
+  padding: 30px !important;
+}
+
+#clientMainCards .info-card h3,
+#clientMainCards .info-card p,
+.client-overview .info-card h3,
+.client-overview .info-card p {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+
+/* buttons inside cards equal baseline */
+.client-main-action,
+.info-card .client-main-action,
+.info-card .actions {
+  margin-top: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+}
+
+.client-main-action .btn,
+.client-main-action .small-btn,
+.info-card .btn,
+.info-card .small-btn {
+  min-height: 46px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 20px !important;
+  line-height: 1 !important;
+}
+
+/* file input style */
+input[type="file"] {
+  width: 100% !important;
+  min-height: 56px !important;
+  padding: 8px 12px !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(75,45,32,.14) !important;
+  background: rgba(255,250,243,.74) !important;
+  color: rgba(44,23,16,.72) !important;
+  font-weight: 800 !important;
+}
+
+input[type="file"]::file-selector-button {
+  min-height: 40px !important;
+  margin-right: 14px !important;
+  padding: 0 18px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #4b2d20, #2c1710) !important;
+  color: #fffaf3 !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+}
+
+/* Mobile */
+@media (max-width: 980px) {
+  .footer-contacts,
+  #footerContacts {
+    width: min(760px, calc(100vw - 32px)) !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .client-shell {
+    grid-template-columns: 1fr !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+
+  .client-sidebar {
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+  }
+
+  #clientMainCards.cards,
+  .client-overview,
+  .overview-grid,
+  .client-dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .fixed-bottom-cta,
+  #fixedBottomCta,
+  .fcs-fixed-cta {
+    right: 14px !important;
+    bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+    gap: 8px !important;
+  }
+
+  .fixed-bottom-cta a,
+  #fixedBottomCta a,
+  .fcs-fixed-cta a {
+    min-width: 148px !important;
+    height: 52px !important;
+    font-size: 16px !important;
+  }
+
+  .footer,
+  .premium-footer {
+    padding-bottom: calc(152px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .footer nav,
+  .footer-links,
+  .footer-bottom-links {
+    position: static !important;
+    margin-top: 22px !important;
+  }
+}
