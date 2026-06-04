@@ -1,0 +1,214 @@
+
+/* =========================================================
+   STICKY MENU + CONTACT ALIGNMENT FIX
+   ========================================================= */
+
+/* верхнє меню завжди зверху */
+.header,
+.site-header,
+.navbar,
+header {
+  position: fixed !important;
+  top: max(12px, env(safe-area-inset-top)) !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: 9990 !important;
+  width: min(1180px, calc(100vw - 24px)) !important;
+  max-width: calc(100vw - 24px) !important;
+  backdrop-filter: blur(18px) saturate(1.1) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.1) !important;
+}
+
+/* щоб контент не залазив під fixed header */
+body {
+  padding-top: 0 !important;
+}
+
+main {
+  padding-top: 0 !important;
+}
+
+.page-hero,
+.home-hero-new,
+.hero-grid,
+.hero-inner,
+.hero-content-grid {
+  padding-top: clamp(126px, 10vw, 168px) !important;
+}
+
+/* мобільне меню має відкриватись нижче sticky header */
+.mobile-menu.open,
+.nav.open,
+.menu-panel.open,
+.side-menu.open,
+.mobile-nav.open {
+  position: fixed !important;
+  top: calc(max(12px, env(safe-area-inset-top)) + 78px) !important;
+  left: 16px !important;
+  right: auto !important;
+  width: min(360px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100vh - 120px - env(safe-area-inset-top)) !important;
+  overflow-y: auto !important;
+  z-index: 9991 !important;
+}
+
+/* контакти: іконка зліва, зверху назва, знизу значення */
+.footer-contacts a,
+.contact-card,
+.contact-item,
+.contact-row {
+  display: grid !important;
+  grid-template-columns: 46px minmax(0, 1fr) !important;
+  grid-template-rows: auto auto !important;
+  column-gap: 14px !important;
+  row-gap: 3px !important;
+  align-items: center !important;
+  min-height: 74px !important;
+  padding: 13px 18px !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+}
+
+.social-icon-svg,
+.contact-icon-real {
+  grid-column: 1 !important;
+  grid-row: 1 / 3 !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  align-self: center !important;
+  justify-self: center !important;
+  margin: 0 !important;
+}
+
+.contact-title-line {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  display: block !important;
+  color: rgba(44, 23, 16, .58) !important;
+  font-size: 13px !important;
+  line-height: 1.05 !important;
+  font-weight: 850 !important;
+  letter-spacing: .01em !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.contact-value-line {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  display: block !important;
+  color: #2c1710 !important;
+  font-size: clamp(16px, 1.1vw, 19px) !important;
+  line-height: 1.15 !important;
+  font-weight: 950 !important;
+  letter-spacing: .002em !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* прибрати старе дублювання тексту після переформатування */
+.footer-contacts a > b:not(.contact-value-line),
+.footer-contacts a > span:not(.social-icon-svg):not(.contact-icon-real):not(.contact-title-line):not(.contact-value-line),
+.contact-card > b:not(.contact-value-line),
+.contact-item > b:not(.contact-value-line),
+.contact-row > b:not(.contact-value-line),
+.contact-card > span:not(.social-icon-svg):not(.contact-icon-real):not(.contact-title-line):not(.contact-value-line),
+.contact-item > span:not(.social-icon-svg):not(.contact-icon-real):not(.contact-title-line):not(.contact-value-line),
+.contact-row > span:not(.social-icon-svg):not(.contact-icon-real):not(.contact-title-line):not(.contact-value-line) {
+  display: none !important;
+}
+
+/* прибираємо кнопки, які накладалися справа внизу */
+.floating-actions,
+.float-actions,
+.sticky-actions,
+.sticky-cta,
+.quick-actions,
+.quick-contact,
+.fixed-cta,
+.fixed-buttons {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* якщо якісь fixed-кнопки лишились за класами button/link */
+body > a[href*="telegram"],
+body > a[href*="t.me"],
+body > .btn[href*="telegram"],
+body > .btn[href*="t.me"],
+body > button:not(.menu-toggle):not(.burger):not(.hamburger) {
+  position: static !important;
+}
+
+/* footer не має перекриватись елементами */
+.footer,
+.premium-footer {
+  position: relative !important;
+  z-index: 1 !important;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom)) !important;
+}
+
+/* трохи рівніші відступи внизу сторінок */
+.section:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+/* мобільна версія */
+@media(max-width: 760px) {
+  .header,
+  .site-header,
+  .navbar,
+  header {
+    top: max(10px, env(safe-area-inset-top)) !important;
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+
+  .page-hero,
+  .home-hero-new,
+  .hero-grid,
+  .hero-inner,
+  .hero-content-grid {
+    padding-top: calc(96px + env(safe-area-inset-top)) !important;
+  }
+
+  .mobile-menu.open,
+  .nav.open,
+  .menu-panel.open,
+  .side-menu.open,
+  .mobile-nav.open {
+    top: calc(max(10px, env(safe-area-inset-top)) + 76px) !important;
+    left: 12px !important;
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  .footer-contacts a,
+  .contact-card,
+  .contact-item,
+  .contact-row {
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    min-height: 72px !important;
+    padding: 12px 14px !important;
+  }
+
+  .social-icon-svg,
+  .contact-icon-real {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+
+  .contact-title-line {
+    font-size: 12px !important;
+  }
+
+  .contact-value-line {
+    font-size: 17px !important;
+  }
+}
